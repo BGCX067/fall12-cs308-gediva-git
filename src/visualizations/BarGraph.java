@@ -1,35 +1,35 @@
 package visualizations;
 
-public class BarGraph extends Visualization{
-private int myYear;
-private String[] myCountries;
+public class BarGraph extends Visualization {
+    private int myYear;
+    private String[] myCountries;
 
-public BarGraph(){
-    
-}
+    public BarGraph () {
 
-public int getMyYear () {
-    return myYear;
-}
+    }
 
-public void setMyYear (int myYear) {
-    this.myYear = myYear;
-}
+    public int getMyYear () {
+        return myYear;
+    }
 
-public String getMyCategory () {
-    return myCategory;
-}
+    public void setMyYear (int myYear) {
+        this.myYear = myYear;
+    }
 
-public void setMyCategory (String myCategory) {
-    this.myCategory = myCategory;
-}
+    public String getMyCategory () {
+        return myCategory;
+    }
 
-public String[] getMyCountries () {
-    return myCountries;
-}
+    public void setMyCategory (String myCategory) {
+        this.myCategory = myCategory;
+    }
 
-public void setMyCountries (String[] myCountries) {
-    this.myCountries = myCountries;
-}
+    public String[] getMyCountries () {
+        return myCountries;
+    }
+
+    public void setMyCountries (String[] myCountries) {
+        this.myCountries = myCountries;
+    }
 
 }

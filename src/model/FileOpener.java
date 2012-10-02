@@ -9,21 +9,27 @@ import javax.swing.JFileChooser;
 
 
 public class FileOpener {
+    private static final String DELIMITER = ",";
 
     public File chooseFile () {
-        JFileChooser chooser = new JFileChooser();
-        return chooser.getSelectedFile();
+        JFileChooser chooser = new JFileChooser(System.getProperties().getProperty("user.dir"));
+        int response = chooser.showOpenDialog(null);
+        if (response == JFileChooser.APPROVE_OPTION) {
+            return chooser.getSelectedFile();
+        }
+        return null;
     }
 
-    public ArrayList<String> readFile () {
+    public ArrayList<String[]> readFile () {
         File chosenFile = chooseFile();
-        ArrayList<String> lines = new ArrayList<String>();
+        ArrayList<String[]> lines = new ArrayList<String[]>();
         try {
             FileReader reader = new FileReader(chosenFile);
             BufferedReader br = new BufferedReader(reader);
             String line = "";
             while ((line = br.readLine()) != null) {
-                lines.add(line);
+                lines.add(line.split(DELIMITER));
+
             }
         }
         catch (IOException e) {
