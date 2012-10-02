@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+
+
 public class Model {
     private FileOpener myFileOpener;
 
@@ -7,7 +10,8 @@ public class Model {
         myFileOpener = new FileOpener();
     }
 
-    public void loadFile (String location) {
-
+    public void loadFile () {
+        ArrayList<String> lines = myFileOpener.readFile();
+        
     }
 }

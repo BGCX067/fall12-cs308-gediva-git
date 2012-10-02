@@ -2,7 +2,6 @@ package visualizations;
 
 public class BarGraph extends Visualization{
 private int myYear;
-private String myCategory;
 private String[] myCountries;
 
 public BarGraph(){

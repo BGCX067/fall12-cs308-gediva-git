@@ -1,5 +1,12 @@
 package controller;
 
-public class Controller {
+import model.Model;
 
+
+public class Controller {
+    Model myModel;
+
+    public void loadFile () {
+        myModel.loadFile();
+    }
 }
