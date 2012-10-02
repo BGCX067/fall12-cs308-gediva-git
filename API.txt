@@ -1,0 +1,58 @@
+CPS308 | HW3 PART 1 | GROUP 04 | VZ4 spr20 hc118 netID4
+
+What Project Does
+Visualizes chronological numerical 2D data for countries (example: http://bit.ly/QcbFEM)
+Takes in data from a file (chosen through a JFileBrowser), packages the data in a DataSet, which can take on the types Bar, Line, Map, or Bubble and can be expanded to more types.
+
+Input:
+CSV data table (e.g. rows - countries; columns - years)
+Data type (e.g., education spending, percent of GDP) => needed to label the plot
+Visualization type (choose from available options)
+
+Restrictions
+Dataset has to be:
+-- rows are countries
+-- columns are years
+-- fields are numbers
+
+Visualization types
+-- Line (1 country data for many years is displayed)
+-- Bar (1 year data for many countries is displayed)
+-- Comparison (2 countries are compared across a range of years)
+
+What Model does
+--contains DataSet object
+-- reads and stores a file
+-- validate data
+-- contains functions loadFile(), loads a file, and getData(country, year) returns data for a given country and year
+
+Summary of API between Model and View based on proposed example
+-- View team needs to write:
+View.java communicates with model, maintains list of countries
+Visualization.java abstract class containing common elements from three visualizations
+BarGraph.java, contains list of names, list of data, data type name, computes scaled height
+LineGraph.java, contains list of data, list of years, country name, computes scaled height
+ComparisonGraph.java, contains two countries, list of years, lists of data, computes scale
+---------------------------------------
+-- Model team needs to write:
+DataSet.java, reads the data, stores it, provides on demand
+
+API functions:
+loadFile() contained in model, called by view in order to load a file
+getData() contained in model, called by view in order to get a data point
+getMinYear() contained in model, tells view what the minimum year is
+getMaxYear() contained in model, tells view what the maximum year is
+getCountries() contained in model, tells view what countries there are in an array
+
+Examples:
+User clicks button in window.
+Button calls loadFile in the model, which opens a file browser for the user to select a file.
+File is read and stored by DataSet.
+User selects a visualization from drop-down menu in window.
+View creates appropriate visualization object, using the min and max year, list of countries.
+Visualization object uses getData in order to obtain data from model and create elements
+View displays data from visualization object.
+
+Alternatives:
+Bar, LinePoint, Comparison are objects in the model, created by the model on demand and passed to the view
+We chose our current plan due to the fact it only requires ints and Strings to be passed between the view and model.
