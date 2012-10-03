@@ -11,12 +11,13 @@ public class View {
     
     public View () {
         myController = new Controller();
-        myController.loadFile();
+
         myCountries=myController.getCountries();
         myYears=myController.getYears();
     }
     
     public void run(){
+        myController.loadFile();
         //DO WORK
     }
 }
