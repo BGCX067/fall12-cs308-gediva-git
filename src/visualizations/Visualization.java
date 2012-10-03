@@ -8,6 +8,10 @@ public abstract class Visualization {
     private String[] myCountries;
     private HashMap<String, Double> myValues;
 
+    public Visualization () {
+        myValues = new HashMap<String, Double>();
+    }
+    
     public double[] getMyYears () {
         return myYears;
     }

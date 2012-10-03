@@ -27,10 +27,11 @@ public class Controller {
     }
 
     public Visualization getData (String visType, String[] countries, double[] years) {
-        myNameMap.get(visType).setMyCountries(countries);
-        myNameMap.get(visType).setMyYears(years);
-        myModel.updateVisualization(myNameMap.get(visType));
-        return myNameMap.get(visType);
+        Visualization requestedVis =  myNameMap.get(visType);
+        requestedVis.setMyCountries(countries);
+        requestedVis.setMyYears(years);
+        myModel.updateVisualization(requestedVis);
+        return requestedVis;
     }
 
     public double[] getYears () {

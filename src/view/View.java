@@ -51,7 +51,7 @@ public class View {
         // use selectedVisualization, myAllCountries, myAllYears to build plot area
         // for bar, use myBarValues and yearSelectedForBar (plot label)
         // for line, use myLineValues and countrySelectedForLine (plot label)
-        System.out.println(myAllCountries);
-        System.out.println(myAllYears);
+        System.out.println(Arrays.toString(myAllCountries));
+        System.out.println(Arrays.toString(myAllYears));
     }
 }
