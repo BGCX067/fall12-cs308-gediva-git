@@ -32,4 +32,12 @@ public class Controller {
         myModel.updateVisualization(myNameMap.get(visType));
         return myNameMap.get(visType);
     }
+    
+    public double[] getYears() {
+        return myModel.getYears();
+    }
+    
+    public String[] getCountries() {
+        return myModel.getCountries();
+    }
 }

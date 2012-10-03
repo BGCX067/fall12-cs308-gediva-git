@@ -66,4 +66,12 @@ public class Model {
         
         return vis;
     }
+    
+    public String[] getCountries () {
+        return myCountryList;
+    }
+    
+    public double[] getYears () {
+        return myYears;
+    }
 }
