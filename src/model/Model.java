@@ -60,4 +60,12 @@ public class Model {
         }
         return barGraph;
     }
+    
+    public String[] getCountries () {
+        return myCountryList;
+    }
+    
+    public double[] getYears () {
+        return myYears;
+    }
 }

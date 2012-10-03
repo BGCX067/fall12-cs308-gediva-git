@@ -30,4 +30,12 @@ public class Controller {
         myNameMap.get(visType).setMyCountries(countries);
         myNameMap.get(visType).setMyYear(years);
     }
+    
+    public double[] getYears() {
+        return myModel.getYears();
+    }
+    
+    public String[] getCountries() {
+        return myModel.getCountries();
+    }
 }
