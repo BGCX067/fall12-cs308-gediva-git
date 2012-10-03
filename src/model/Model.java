@@ -1,12 +1,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Model {
     private FileOpener myFileOpener;
     private String[] myCountryList;
-    private static final int START_POSITION = 2;
+    private double[] myYears;
+    private HashMap<String, ArrayList<Double>> myDataValues;
 
     public Model () {
         myFileOpener = new FileOpener();
@@ -14,30 +16,39 @@ public class Model {
 
     public void loadFile () {
         ArrayList<String[]> lines = myFileOpener.readFile();
-        ArrayList<String> countryArray = new ArrayList<String>();
-        for (int i = START_POSITION; i < lines.size(); i++) {
-            // System.out.println(lines.get(i)[0]);
-            countryArray.add(lines.get(i)[0]);
+        myCountryList = new String[lines.size() - 1];
+        myYears = new double[lines.get(0).length - 1];
+        for (int i = 0; i < lines.size(); i++) {
+            if (i == 0) {
+                addYears(lines.get(0));
+            }
+            myCountryList[i] = lines.get(i)[0];
+            convertAdd(lines.get(i));
         }
-        myCountryList = new String[countryArray.size()];
-        countryArray.toArray(myCountryList);
     }
 
-    public int locateCountry (String country) {
-        for (int i = 0; i < myCountryList.length; i++) {
-            if (country.equals(myCountryList[i])) { return i; }
+    public void addYears (String[] line) {
+        for (int i = 1; i < line.length; i++) {
+            myYears[i - 1] = Double.parseDouble(line[i]);
+        }
+    }
+
+    public void convertAdd (String[] line) {
+        ArrayList<Double> dataValues = new ArrayList<Double>();
+        for (int j = 1; j < line.length; j++) {
+            dataValues.add(Double.parseDouble(line[j]));
+        }
+        myDataValues.put(line[0], dataValues);
+    }
+
+    public double locateYear (double year) {
+        for (int i = 0; i < myYears.length; i++) {
+            if (year == myYears[i]) { return i; }
         }
         return -1;
     }
 
-    public int locateYear (int year) {
-        for (int i = 0; i < myCountryList[0].length; i++) {
-            if (year == myCountryList[i]) { return i; }
-        }
-        return -1;
-    }
-
-    public int getDataPoint (String country, int year) {
-
+    public double getDataPoint (String country, int location) {
+        return myDataValues.get(country).get(location);
     }
 }
