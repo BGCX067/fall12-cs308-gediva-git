@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import visualizations.BarGraph;
 
 
 public class Model {
@@ -50,5 +51,13 @@ public class Model {
 
     public double getDataPoint (String country, int location) {
         return myDataValues.get(country).get(location);
+    }
+    
+    public BarGraph updateBarGraph(BarGraph barGraph){
+        for (int i=0;i<barGraph.getMyCountries().length;i++){
+            int dataPoint=0;
+            barGraph.addData(barGraph.getMyCountries()[i],dataPoint);
+        }
+        return barGraph;
     }
 }

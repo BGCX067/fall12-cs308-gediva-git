@@ -14,6 +14,7 @@ public class Controller {
     public Controller () {
         myModel = new Model();
         myNameMap = new HashMap<String, Visualization>();
+        generateMap();
     }
 
     public void loadFile () {
@@ -23,5 +24,10 @@ public class Controller {
     public void generateMap(){
         myNameMap.put("Bar Graph", new BarGraph());
         myNameMap.put("Line Graph", new LineGraph());
+    }
+    
+    public void updateData(String[] countries, double[] years, String visType){
+        myNameMap.get(visType).setMyCountries(countries);
+        myNameMap.get(visType).setMyYear(years);
     }
 }
