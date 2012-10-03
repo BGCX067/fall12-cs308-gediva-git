@@ -2,6 +2,7 @@ package view;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import javax.swing.text.html.HTMLDocument.Iterator;
 import visualizations.BarGraph;
 import visualizations.LineGraph;
 import controller.Controller;
@@ -37,21 +38,22 @@ public class View {
         double[] yearsToDisplayOnLine = myAllYears;
         // BarGraph object with data.
         String selectedVisualizatoin = "Bar Graph";
-        BarGraph myBarGraph = (BarGraph) myController.getData(
+        BarGraph barGraph = (BarGraph) myController.getData(
                              selectedVisualizatoin, countriesToDisplayOnBar, yearSelectedForBar);
         // map of countries to respective values for given year. Plot this data.
-        HashMap<String, Double> myBarValues = myBarGraph.getValues();
+        HashMap<String, Double> barValues = barGraph.getValues();
         // LineGraph object with data.
-        selectedVisualizatoin = "Line Graph";
-        LineGraph myLineGraph = (LineGraph) myController.getData(
-                              selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
+        //selectedVisualizatoin = "Line Graph";
+        //LineGraph lineGraph = (LineGraph) myController.getData(
+                              //selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
         // map of years to respective values for given country. Plot this data.
-        HashMap<String, Double> myLineValues = myLineGraph.getValues();
+        //HashMap<String, Double> lineValues = lineGraph.getValues();
         // do work. 
         // use selectedVisualization, myAllCountries, myAllYears to build plot area
-        // for bar, use myBarValues and yearSelectedForBar (plot label)
-        // for line, use myLineValues and countrySelectedForLine (plot label)
+        // for bar, use barValues and yearSelectedForBar (plot label)
+        // for line, use lineValues and countrySelectedForLine (plot label)
         System.out.println(Arrays.toString(myAllCountries));
         System.out.println(Arrays.toString(myAllYears));
+        System.out.println(barValues);
     }
 }
