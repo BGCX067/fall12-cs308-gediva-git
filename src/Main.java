@@ -5,7 +5,7 @@ import view.View;
 public class Main {
 
     public static void main (String[] args) {
-        View view = new View();
-        view.run();
+        String layout = (args.length > 0) ? args[0] : "default";
+        View view = new View(layout);
     }
 }
