@@ -16,14 +16,6 @@ public class BarGraph extends Visualization {
         this.myYear = myYear;
     }
 
-    public String getMyCategory () {
-        return myCategory;
-    }
-
-    public void setMyCategory (String myCategory) {
-        this.myCategory = myCategory;
-    }
-
     public String[] getMyCountries () {
         return myCountries;
     }
