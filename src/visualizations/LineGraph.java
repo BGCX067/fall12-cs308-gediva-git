@@ -3,10 +3,9 @@ package visualizations;
 import java.util.HashMap;
 
 public class LineGraph extends Visualization {
-    private HashMap<Double, Double> myValues;
+    private HashMap<String, Double> myValues;
     
     public void addData (String country, double year, double value) {
-        myValues.put(year, value);
+        myValues.put(Double.toString(year), value);
     }
-
 }

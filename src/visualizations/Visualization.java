@@ -24,6 +24,10 @@ public abstract class Visualization {
         this.myCountries = myCountries;
     }
 
+    public HashMap<String, Double> getValues () {
+        return myValues;
+    }
+    
     public void clearValues () {
         myValues.clear();
     }
