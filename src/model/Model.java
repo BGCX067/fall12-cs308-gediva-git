@@ -27,7 +27,7 @@ public class Model {
             }
             else {
                 myCountryList[i - 1] = lines.get(i)[0];
-                convertAdd(lines.get(i));
+                addValues(lines.get(i));
             }
         }
     }
@@ -38,7 +38,7 @@ public class Model {
         }
     }
 
-    public void convertAdd (String[] line) {
+    public void addValues (String[] line) {
         ArrayList<Double> dataValues = new ArrayList<Double>();
         for (int j = 1; j < line.length; j++) {
             dataValues.add(Double.parseDouble(line[j]));
