@@ -14,6 +14,7 @@ public class Model {
 
     public Model () {
         myFileOpener = new FileOpener();
+        myDataValues=new HashMap<String, ArrayList<Double>>();
     }
 
     public void loadFile () {
@@ -24,8 +25,9 @@ public class Model {
             if (i == 0) {
                 addYears(lines.get(0));
             }
-            myCountryList[i] = lines.get(i)[0];
-            convertAdd(lines.get(i));
+            else{
+            myCountryList[i-1] = lines.get(i)[0];
+            convertAdd(lines.get(i));}
         }
     }
 
@@ -53,7 +55,6 @@ public class Model {
     public double getDataPoint (String country, int location) {
         return myDataValues.get(country).get(location);
     }
-    
     
     public Visualization updateVisualization(Visualization vis){
         vis.clearValues();
