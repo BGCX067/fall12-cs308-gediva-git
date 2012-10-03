@@ -43,17 +43,18 @@ public class View {
         // map of countries to respective values for given year. Plot this data.
         HashMap<String, Double> barValues = barGraph.getValues();
         // LineGraph object with data.
-        //selectedVisualizatoin = "Line Graph";
-        //LineGraph lineGraph = (LineGraph) myController.getData(
-                              //selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
+        selectedVisualizatoin = "Line Graph";
+        LineGraph lineGraph = (LineGraph) myController.getData(
+                              selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
         // map of years to respective values for given country. Plot this data.
-        //HashMap<String, Double> lineValues = lineGraph.getValues();
+        HashMap<String, Double> lineValues = lineGraph.getValues();
         // do work. 
         // use selectedVisualization, myAllCountries, myAllYears to build plot area
-        // for bar, use barValues and yearSelectedForBar (plot label)
-        // for line, use lineValues and countrySelectedForLine (plot label)
+        // for bar, use barValues and yearSelectedForBar[0] (plot label)
+        // for line, use lineValues and countrySelectedForLine[0] (plot label)
         System.out.println(Arrays.toString(myAllCountries));
         System.out.println(Arrays.toString(myAllYears));
-        System.out.println(barValues);
+        System.out.println(yearSelectedForBar[0] + ": " + barValues);
+        System.out.println(countrySelectedForLine[0] + ": " + lineValues);
     }
 }
