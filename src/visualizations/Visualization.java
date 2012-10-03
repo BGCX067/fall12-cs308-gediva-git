@@ -2,26 +2,22 @@ package visualizations;
 
 import java.util.HashMap;
 
+
 public abstract class Visualization {
-    private String myCategory;
-    private double[] myYear;
+    private double[] myYears;
     private String[] myCountries;
     private HashMap<String, Double> myValues;
+
+    public Visualization () {
+        myValues = new HashMap<String, Double>();
+    }
     
-    public String getMyCategory () {
-        return myCategory;
+    public double[] getMyYears () {
+        return myYears;
     }
 
-    public void setMyCategory (String myCategory) {
-        this.myCategory = myCategory;
-    }
-
-    public double[] getMyYear () {
-        return myYear;
-    }
-
-    public void setMyYear (double[] myYear) {
-        this.myYear = myYear;
+    public void setMyYears (double[] myYear) {
+        this.myYears = myYear;
     }
 
     public String[] getMyCountries () {
@@ -31,10 +27,14 @@ public abstract class Visualization {
     public void setMyCountries (String[] myCountries) {
         this.myCountries = myCountries;
     }
+
+    public HashMap<String, Double> getValues () {
+        return myValues;
+    }
     
     public void clearValues () {
         myValues.clear();
     }
-    
+
     public abstract void addData (String country, double year, double value);
 }
