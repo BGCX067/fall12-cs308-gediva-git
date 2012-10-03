@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import visualizations.BarGraph;
+import visualizations.Visualization;
 
 
 public class Model {
@@ -53,11 +54,16 @@ public class Model {
         return myDataValues.get(country).get(location);
     }
     
-    public BarGraph updateBarGraph(BarGraph barGraph){
-        for (int i=0;i<barGraph.getMyCountries().length;i++){
-            int dataPoint=0;
-            barGraph.addData(barGraph.getMyCountries()[i],dataPoint);
+    
+    public Visualization updateVisualization(Visualization vis){
+        vis.clearValues();
+        //for bar graphs
+        for (int i=0;i<vis.getMyCountries().length;i++){
+            double dataPoint=0;
+            vis.addData(vis.getMyCountries()[i],vis.getMyYear()[0],dataPoint);
         }
-        return barGraph;
+        //for line graphs
+        
+        return vis;
     }
 }

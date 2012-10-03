@@ -26,8 +26,10 @@ public class Controller {
         myNameMap.put("Line Graph", new LineGraph());
     }
     
-    public void updateData(String[] countries, double[] years, String visType){
+    public Visualization getData(String[] countries, double[] years, String visType){
         myNameMap.get(visType).setMyCountries(countries);
         myNameMap.get(visType).setMyYear(years);
+        myModel.updateVisualization(myNameMap.get(visType));
+        return myNameMap.get(visType);
     }
 }
