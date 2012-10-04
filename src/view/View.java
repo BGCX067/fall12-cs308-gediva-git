@@ -65,7 +65,7 @@ public class View extends JFrame {
      * 
      * @param layout Specifies the labels based on a resource file.
      */
-    public View (String layout) {
+    public View(String layout) {
         setTitle("Visualizer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myChooser = new JFileChooser(System.getProperties().getProperty(
