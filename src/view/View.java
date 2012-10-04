@@ -272,17 +272,6 @@ public class View extends JFrame {
             @Override
             public void actionPerformed (ActionEvent e) {
                 myController.loadFile();
-//                try {
-//                    int response = myChooser.showOpenDialog(null);
-//                    if (response == JFileChooser.APPROVE_OPTION) {
-//                        echo(new FileReader(myChooser.getSelectedFile()));
-//
-//                    }
-//                }
-//                catch (IOException io) {
-//                    showError(io.toString());
-//                }
-
             }
         });
         fileMenu.add(new AbstractAction(myResources.getString("SaveCommand")) {
