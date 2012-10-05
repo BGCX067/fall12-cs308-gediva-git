@@ -1,6 +1,7 @@
 package visualizations;
 
 import java.util.HashMap;
+import view.View;
 
 
 public abstract class Visualization {
@@ -11,7 +12,7 @@ public abstract class Visualization {
     public Visualization () {
         myValues = new HashMap<String, Double>();
     }
-    
+
     public double[] getMyYears () {
         return myYears;
     }
@@ -31,10 +32,12 @@ public abstract class Visualization {
     public HashMap<String, Double> getValues () {
         return myValues;
     }
-    
+
     public void clearValues () {
         myValues.clear();
     }
 
     public abstract void addData (String country, double year, double value);
+
+    public abstract void paint (View v);
 }
