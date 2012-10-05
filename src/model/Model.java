@@ -25,19 +25,23 @@ public class Model {
                 addYears(lines.get(0));
             }
             else {
-                myCountryList[i - 1] = lines.get(i)[0];
+                addCountries(lines, i);
                 addValues(lines.get(i));
             }
         }
     }
 
-    public void addYears (String[] line) {
+    private void addCountries (ArrayList<String[]> lines, int lineNumber) {
+        myCountryList[lineNumber - 1] = lines.get(lineNumber)[0];
+    }
+
+    private void addYears (String[] line) {
         for (int i = 1; i < line.length; i++) {
             myYears[i - 1] = Double.parseDouble(line[i]);
         }
     }
 
-    public void addValues (String[] line) {
+    private void addValues (String[] line) {
         ArrayList<Double> dataValues = new ArrayList<Double>();
         for (int j = 1; j < line.length; j++) {
             dataValues.add(Double.parseDouble(line[j]));
@@ -45,39 +49,49 @@ public class Model {
         myDataValues.put(line[0], dataValues);
     }
 
-    public int locateYear (double year) {
+    private int locateYear (double year) {
         for (int i = 0; i < myYears.length; i++) {
             if (year == myYears[i]) { return i; }
         }
         return -1;
     }
 
-    public double getDataPoint (String country, int location) {
+    private double getDataPoint (String country, int location) {
         return myDataValues.get(country).get(location);
     }
 
-    public Visualization updateVisualization (Visualization vis) {
+    public Visualization updateVisualization (Visualization vis, String[] countries, double[] years) {
+        vis.setMyCountries(countries);
+        vis.setMyYears(years);
         vis.clearValues();
         String visName = vis.getClass().getName();
         if ("visualizations.BarGraph".equals(visName)) {
-            for (int i = 0; i < vis.getMyCountries().length; i++) {
-                double year = vis.getMyYears()[0];
-                String country = vis.getMyCountries()[i];
-                int yearLocation = locateYear(year);
-                double dataPoint = getDataPoint(country, yearLocation);
-                vis.addData(country, year, dataPoint);
-            }
+            updateBarGraph(vis);
         }
         else if ("visualizations.LineGraph".equals(visName)) {
-            for (int i = 0; i < vis.getMyYears().length; i++) {
-                double year = vis.getMyYears()[i];
-                String country = vis.getMyCountries()[0];
-                int yearLocation = locateYear(year);
-                double dataPoint = getDataPoint(country, yearLocation);
-                vis.addData(country, year, dataPoint);
-            }
+            updateLineGraph(vis);
         }
         return vis;
+    }
+
+    private void updateLineGraph (Visualization vis) {
+        for (int i = 0; i < vis.getMyYears().length; i++) {
+            double year = vis.getMyYears()[i];
+            String country = vis.getMyCountries()[0];
+            int yearLocation = locateYear(year);
+            double dataPoint = getDataPoint(country, yearLocation);
+            vis.addData(country, year, dataPoint);
+        }
+    }
+
+    private void updateBarGraph (Visualization vis) {
+        for (int i = 0; i < vis.getMyCountries().length; i++) {
+            double year = vis.getMyYears()[0];
+            String country = vis.getMyCountries()[i];
+            int yearLocation = locateYear(year);
+            double dataPoint = getDataPoint(country, yearLocation);
+            vis.addData(country, year, dataPoint);
+        }
     }
 
     public String[] getCountries () {
