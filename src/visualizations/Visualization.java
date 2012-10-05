@@ -37,4 +37,5 @@ public abstract class Visualization {
     }
 
     public abstract void addData (String country, double year, double value);
+    
 }
