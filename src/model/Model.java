@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import visualizations.BarGraph;
 import visualizations.Visualization;
 
 
@@ -60,7 +59,7 @@ public class Model {
     public Visualization updateVisualization (Visualization vis) {
         vis.clearValues();
         String visName = vis.getClass().getName();
-        if (visName == "visualizations.BarGraph") {
+        if ("visualizations.BarGraph".equals(visName)) {
             for (int i = 0; i < vis.getMyCountries().length; i++) {
                 double year = vis.getMyYears()[0];
                 String country = vis.getMyCountries()[i];
@@ -69,7 +68,7 @@ public class Model {
                 vis.addData(country, year, dataPoint);
             }
         }
-        else if (visName == "visualizations.LineGraph") {
+        else if ("visualizations.LineGraph".equals(visName)) {
             for (int i = 0; i < vis.getMyYears().length; i++) {
                 double year = vis.getMyYears()[i];
                 String country = vis.getMyCountries()[0];
