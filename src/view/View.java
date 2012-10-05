@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -22,10 +23,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -51,6 +56,8 @@ public class View extends JFrame {
     private ResourceBundle myResources;
     private JTextArea myTextArea;
     private JFileChooser myChooser;
+    private DefaultListModel myYearListModel;
+    private DefaultListModel myCountryListModel;
     private KeyListener myKeyListener;
     private MouseListener myMouseListener;
     private MouseMotionListener myMouseMotionListener;
@@ -58,6 +65,7 @@ public class View extends JFrame {
     private Controller myController;
     private String[] myCountries;
     private double[] myYears;
+    private boolean dataLoaded;
 
     /**
      * Sets up the View, determining the title, prompts the user
@@ -66,21 +74,50 @@ public class View extends JFrame {
      * @param layout Specifies the labels based on a resource file.
      */
     public View(String layout) {
+        dataLoaded = false;
         setTitle("Visualizer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myChooser = new JFileChooser(System.getProperties().getProperty(
                 "user.dir"));
         myResources = ResourceBundle.getBundle("resources." + layout);
         createListeners();
-        getContentPane().add(makeInput(), BorderLayout.NORTH);
-        getContentPane().add(makeDisplay(), BorderLayout.CENTER);
-        getContentPane().add(makeVisualizerChoice(), BorderLayout.EAST);
+        myYearListModel = new DefaultListModel();
+        myCountryListModel = new DefaultListModel();
+        getContentPane().add(makeGraph(), BorderLayout.CENTER);
+        getContentPane().add(makeDisplay(), BorderLayout.SOUTH);
+        getContentPane().add(makeDataChoice(), BorderLayout.EAST);
+        getContentPane().add(makeVisualizerChoice(), BorderLayout.NORTH);
         makeMenus();
         myController = new Controller();
         pack();
         setVisible(true);
     }
 
+    private JComponent makeDataChoice () {
+        JPanel panel = new JPanel();
+        panel.add(makeList(myYearListModel));
+        panel.add(makeList(myCountryListModel));
+        panel.add(makeButton("BarGraph"));
+        panel.add(makeButton("LineGraph"));
+        return panel;
+    }
+
+    private JList makeList (DefaultListModel model) {
+        JList list = new JList(model);
+        return list;
+    }
+
+    private JComponent makeGraph () {
+        ImageIcon image = new ImageIcon("./resources/blank.jpg");
+        JLabel label = new JLabel("Blah", image, JLabel.CENTER);
+        JPanel panel = new JPanel();
+        panel.add(label);
+        return panel;
+    }
+
+    /**
+     * Creates many subclasses
+     */
     private void createListeners () {
         // listener for "high-level" events, i.e., those made
         // up of a sequence of low-level events, like a button
@@ -90,39 +127,50 @@ public class View extends JFrame {
             public void actionPerformed (ActionEvent e) {
                 String ea = e.getActionCommand();
                 if ("Bar Graph".equals(ea)) {
-                    run();
-                    makeBar();
+                    if (dataLoaded) {
+                        run();
+                        makeBar();
+                    }
+                    else {
+                        showMessage("Must Load Data First");
+                    }
                 }
                 else if ("Line Graph".equals(ea)) {
-                    run();
-                    makeLine();
+                    if (dataLoaded) {
+                        run();
+                        makeBar();
+                    }
+                    else {
+                        showMessage("Must Load Data First");
+                    }
                 }
-                else if("Load".equals(ea)) {
+                else if ("Load".equals(ea)) {
+                    dataLoaded = true;
                     myController.loadFile();
                 }
-                echo("action", e);
+                else if ("Clear".equals(ea)) {
+                    myTextArea.setText("");
+                    myYearListModel.clear();
+                    myCountryListModel.clear();
+                }
             }
         };
         // listener for low-level keyboard events
         myKeyListener = new KeyListener() {
             @Override
             public void keyPressed (KeyEvent e) {
-                echo("pressed", e);
             }
             @Override
             public void keyReleased (KeyEvent e) {
-                echo("released", e);
             }
             @Override
             public void keyTyped (KeyEvent e) {
-                echo("typed", e);
             }
         };
         // listener for low-level mouse events
         myMouseListener = new MouseListener() {
             @Override
             public void mouseClicked (MouseEvent e) {
-                echo("clicked", e);
             }
             @Override
             public void mouseEntered (MouseEvent e) {
@@ -151,11 +199,9 @@ public class View extends JFrame {
         myFocusListener = new FocusListener() {
             @Override
             public void focusGained (FocusEvent e) {
-                echo("gained", e);
             }
             @Override
             public void focusLost (FocusEvent e) {
-                echo("lost", e);
             }
         };
     }
@@ -226,7 +272,7 @@ public class View extends JFrame {
     }
 
     private void makeBar() {
-        showMessage("made a new bar");
+        showMessage("New Bar");
         // for now visualize bar for all countries and 1 year 
         // (i.e. user can't select countries). Can extend later if needed
         String[] countriesToDisplayOnBar = myCountries;
@@ -248,19 +294,8 @@ public class View extends JFrame {
         return button;
     }
 
-    private JComponent makeClear () {
-        JButton result = new JButton(myResources.getString("ClearCommand"));
-        result.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed (ActionEvent e) {
-                myTextArea.setText("");
-            }
-        });
-        return result;
-    }
-
     private JComponent makeDisplay () {
-        myTextArea = new JTextArea(FIELD_SIZE, FIELD_SIZE);
+        myTextArea = new JTextArea(3, FIELD_SIZE);
         myTextArea.addMouseListener(myMouseListener);
         myTextArea.addMouseMotionListener(myMouseMotionListener);
         return new JScrollPane(myTextArea);
@@ -288,19 +323,10 @@ public class View extends JFrame {
         fileMenu.add(new AbstractAction(myResources.getString("LoadCommand")) {
             @Override
             public void actionPerformed (ActionEvent e) {
-                showMessage("well that was fun");
+                myController.loadFile();
             }
         });
         return fileMenu;
-    }
-
-    private JComponent makeInput () {
-        JPanel panel = new JPanel();
-        panel.add(makeTextField());
-        panel.add(makeButton("LoadCommand"));
-        panel.add(makeButton("ActionCommand"));
-        panel.add(makeClear());
-        return panel;
     }
 
     private void makeLine() {
@@ -318,19 +344,10 @@ public class View extends JFrame {
         showMessage("Build line visuazation for " + countrySelectedForLine[0] + ": " + lineValues);
     }
 
-    private JComponent makeTextField () {
-        JTextField text = new JTextField(FIELD_SIZE);
-        text.addKeyListener(myKeyListener);
-        text.addFocusListener(myFocusListener);
-        text.addActionListener(myActionListener);
-        return text;
-    }
-
-
     private JComponent makeVisualizerChoice () {
         JPanel panel = new JPanel();
-        panel.add(makeButton("BarGraph"));
-        panel.add(makeButton("LineGraph"));
+        panel.add(makeButton("LoadCommand"));
+        panel.add(makeButton("ClearCommand"));
         return panel;
     }
 
@@ -349,6 +366,12 @@ public class View extends JFrame {
         myCountries = myController.getCountries();
         // list of years
         myYears = myController.getYears();
+        for(String s : myCountries) {
+            myCountryListModel.addElement(s);
+        }
+        for(double d : myYears) {
+            myYearListModel.addElement(d);
+        }
         // do work. 
         // use selectedVisualization, myAllCountries, myAllYears to build plot area
         // for bar, use barValues and yearSelectedForBar[0] (plot label)
