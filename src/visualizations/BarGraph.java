@@ -98,8 +98,8 @@ public class BarGraph extends Visualization {
     }
     
    public  void createAndShowBarGui(BarGraph b,double[] oneyear) { 
-       String[] s=new String[]{};
-       myController.getData("Bar Graph", s, oneyear);
+       
+       myController.getData("Bar Graph", myController.getCountries(), oneyear);
     JFrame frame = new JFrame();
     frame.setSize(1000, 800);
     frame.getContentPane().add(b);
