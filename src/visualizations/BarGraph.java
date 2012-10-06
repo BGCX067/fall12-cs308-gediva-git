@@ -20,16 +20,20 @@ public class BarGraph extends Visualization {
     private String[] countries;
     private String title;
 
-    public BarGraph(String year) {
+    public BarGraph(String[] country,double[] year) {
+        myCountries=country;
         String[] countriesToDisplayOnBar = myCountries;
-        double[] yearSelectedForBar = new double[] {2006}; // user selects year. hardcode for now
+        
+        double[] yearSelectedForBar = year; // user selects year. hardcode for now
         // BarGraph object with data.
         String selectedVisualizatoin = "Bar Graph";
-        //BarGraph barGraph = (BarGraph) myController.getData(
-                //selectedVisualizatoin, countriesToDisplayOnBar, yearSelectedForBar);
+        BarGraph barGraph = (BarGraph) myController.getData(
+                selectedVisualizatoin, countriesToDisplayOnBar, yearSelectedForBar);
         // map of countries to respective values for given year. Plot this data.
-        HashMap<String, Double> barValues=new HashMap<String, Double>();
-        //= barGraph.getValues();
+        HashMap<String, Double> barValues= barGraph.getValues();
+        
+        /*test case
+        =new HashMap<String, Double>();
         barValues.put("Happy", 10.0);
         barValues.put("Mid", 5.0);
         barValues.put("sad", 1.0);
@@ -37,16 +41,17 @@ public class BarGraph extends Visualization {
         barValues.put("sad", 1.0);
         barValues.put("sad", 1.0);
         barValues.put("sad", 1.0);
+        */
         
         
-        String[] countryset={"Happy","Mid","sad","sad","sad","sad","sad"};
-        countries=countryset;
+        //String[] countryset={"Happy","Mid","sad","sad","sad","sad","sad"};
+        //countries=countryset;
         //=getMyCountries();
-        for(int i=0;i<countryset.length;i++){
-            value.add(barValues.get(countryset[i]));
+        for(int i=0;i<myCountries.length;i++){
+            value.add(barValues.get(myCountries[i]));
         }
     
-        title = year;
+        title = year.toString();
     }
     public void paint(Graphics g) {
     super.paintComponent(g);
@@ -100,19 +105,14 @@ public class BarGraph extends Visualization {
     }
     }
     
-   public static void createAndShowBarGui() {   
+   public static void createAndShowBarGui(String[] country,double[] oneyear) { 
+       BarGraph b=new BarGraph(country,oneyear);
     JFrame frame = new JFrame();
     frame.setSize(1000, 800);
     
-    frame.getContentPane().add(new BarGraph(
-      "Mood today"));
+    frame.getContentPane().add(b);
 
-    WindowListener winListener = new WindowAdapter() {
-    public void windowClosing(WindowEvent event) {
-    System.exit(0);
-    }
-    };
-    frame.addWindowListener(winListener);
+    
     frame.setVisible(true);
     }
    

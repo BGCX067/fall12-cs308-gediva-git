@@ -2,14 +2,12 @@ package visualizations;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
 import javax.swing.JFrame;
 import controller.Controller;
 
 
+@SuppressWarnings("serial")
 public class LineGraph extends Visualization {
     
     private double[] myYears;
@@ -42,20 +40,22 @@ public class LineGraph extends Visualization {
     }
     
     
-    public LineGraph(String[] country) {
-        String[] countrySelectedForLine = new String[] {"USA"}; // user selects country. hardcode for now
+    public LineGraph(String[] country,double[] years) {
+        String[] countrySelectedForLine =country;
+        //= new String[] {"USA"}; // user selects country. hardcode for now
+        myYears=years;
         double[] yearsToDisplayOnLine = myYears;
         // LineGraph object with data.
         String selectedVisualizatoin = "Line Graph";
         
-        //LineGraph lineGraph = (LineGraph) myController.getData(
-                //selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
+        LineGraph lineGraph = (LineGraph) myController.getData(
+               selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
         // map of years to respective values for given country. Plot this data.
-        HashMap<String, Double> lineValues =new HashMap<String, Double>();
-        //= lineGraph.getValues(); 
+        HashMap<String, Double> lineValues = lineGraph.getValues(); 
         
         /*
          * Test case
+         * = lineGraph.getValues()
         =new HashMap<String, Double>();  
         lineValues.put("A",2.0);
         lineValues.put("B",3.0);
@@ -64,11 +64,12 @@ public class LineGraph extends Visualization {
         */
        
        
-        String[] years=getMyYears();
+        
+        //=getMyYears();
         //test case ={"A","B","C","D"};
         //read the values from HashMap
-        for(int i=0;i<years.length;i++){
-            scores.add(lineValues.get(years[i]));
+        for(int i=0;i<myYears.length;i++){
+            scores.add(lineValues.get(myYears[i]));
         }
         /*
          * test case
@@ -150,20 +151,14 @@ public class LineGraph extends Visualization {
     }
     */
     
-    public  static void createAndShowLineGui() {
-      
-        
-        String[] a=new String[]{"USA"};
-        LineGraph l=new LineGraph(a);
-        JFrame frame = new JFrame(a[0]);
+    
+    public  static void createAndShowLineGui(String[] onecountry,double[] years) {
+        LineGraph l=new LineGraph(onecountry,years);
+        JFrame frame = new JFrame(onecountry[0]);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(l);
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
-     }
-
-       
-
-       
+     }     
 }

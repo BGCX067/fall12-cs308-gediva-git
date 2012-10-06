@@ -92,8 +92,7 @@ public class View extends JFrame {
         makeMenus();
         //myController = new Controller();
         
-        LineGraph.createAndShowLineGui();
-        BarGraph.createAndShowBarGui();
+        
         pack();
         setVisible(true);
     }
