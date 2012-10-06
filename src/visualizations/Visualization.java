@@ -3,9 +3,10 @@ package visualizations;
 import java.awt.Graphics;
 import java.util.HashMap;
 import javax.swing.JPanel;
-import view.View;
 
 
+
+@SuppressWarnings("serial")
 public abstract class Visualization extends JPanel {
     private double[] myYears;
     private String[] myCountries;
@@ -46,7 +47,7 @@ public abstract class Visualization extends JPanel {
         
     }
 
-    //public abstract void addData (String country, double year, double value);
+    public abstract void addData (String country, double year, double value);
 
     public abstract void paint (Graphics g);
 }

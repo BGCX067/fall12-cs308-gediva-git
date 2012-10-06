@@ -9,6 +9,10 @@ import controller.Controller;
 
 @SuppressWarnings("serial")
 public class LineGraph extends Visualization {
+
+    public void addData (String country, double year, double value) {
+        getValues().put(Double.toString(year), value);
+    }
     
     private double[] myYears;
     private Controller myController;
@@ -40,18 +44,9 @@ public class LineGraph extends Visualization {
     }
     
     
-    public LineGraph(String[] country,double[] years) {
-        String[] countrySelectedForLine =country;
-        //= new String[] {"USA"}; // user selects country. hardcode for now
-        myYears=years;
-        double[] yearsToDisplayOnLine = myYears;
-        // LineGraph object with data.
-        String selectedVisualizatoin = "Line Graph";
-        
-        LineGraph lineGraph = (LineGraph) myController.getData(
-               selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
-        // map of years to respective values for given country. Plot this data.
-        HashMap<String, Double> lineValues = lineGraph.getValues(); 
+    public LineGraph() {
+       
+        HashMap<String, Double> lineValues = getValues(); 
         
         /*
          * Test case
@@ -65,7 +60,7 @@ public class LineGraph extends Visualization {
        
        
         
-        //=getMyYears();
+        myYears=getMyYears();
         //test case ={"A","B","C","D"};
         //read the values from HashMap
         for(int i=0;i<myYears.length;i++){
@@ -78,6 +73,7 @@ public class LineGraph extends Visualization {
         }
         */
         checkValues();
+
     }
 
     @Override
@@ -152,9 +148,11 @@ public class LineGraph extends Visualization {
     */
     
     
-    public  static void createAndShowLineGui(String[] onecountry,double[] years) {
-        LineGraph l=new LineGraph(onecountry,years);
-        JFrame frame = new JFrame(onecountry[0]);
+    public  void createAndShowLineGui(LineGraph l,String[] country) {
+        //LineGraph l=new LineGraph(onecountry,years);
+        double[] a=new double[]{};
+        myController.getData("Line Graph",country,a);
+        JFrame frame = new JFrame("Line Graph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(l);
         frame.pack();
@@ -162,3 +160,4 @@ public class LineGraph extends Visualization {
         frame.setVisible(true);
      }     
 }
+

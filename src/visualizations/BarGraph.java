@@ -1,13 +1,13 @@
 package visualizations;
 
-import view.View;
+
 import java.awt.*;
 import javax.swing.*;
 import controller.Controller;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@SuppressWarnings("serial")
 public class BarGraph extends Visualization {
     private Controller myController;
     private String[] myCountries;
@@ -20,17 +20,9 @@ public class BarGraph extends Visualization {
     private String[] countries;
     private String title;
 
-    public BarGraph(String[] country,double[] year) {
-        myCountries=country;
-        String[] countriesToDisplayOnBar = myCountries;
-        
-        double[] yearSelectedForBar = year; // user selects year. hardcode for now
-        // BarGraph object with data.
-        String selectedVisualizatoin = "Bar Graph";
-        BarGraph barGraph = (BarGraph) myController.getData(
-                selectedVisualizatoin, countriesToDisplayOnBar, yearSelectedForBar);
-        // map of countries to respective values for given year. Plot this data.
-        HashMap<String, Double> barValues= barGraph.getValues();
+    public BarGraph() {
+        myCountries=getMyCountries(); 
+        HashMap<String, Double> barValues= getValues();
         
         /*test case
         =new HashMap<String, Double>();
@@ -51,7 +43,7 @@ public class BarGraph extends Visualization {
             value.add(barValues.get(myCountries[i]));
         }
     
-        title = year.toString();
+        title = "Bar Graph";
     }
     public void paint(Graphics g) {
     super.paintComponent(g);
@@ -105,8 +97,9 @@ public class BarGraph extends Visualization {
     }
     }
     
-   public static void createAndShowBarGui(String[] country,double[] oneyear) { 
-       BarGraph b=new BarGraph(country,oneyear);
+   public  void createAndShowBarGui(BarGraph b,double[] oneyear) { 
+       String[] s=new String[]{};
+       myController.getData("Bar Graph", s, oneyear);
     JFrame frame = new JFrame();
     frame.setSize(1000, 800);
     frame.getContentPane().add(b);

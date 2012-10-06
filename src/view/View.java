@@ -4,6 +4,7 @@ import controller.Controller;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -40,6 +41,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import visualizations.BarGraph;
 import visualizations.LineGraph;
 
@@ -53,21 +57,21 @@ import visualizations.LineGraph;
  */
 @SuppressWarnings("serial")
 public class View extends JFrame {
+    private static final String LINE = "Line Graph";
+    private static final String BAR = "Bar Graph";
     private static final int FIELD_SIZE = 30;
+    private static final Dimension LIST_SIZE = new Dimension(10, 20);
     private ActionListener myActionListener;
+    private ListSelectionListener myListSelectionListener;
     private ResourceBundle myResources;
     private JTextArea myTextArea;
-    private JFileChooser myChooser;
-    private DefaultListModel myYearListModel;
-    private DefaultListModel myCountryListModel;
-    private KeyListener myKeyListener;
-    private MouseListener myMouseListener;
-    private MouseMotionListener myMouseMotionListener;
-    private FocusListener myFocusListener;
+    private DefaultListModel myListModel;
+    private JList myJList;
     private Controller myController;
     private String[] myCountries;
     private double[] myYears;
-    private boolean dataLoaded;
+    private String myGraphType;
+    private boolean myDataLoaded;
 
     /**
      * Sets up the View, determining the title, prompts the user
@@ -76,47 +80,38 @@ public class View extends JFrame {
      * @param layout Specifies the labels based on a resource file.
      */
     public View(String layout) {
-        dataLoaded = false;
+        myDataLoaded = false;
         setTitle("Visualizer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myChooser = new JFileChooser(System.getProperties().getProperty(
-                "user.dir"));
         myResources = ResourceBundle.getBundle("resources." + layout);
         createListeners();
-        myYearListModel = new DefaultListModel();
-        myCountryListModel = new DefaultListModel();
-        getContentPane().add(makeGraph(), BorderLayout.CENTER);
+        myListModel = new DefaultListModel();
         getContentPane().add(makeDisplay(), BorderLayout.SOUTH);
-        getContentPane().add(makeDataChoice(), BorderLayout.EAST);
         getContentPane().add(makeVisualizerChoice(), BorderLayout.NORTH);
+        getContentPane().add(makeDataChoice(), BorderLayout.CENTER);
         makeMenus();
         //myController = new Controller();
         
-        
+
         pack();
         setVisible(true);
     }
 
     private JComponent makeDataChoice () {
         JPanel panel = new JPanel();
-        panel.add(makeList(myYearListModel));
-        panel.add(makeList(myCountryListModel));
         panel.add(makeButton("BarGraph"));
         panel.add(makeButton("LineGraph"));
+        panel.add(makeList(myListModel));
         return panel;
     }
 
-    private JList makeList (DefaultListModel model) {
+    private JViewport makeList (DefaultListModel model) {
+        JViewport port = new JViewport();
+        port.setExtentSize(LIST_SIZE);
         JList list = new JList(model);
-        return list;
-    }
-
-    private JComponent makeGraph () {
-        ImageIcon image = new ImageIcon("./resources/blank.jpg");
-        JLabel label = new JLabel("Blah", image, JLabel.CENTER);
-        JPanel panel = new JPanel();
-        panel.add(label);
-        return panel;
+        list.addListSelectionListener(myListSelectionListener);
+        port.add(list);
+        return port;
     }
 
     /**
@@ -130,224 +125,97 @@ public class View extends JFrame {
             @Override
             public void actionPerformed (ActionEvent e) {
                 String ea = e.getActionCommand();
-                if ("Bar Graph".equals(ea)) {
-                    if (dataLoaded) {
+                if (BAR.equals(ea)) {
+                    if (myDataLoaded) {
+                        myGraphType = BAR;
                         run();
-                        makeBar();
+                        myListModel.clear();
+                        for (double y : myYears) {
+                            myListModel.addElement(y);
+                        }
                     }
                     else {
-                        showMessage("Must Load Data First");
+                        showMessage("Load Data First!");
                     }
                 }
-                else if ("Line Graph".equals(ea)) {
-                    if (dataLoaded) {
+                else if (LINE.equals(ea) && !myListModel.equals(null)) {
+                    if (myDataLoaded) {
                         run();
-                        makeBar();
+                        myGraphType = LINE;
+                        myListModel.clear();
+                        for (String s : myCountries) {
+                            myListModel.addElement(s);
+                        }
                     }
                     else {
-                        showMessage("Must Load Data First");
+                        showMessage("Load Data First!");
                     }
+
                 }
                 else if ("Load".equals(ea)) {
-                    dataLoaded = true;
+                    myDataLoaded = true;
                     myController.loadFile();
                 }
                 else if ("Clear".equals(ea)) {
+                    myDataLoaded = false;
                     myTextArea.setText("");
-                    myYearListModel.clear();
-                    myCountryListModel.clear();
+                    myListModel.clear();
                 }
             }
         };
-        // listener for low-level keyboard events
-        myKeyListener = new KeyListener() {
+        //listener for JList events
+        myListSelectionListener = new ListSelectionListener() {
             @Override
-            public void keyPressed (KeyEvent e) {
-            }
-            @Override
-            public void keyReleased (KeyEvent e) {
-            }
-            @Override
-            public void keyTyped (KeyEvent e) {
-            }
-        };
-        // listener for low-level mouse events
-        myMouseListener = new MouseListener() {
-            @Override
-            public void mouseClicked (MouseEvent e) {
-            }
-            @Override
-            public void mouseEntered (MouseEvent e) {
-            }
-            @Override
-            public void mouseExited (MouseEvent e) {
-            }
-            @Override
-            public void mousePressed (MouseEvent e) {
-            }
-            @Override
-            public void mouseReleased (MouseEvent e) {
-            }
-        };
-        // listener for low-level mouse movement events
-        myMouseMotionListener = new MouseMotionListener() {
-            @Override
-            public void mouseDragged (MouseEvent e) {
-            }
-            @Override
-            public void mouseMoved (MouseEvent e) {
-            }
-        };
-        // listener for low-level focus events, i.e., the mouse
-        // entering/leaving a component so you can type in it
-        myFocusListener = new FocusListener() {
-            @Override
-            public void focusGained (FocusEvent e) {
-            }
-            @Override
-            public void focusLost (FocusEvent e) {
-            }
-        };
-    }
-
-    /**
-     * Echo key presses by showing important attributes
-     */
-    private void echo (String s, KeyEvent e) {
-        showMessage(s + " char:" + e.getKeyChar() + " mod: " +
-                KeyEvent.getKeyModifiersText(e.getModifiers()) + " mod: " +
-                KeyEvent.getKeyText(e.getKeyCode()));
-    }
-
-    /**
-     * Echo action events including time event occurs
-     */
-    private void echo (String s, ActionEvent e) {
-        showMessage(s + " = " + e.getActionCommand() + " " + e.getWhen());
-    }
-
-    /**
-     * Echo mouse events (enter, leave, etc., including position and buttons)
-     */
-    private void echo (String s, MouseEvent e) {
-        showMessage(s + " x = " + e.getX() + " y = " + e.getY() + " mod: " +
-                MouseEvent.getMouseModifiersText(e.getModifiers()) + " button: " +
-                e.getButton() + " clicks " + e.getClickCount());
-    }
-
-    /**
-     * Echo other events (e.g., Focus)
-     */
-    private void echo (String s, AWTEvent e) {
-        showMessage(s + " " + e);
-    }
-
-    /**
-     * Echo data read from reader to display
-     */
-    private void echo (Reader r) {
-        try {
-            String s = "";
-            BufferedReader input = new BufferedReader(r);
-            while (true) {
-                String line = input.readLine();
-                if (line != null) {
-                    s += line + "\n";
+            public void valueChanged (ListSelectionEvent e) {
+                if (myGraphType.equals(BAR)) {
+                    makeBar();
                 }
-                else {
-                    break;
+                else if (myGraphType.equals(LINE)) {
+                    makeLine();
                 }
             }
-            showMessage(s);
-        }
-        catch (IOException e) {
-            showError(e.toString());
-        }
-    }
-
-    /**
-     * Echo display to writer
-     */
-    private void echo (Writer w) {
-        PrintWriter output = new PrintWriter(w);
-        output.println(myTextArea.getText());
-        output.flush();
-        output.close();
+        };
     }
 
     private void makeBar() {
-        showMessage("New Bar");
-        // for now visualize bar for all countries and 1 year 
-        // (i.e. user can't select countries). Can extend later if needed
-        String[] countriesToDisplayOnBar = myCountries;
-        double[] yearSelectedForBar = new double[] {2006}; // user selects year. hardcode for now
-        // BarGraph object with data.
-        String selectedVisualizatoin = "Bar Graph";
-        BarGraph barGraph = (BarGraph) myController.getData(
-                selectedVisualizatoin, countriesToDisplayOnBar, yearSelectedForBar);
-        // map of countries to respective values for given year. Plot this data.
-        HashMap<String, Double> barValues = barGraph.getValues();
-        showMessage("Build bar visualization for " + yearSelectedForBar[0] + ": " + barValues);
+        showMessage("Making a Bar");
+        BarGraph bar = new BarGraph((String) myJList.getSelectedValue());
     }
 
     private JComponent makeButton (String buttonName) {
         JButton button = new JButton(myResources.getString(buttonName));
-        button.addKeyListener(myKeyListener);
-        button.addMouseListener(myMouseListener);
         button.addActionListener(myActionListener);
         return button;
     }
 
     private JComponent makeDisplay () {
         myTextArea = new JTextArea(3, FIELD_SIZE);
-        myTextArea.addMouseListener(myMouseListener);
-        myTextArea.addMouseMotionListener(myMouseMotionListener);
         return new JScrollPane(myTextArea);
     }
 
     private JMenu makeFileMenu () {
         JMenu fileMenu = new JMenu(myResources.getString("FileMenu"));
-        fileMenu.add(new AbstractAction(myResources.getString("OpenCommand")) {
-            @Override
-            public void actionPerformed (ActionEvent e) {
-                myController.loadFile();
-            }
-        });
-        fileMenu.add(new AbstractAction(myResources.getString("SaveCommand")) {
-            @Override
-            public void actionPerformed (ActionEvent e) {
-                try {
-                    echo(new FileWriter("demo.out"));
-                }
-                catch (IOException io) {
-                    showError(io.toString());
-                }
-            }
-        });
         fileMenu.add(new AbstractAction(myResources.getString("LoadCommand")) {
             @Override
             public void actionPerformed (ActionEvent e) {
+                myDataLoaded = true;
                 myController.loadFile();
+            }
+        });
+        fileMenu.add(new AbstractAction(myResources.getString("ClearCommand")) {
+            @Override
+            public void actionPerformed (ActionEvent e) {
+                myTextArea.setText("");
+                myListModel.clear();
             }
         });
         return fileMenu;
     }
 
     private void makeLine() {
-        /*
-        showMessage("Make a line");
-        // for now visualize line for all years and 1 country 
-        // (i.e. user can't select years). Can extend later if needed
-        String[] countrySelectedForLine = new String[] {"USA"}; // user selects country. hardcode for now
-        double[] yearsToDisplayOnLine = myYears;
-        // LineGraph object with data.
-        String selectedVisualizatoin = "Line Graph";
-        LineGraph lineGraph = (LineGraph) myController.getData(
-                selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
-        // map of years to respective values for given country. Plot this data.
-        HashMap<String, Double> lineValues = lineGraph.getValues();
-        showMessage("Build line visuazation for " + countrySelectedForLine[0] + ": " + lineValues);
-        */
+        showMessage("Making a line");
+        String country = (String) myJList.getSelectedValue();
+        LineGraph line = new LineGraph(country);
     }
 
     private JComponent makeVisualizerChoice () {
@@ -372,18 +240,12 @@ public class View extends JFrame {
         myCountries = myController.getCountries();
         // list of years
         myYears = myController.getYears();
-        for(String s : myCountries) {
-            myCountryListModel.addElement(s);
-        }
-        for(double d : myYears) {
-            myYearListModel.addElement(d);
-        }
+
+
         // do work. 
         // use selectedVisualization, myAllCountries, myAllYears to build plot area
         // for bar, use barValues and yearSelectedForBar[0] (plot label)
         // for line, use lineValues and countrySelectedForLine[0] (plot label)
-        showMessage("All countries: " + Arrays.toString(myCountries));
-        showMessage("All years: " + Arrays.toString(myYears));
     }
 
     private void showError (String message) {
