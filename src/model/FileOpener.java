@@ -32,7 +32,6 @@ public class FileOpener {
                 for(int i = 0; i<DELIMITERS.length; i++) {
                     String[] lineArray = line.split(DELIMITERS[i]);
                     if (lineArray.length > 1) {
-                        System.out.println(lineArray.length);
                         lines.add(lineArray);
                         break;
                     }

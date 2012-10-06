@@ -3,36 +3,15 @@ package view;
 import controller.Controller;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -42,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import visualizations.BarGraph;
@@ -56,11 +36,11 @@ import visualizations.LineGraph;
  * 
  */
 @SuppressWarnings("serial")
-public class View extends JFrame {
+public class View extends JFrame implements ScrollPaneConstants {
     private static final String LINE = "Line Graph";
     private static final String BAR = "Bar Graph";
     private static final int FIELD_SIZE = 30;
-    private static final Dimension LIST_SIZE = new Dimension(10, 20);
+    private static final Dimension LIST_SIZE = new Dimension(75, 150);
     private ActionListener myActionListener;
     private ListSelectionListener myListSelectionListener;
     private ResourceBundle myResources;
@@ -85,15 +65,12 @@ public class View extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myResources = ResourceBundle.getBundle("resources." + layout);
         createListeners();
+        myController = new Controller();
         myListModel = new DefaultListModel();
         getContentPane().add(makeDisplay(), BorderLayout.SOUTH);
         getContentPane().add(makeVisualizerChoice(), BorderLayout.NORTH);
         getContentPane().add(makeDataChoice(), BorderLayout.CENTER);
         makeMenus();
-        //myController = new Controller();
-        
-//        LineGraph.createAndShowLineGui();
-//        BarGraph.createAndShowBarGui();
         pack();
         setVisible(true);
     }
@@ -106,12 +83,12 @@ public class View extends JFrame {
         return panel;
     }
 
-    private JViewport makeList (DefaultListModel model) {
-        JViewport port = new JViewport();
-        port.setExtentSize(LIST_SIZE);
+    private JScrollPane makeList (DefaultListModel model) {
         JList list = new JList(model);
         list.addListSelectionListener(myListSelectionListener);
-        port.add(list);
+        JScrollPane port = new JScrollPane(list,
+                VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        port.setPreferredSize(LIST_SIZE);
         return port;
     }
 
@@ -139,7 +116,7 @@ public class View extends JFrame {
                         showMessage("Load Data First!");
                     }
                 }
-                else if (LINE.equals(ea) && !myListModel.equals(null)) {
+                else if (LINE.equals(ea)) {
                     if (myDataLoaded) {
                         run();
                         myGraphType = LINE;
@@ -168,6 +145,7 @@ public class View extends JFrame {
         myListSelectionListener = new ListSelectionListener() {
             @Override
             public void valueChanged (ListSelectionEvent e) {
+                showMessage("List Changed: " + e);
                 if (myGraphType.equals(BAR)) {
                     makeBar();
                 }
@@ -180,7 +158,8 @@ public class View extends JFrame {
 
     private void makeBar() {
         showMessage("Making a Bar");
-        BarGraph bar = new BarGraph((String) myJList.getSelectedValue());
+        double[] year = {(Double) myJList.getSelectedValue()};
+//        BarGraph.createAndShowBarGui(myCountries, year);
     }
 
     private JComponent makeButton (String buttonName) {
@@ -215,8 +194,8 @@ public class View extends JFrame {
 
     private void makeLine() {
         showMessage("Making a line");
-        String country = (String) myJList.getSelectedValue();
-        LineGraph line = new LineGraph(country);
+        String[] country = {(String) myJList.getSelectedValue()};
+//        LineGraph.createAndShowLineGui(country, myYears);
     }
 
     private JComponent makeVisualizerChoice () {
@@ -234,19 +213,13 @@ public class View extends JFrame {
 
 
     /**
-     * main behavior (probably).
+     * 
      */
     public void run () {
         // list of countries
         myCountries = myController.getCountries();
         // list of years
         myYears = myController.getYears();
-
-
-        // do work. 
-        // use selectedVisualization, myAllCountries, myAllYears to build plot area
-        // for bar, use barValues and yearSelectedForBar[0] (plot label)
-        // for line, use lineValues and countrySelectedForLine[0] (plot label)
     }
 
     private void showError (String message) {

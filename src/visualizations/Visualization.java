@@ -7,7 +7,7 @@ import view.View;
 
 
 public abstract class Visualization extends JPanel {
-    private String[] myYears;
+    private double[] myYears;
     private String[] myCountries;
     private HashMap<String, Double> myValues;
     
@@ -19,11 +19,11 @@ public abstract class Visualization extends JPanel {
         
     }
 
-    public String[] getMyYears () {
+    public double[] getMyYears () {
         return myYears;
     }
 
-    public void setMyYears (String[] myYear) {
+    public void setMyYears (double[] myYear) {
         this.myYears = myYear;
     }
 
@@ -46,7 +46,7 @@ public abstract class Visualization extends JPanel {
         
     }
 
-    //public abstract void addData (String country, double year, double value);
+    public abstract void addData (String country, double year, double value);
 
     public abstract void paint (Graphics g);
 }

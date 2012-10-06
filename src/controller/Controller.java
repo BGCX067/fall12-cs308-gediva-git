@@ -22,13 +22,17 @@ public class Controller {
     }
 
     public void generateMap () {
-        myNameMap.put("Bar Graph", new BarGraph(""));
-        myNameMap.put("Line Graph", new LineGraph(""));
+        String[] b = {};
+        double[] a = {};
+        myNameMap.put("Bar Graph", new BarGraph(b));
+        myNameMap.put("Line Graph", new LineGraph(b,a));
     }
 
     public Visualization getData (String visType, String[] countries, double[] years) {
         Visualization requestedVis =  myNameMap.get(visType);
-        myModel.updateVisualization(requestedVis, countries, years);
+        requestedVis.setMyCountries(countries);
+        requestedVis.setMyYears(years);
+        myModel.updateVisualization(requestedVis);
         return requestedVis;
     }
 
