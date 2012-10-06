@@ -28,9 +28,7 @@ public class Controller {
 
     public Visualization getData (String visType, String[] countries, double[] years) {
         Visualization requestedVis =  myNameMap.get(visType);
-        requestedVis.setMyCountries(countries);
-        requestedVis.setMyYears(years);
-        myModel.updateVisualization(requestedVis);
+        myModel.updateVisualization(requestedVis, countries, years);
         return requestedVis;
     }
 

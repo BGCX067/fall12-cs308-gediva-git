@@ -9,7 +9,8 @@ import javax.swing.JFileChooser;
 
 
 public class FileOpener {
-    private static final String DELIMITER = ",";
+    private static final String[] DELIMITERS = new String[] {",","\\t"};
+    //private static final String DELIMITER = ",";
 
     public File chooseFile () {
         JFileChooser chooser = new JFileChooser(System.getProperties().getProperty("user.dir"));
@@ -28,9 +29,16 @@ public class FileOpener {
             BufferedReader br = new BufferedReader(reader);
             String line = "";
             while ((line = br.readLine()) != null) {
-                lines.add(line.split(DELIMITER));
-
+                for(int i = 0; i<DELIMITERS.length; i++) {
+                    String[] lineArray = line.split(DELIMITERS[i]);
+                    if (lineArray.length > 1) {
+                        System.out.println(lineArray.length);
+                        lines.add(lineArray);
+                        break;
+                    }
+                }                
             }
+            br.close();
         }
         catch (IOException e) {
             e.printStackTrace();

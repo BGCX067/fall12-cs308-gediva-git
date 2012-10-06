@@ -20,8 +20,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
@@ -88,7 +90,10 @@ public class View extends JFrame {
         getContentPane().add(makeVisualizerChoice(), BorderLayout.NORTH);
         getContentPane().add(makeDataChoice(), BorderLayout.CENTER);
         makeMenus();
-        myController = new Controller();
+        //myController = new Controller();
+        
+//        LineGraph.createAndShowLineGui();
+//        BarGraph.createAndShowBarGui();
         pack();
         setVisible(true);
     }
