@@ -2,7 +2,9 @@ package visualizations;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 import javax.swing.JFrame;
 import controller.Controller;
@@ -13,9 +15,11 @@ public class LineGraph extends Visualization {
     private double[] myYears;
     private Controller myController;
     
-    private int MAX_SCORE ;
+    private double maxValue ;
+    private double minValue ;
+    
     //private final int MAX_SCORE = 20;
-    private static final int DEFAULT_VALUE=20;
+    //private static final double DEFAULT_VALUE=20;
     private static final int PREF_W = 1000;
     private static final int PREF_H = 800;
     private final int BORDER_GAP = 30;
@@ -27,11 +31,13 @@ public class LineGraph extends Visualization {
     private ArrayList<Double> scores=new ArrayList<Double>();
     
   
-    private void checkMaxScore(){
-    if(getMyYears()==null) 
-    {MAX_SCORE=DEFAULT_VALUE;}
-    else 
-        {MAX_SCORE = getMyYears().length;}
+    private void checkValues(){
+    for(int i=0;i<scores.size();i++){
+        if (minValue > scores.get(i))
+            minValue = scores.get(i);
+            if (maxValue < scores.get(i))
+            maxValue = scores.get(i);
+    }
    
     }
     
@@ -45,14 +51,24 @@ public class LineGraph extends Visualization {
         //LineGraph lineGraph = (LineGraph) myController.getData(
                 //selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
         // map of years to respective values for given country. Plot this data.
-        //HashMap<String, Double> lineValues = lineGraph.getValues(); 
+        HashMap<String, Double> lineValues =new HashMap<String, Double>();
+        
+        lineValues.put("A",2.0);
+        lineValues.put("B",3.0);
+        lineValues.put("C",4.0);
+        lineValues.put("D",5.0);
+        //= lineGraph.getValues(); 
        //this.scores=new ArrayList<Double>(lineValues.values());
-        
-        for(int i=1;i<=15;i++){
-        scores.add((double) i);
+       
+        String[] years={"A","B","C","D"};
+        //read the values from HashMap
+        for(int i=0;i<years.length;i++){
+            scores.add(lineValues.get(years[i]));
         }
-        
-       checkMaxScore();
+        for(int i=0;i<scores.size();i++){
+            System.out.println(scores.get(i));
+        }
+        checkValues();
     }
 
     @Override
@@ -62,12 +78,12 @@ public class LineGraph extends Visualization {
        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
        double xScale = ((double) getWidth() - 2 * BORDER_GAP) / (scores.size() - 1);
-       double yScale = ((double) getHeight() - 2 * BORDER_GAP) / (MAX_SCORE - 1);
+       double yScale = ((double) getHeight() - 2 * BORDER_GAP) / (maxValue - minValue);
 
        ArrayList<Point> graphPoints = new ArrayList<Point>();
        for (int i = 0; i < scores.size(); i++) {
           int x1 = (int) (i * xScale + BORDER_GAP);
-          int y1 = (int) ((MAX_SCORE - scores.get(i)) * yScale + BORDER_GAP);
+          int y1 = (int) ((maxValue - scores.get(i)) * yScale + BORDER_GAP);
           graphPoints.add(new Point(x1, y1));
        }
 
@@ -126,12 +142,12 @@ public class LineGraph extends Visualization {
     }
     */
     
-    public  static void createAndShowGui() {
+    public  static void createAndShowLineGui() {
       
         
         String[] a=new String[]{"USA"};
         LineGraph l=new LineGraph(a);
-        JFrame frame = new JFrame("DrawGraph");
+        JFrame frame = new JFrame(a[0]);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(l);
         frame.pack();
