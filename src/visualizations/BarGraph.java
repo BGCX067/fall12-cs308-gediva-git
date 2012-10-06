@@ -109,10 +109,7 @@ public class BarGraph extends Visualization {
        BarGraph b=new BarGraph(country,oneyear);
     JFrame frame = new JFrame();
     frame.setSize(1000, 800);
-    
     frame.getContentPane().add(b);
-
-    
     frame.setVisible(true);
     }
    
