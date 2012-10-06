@@ -19,8 +19,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
@@ -88,7 +90,9 @@ public class View extends JFrame {
         getContentPane().add(makeDataChoice(), BorderLayout.EAST);
         getContentPane().add(makeVisualizerChoice(), BorderLayout.NORTH);
         makeMenus();
-        myController = new Controller();
+        //myController = new Controller();
+        
+        LineGraph.createAndShowGui();
         pack();
         setVisible(true);
     }
@@ -330,6 +334,7 @@ public class View extends JFrame {
     }
 
     private void makeLine() {
+        /*
         showMessage("Make a line");
         // for now visualize line for all years and 1 country 
         // (i.e. user can't select years). Can extend later if needed
@@ -342,6 +347,7 @@ public class View extends JFrame {
         // map of years to respective values for given country. Plot this data.
         HashMap<String, Double> lineValues = lineGraph.getValues();
         showMessage("Build line visuazation for " + countrySelectedForLine[0] + ": " + lineValues);
+        */
     }
 
     private JComponent makeVisualizerChoice () {
