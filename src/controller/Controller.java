@@ -22,8 +22,8 @@ public class Controller {
     }
 
     public void generateMap () {
-        myNameMap.put("Bar Graph", new BarGraph());
-        myNameMap.put("Line Graph", new LineGraph());
+        myNameMap.put("Bar Graph", new BarGraph(""));
+        myNameMap.put("Line Graph", new LineGraph(""));
     }
 
     public Visualization getData (String visType, String[] countries, double[] years) {
