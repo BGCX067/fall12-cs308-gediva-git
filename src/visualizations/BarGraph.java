@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import controller.Controller;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BarGraph extends Visualization {
@@ -15,11 +16,11 @@ public class BarGraph extends Visualization {
         getValues().put(country, value);
     }
 
-    private Double[] value;
-    private String[] languages;
+    private ArrayList<Double> value=new ArrayList<Double>();
+    private String[] countries;
     private String title;
 
-    public BarGraph(String t) {
+    public BarGraph(String year) {
         String[] countriesToDisplayOnBar = myCountries;
         double[] yearSelectedForBar = new double[] {2006}; // user selects year. hardcode for now
         // BarGraph object with data.
@@ -32,28 +33,37 @@ public class BarGraph extends Visualization {
         barValues.put("Happy", 10.0);
         barValues.put("Mid", 5.0);
         barValues.put("sad", 1.0);
+        barValues.put("sad", 1.0);
+        barValues.put("sad", 1.0);
+        barValues.put("sad", 1.0);
+        barValues.put("sad", 1.0);
         
-       
-    languages = new String(barValues.keySet().toArray());
-    value = barValues.values().toArray(value);
-    title = t;
+        
+        String[] countryset={"Happy","Mid","sad","sad","sad","sad","sad"};
+        countries=countryset;
+        //=getMyCountries();
+        for(int i=0;i<countryset.length;i++){
+            value.add(barValues.get(countryset[i]));
+        }
+    
+        title = year;
     }
     public void paint(Graphics g) {
     super.paintComponent(g);
-    if (value == null || value.length == 0)
+    if (value == null || value.size() == 0)
     return;
     double minValue = 0;
     double maxValue = 0;
-    for (int i = 0; i < value.length; i++) {
-    if (minValue > value[i])
-    minValue = value[i];
-    if (maxValue < value[i])
-    maxValue = value[i];
+    for (int i = 0; i < value.size(); i++) {
+    if (minValue > value.get(i))
+    minValue = value.get(i);
+    if (maxValue < value.get(i))
+    maxValue = value.get(i);
     }
     Dimension dim = getSize();
     int clientWidth = dim.width;
     int clientHeight = dim.height;
-    int barWidth = clientWidth / value.length;
+    int barWidth = clientWidth / value.size();
     Font titleFont = new Font("Book Antiqua", Font.BOLD, 15);
     FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
     Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
@@ -63,19 +73,19 @@ public class BarGraph extends Visualization {
     int p = (clientWidth - titleWidth) / 2;
     g.setFont(titleFont);
     g.drawString(title, p, q);
-    int top = titleFontMetrics.getHeight();
-    int bottom = labelFontMetrics.getHeight();
+    int top = titleFontMetrics.getHeight()+10;
+    int bottom = labelFontMetrics.getHeight()+10;
     if (maxValue == minValue)
     return;
     double scale = (clientHeight - top - bottom) / (maxValue - minValue);
     q = clientHeight - labelFontMetrics.getDescent();
     g.setFont(labelFont);
-    for (int j = 0; j < value.length; j++) {
+    for (int j = 0; j < value.size(); j++) {
     int valueP = j * barWidth + 1;
     int valueQ = top;
-    int height = (int) (value[j] * scale);
-    if (value[j] >= 0)
-    valueQ += (int) ((maxValue - value[j]) * scale);
+    int height = (int) (value.get(j) * scale);
+    if (value.get(j) >= 0)
+    valueQ += (int) ((maxValue - value.get(j)) * scale);
     else {
     valueQ += (int) (maxValue * scale);
     height = -height;
@@ -84,15 +94,13 @@ public class BarGraph extends Visualization {
     g.fillRect(valueP, valueQ, barWidth - 2, height);
     g.setColor(Color.black);
     g.drawRect(valueP, valueQ, barWidth - 2, height);
-    int labelWidth = labelFontMetrics.stringWidth(languages[j]);
+    int labelWidth = labelFontMetrics.stringWidth(countries[j]);
     p = j * barWidth + (barWidth - labelWidth) / 2;
-    g.drawString(languages[j], p, q);
+    g.drawString(countries[j], p, q);
     }
     }
-   public static void createAndShowBarGui() {
-       
-       
-       
+    
+   public static void createAndShowBarGui() {   
     JFrame frame = new JFrame();
     frame.setSize(1000, 800);
     

@@ -93,7 +93,7 @@ public class View extends JFrame {
         //myController = new Controller();
         
         LineGraph.createAndShowLineGui();
-        //BarGraph.createAndShowBarGui();
+        BarGraph.createAndShowBarGui();
         pack();
         setVisible(true);
     }

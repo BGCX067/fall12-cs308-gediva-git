@@ -52,22 +52,30 @@ public class LineGraph extends Visualization {
                 //selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
         // map of years to respective values for given country. Plot this data.
         HashMap<String, Double> lineValues =new HashMap<String, Double>();
+        //= lineGraph.getValues(); 
         
+        /*
+         * Test case
+        =new HashMap<String, Double>();  
         lineValues.put("A",2.0);
         lineValues.put("B",3.0);
         lineValues.put("C",4.0);
         lineValues.put("D",5.0);
-        //= lineGraph.getValues(); 
-       //this.scores=new ArrayList<Double>(lineValues.values());
+        */
        
-        String[] years={"A","B","C","D"};
+       
+        String[] years=getMyYears();
+        //test case ={"A","B","C","D"};
         //read the values from HashMap
         for(int i=0;i<years.length;i++){
             scores.add(lineValues.get(years[i]));
         }
+        /*
+         * test case
         for(int i=0;i<scores.size();i++){
             System.out.println(scores.get(i));
         }
+        */
         checkValues();
     }
 
