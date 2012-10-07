@@ -1,6 +1,14 @@
 package visualizations;
 
-import java.awt.*;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,30 +18,85 @@ import java.util.Set;
 import javax.swing.JFrame;
 import controller.Controller;
 
-
+/**
+ * 
+ * @author Xi Du
+ *
+ */
 @SuppressWarnings("serial")
 public class LineGraph extends Visualization {
+
+/**
+ * @param country add country
+ * @param year add year
+ * @param value add associated values
+ */
     public void addData (String country, double year, double value) {
         getValues().put(Double.toString(year), value);
     }
+
+    /**
+     * @param myController
+     */
     private Controller myController;
 
-    private double maxValue ;
-    private double minValue ;
+    /**
+     *@param maxValue max value used in the paint method
+     */
+    private double maxValue;
+    /**
+     *@param minValue min value used in the paint method
+     */
+    private double minValue;
 
-    //private final int MAX_SCORE = 20;
-    //private static final double DEFAULT_VALUE=20;
+    /**
+     * @param PREF_W width of the frame
+     */
     private static final int PREF_W = 1000;
+
+    /**
+     * @param PREF_H height of the frame
+     */
     private static final int PREF_H = 800;
-    private final int BORDER_GAP = 30;
+
+    /**
+     * @param BORDER_GAP gap between graph and frame boarder
+     */
+    private static final int BORDER_GAP = 30;
+
+    /**
+     * @param GRAPH_COLOR line color
+     */
     private static final Color GRAPH_COLOR = Color.blue;
+
+    /**
+     * @param GRAPH_POINT_COLOR point color
+     */
     private static final Color GRAPH_POINT_COLOR = new Color(150, 50, 50, 180);
+
+    /**
+     * @param GRAPH_STROKE graph stroke
+     */
     private static final Stroke GRAPH_STROKE = new BasicStroke(3f);
+
+    /**
+     * @param GRAPH_POINT_WIDTH point width
+     */
     private static final int GRAPH_POINT_WIDTH = 12;
+
+    /**
+     * @param Y_HATCH_CNT
+     */
     private static final int Y_HATCH_CNT = 10;
+    
+/**
+ * @param scores
+ */
     private ArrayList<Double> scores;
 
-
+/**
+ * find the max and min values
+ */
     private void checkValues(){
         for(int i=0;i<scores.size();i++){
             if (minValue > scores.get(i))
@@ -43,34 +106,24 @@ public class LineGraph extends Visualization {
         }
 
     }
+
+    /**
+     * constructor
+     */
     public LineGraph(Controller c) {
         super(c);
         myController = c;
         c.getData(this);
         HashMap<String, Double> lineValues = getValues();
         scores = new ArrayList<Double>(lineValues.values());
-        /*
-         * Test case
-         * = lineGraph.getValues()
-        =new HashMap<String, Double>();
-        lineValues.put("A",2.0);
-        lineValues.put("B",3.0);
-        lineValues.put("C",4.0);
-        lineValues.put("D",5.0);
-         */
-        //test case ={"A","B","C","D"};
-        //read the values from HashMap
-        for(int i=0;i<getMyYears().length;i++){
-            
-        }
-        /*
-         * test case
-        for(int i=0;i<scores.size();i++){
-            System.out.println(scores.get(i));
-        }
-         */
-    }
 
+
+
+    }
+    /**
+     * Paint method
+     * @param Graphics g
+     */
     @Override
     public void paint(Graphics g) {
         checkValues();
@@ -118,10 +171,10 @@ public class LineGraph extends Visualization {
             int y1 = graphPoints.get(i).y;
             int x2 = graphPoints.get(i + 1).x;
             int y2 = graphPoints.get(i + 1).y;
-            g2.drawLine(x1, y1, x2, y2);         
+            g2.drawLine(x1, y1, x2, y2);
         }
 
-        g2.setStroke(oldStroke);      
+        g2.setStroke(oldStroke);
         g2.setColor(GRAPH_POINT_COLOR);
         for (int i = 0; i < graphPoints.size(); i++) {
             int x = graphPoints.get(i).x - GRAPH_POINT_WIDTH / 2;
@@ -133,21 +186,17 @@ public class LineGraph extends Visualization {
     }
 
     @Override
+    /**
+     * Returns preferred size
+     */
     public Dimension getPreferredSize() {
         return new Dimension(PREF_W, PREF_H);
     }
 
-    /*    
-    public void addData (String country, double year, double value) {
-        getValues().put(Double.toString(year), value);
-    }
+    /**
+     * @param country specify which country to display
      */
-
-
     public  void createAndShowLineGui(String[] country) {
-        //LineGraph l=new LineGraph(onecountry,years);
-        //        double[] a=new double[]{};
-        //        myController.getData("Line Graph",country,myYears);
         setMyCountries(country);
         JFrame frame = new JFrame("Line Graph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -155,6 +204,6 @@ public class LineGraph extends Visualization {
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
-    }
+     }
 }
 

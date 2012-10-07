@@ -1,49 +1,83 @@
 package visualizations;
 
 
-import java.awt.*;
-import javax.swing.*;
 import controller.Controller;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.JFrame;
 
+/**
+ * 
+ * @author Xi Du
+ *
+ */
 @SuppressWarnings("serial")
 public class BarGraph extends Visualization {
+    /**
+     * @param myController
+     */
     private Controller myController;
 
-    public void addData (String country, double year, double value) {
-        getValues().put(country, value);
-    }
+    private static final int PREF_W = 1000;
 
+    /**
+     * @param PREF_H height of the frame
+     */
+    private static final int PREF_H = 800;
+
+    /**
+     * @param FONT_SIZE1 font size
+     */
+    private static final int FONT_SIZE1 = 15;
+
+    /**
+     * @param FONT_SIZE1 font size
+     */
+    private static final int FONT_SIZE2 = 10;
+
+    /**
+     * @param GAP the space between graph and frame boarder
+     */
+    private static final int GAP = 10;
+
+    /**
+     * @param value the ArrayList to store the data
+     */
     private ArrayList<Double> value=new ArrayList<Double>();
     private String title;
-
+    /**
+     * Constructor
+     */
     public BarGraph(Controller c) {
         super(c);
         myController = c;
         c.getData(this);
         HashMap<String, Double> barValues = getValues();
-
-        /*test case
-        =new HashMap<String, Double>();
-        barValues.put("Happy", 10.0);
-        barValues.put("Mid", 5.0);
-        barValues.put("sad", 1.0);
-        barValues.put("sad", 1.0);
-        barValues.put("sad", 1.0);
-        barValues.put("sad", 1.0);
-        barValues.put("sad", 1.0);
-         */
-
-
-        //String[] countryset={"Happy","Mid","sad","sad","sad","sad","sad"};
-        //countries=countryset;
-        //=getMyCountries();
         for(int i=0;i<getMyCountries().length;i++){
             value.add(barValues.get(getMyCountries()[i]));
         }
         title = "Bar Graph";
     }
+
+    /**
+     * 
+     * @param country add country
+     * @param year add year
+     * @param value add value
+     */
+    public final void addData(final String country,
+            final double year, final double value) {
+        getValues().put(country, value);
+    }
+
+    /**
+     * @param g Graphics
+     */
     public void paint(Graphics g) {
         super.paintComponent(g);
         if (value == null || value.size() == 0)
@@ -96,12 +130,16 @@ public class BarGraph extends Visualization {
         }
     }
 
-
+    /**
+     * 
+     * @param b BarGraph passed
+     * @param oneyear specify which year to display
+     */
     public void createAndShowBarGui(double[] oneyear) { 
         setMyYears(oneyear);
         myController.getData(this);
-//        String[] s=new String[]{};
-//        myController.getData("Bar Graph", myCountries, oneyear);
+        //        String[] s=new String[]{};
+        //        myController.getData("Bar Graph", myCountries, oneyear);
         JFrame frame = new JFrame();
         frame.setSize(1000, 800);
         frame.getContentPane().add(this);

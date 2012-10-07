@@ -14,10 +14,7 @@ public abstract class Visualization extends JPanel {
     private String[] myCountries;
     private Controller myController;
     private HashMap<String, Double> myValues = new HashMap<String, Double>();
-    
-    
-    
-    
+
     public Visualization (Controller c) {
         myValues = new HashMap<String, Double>();
         myController = c;

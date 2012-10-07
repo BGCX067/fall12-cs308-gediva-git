@@ -6,46 +6,67 @@ import visualizations.BarGraph;
 import visualizations.LineGraph;
 import visualizations.Visualization;
 
-
+/**
+ * 
+ * @author  Howard Chung, Volodymyr Zavidovych,Xi Du,Sam Rang
+ *
+ */
 public class Controller {
+    /**
+     * @param myModel model object
+     */
     private Model myModel;
+    /**
+     * @param myNameMap
+     */
     private HashMap<String, Visualization> myNameMap;
-    private BarGraph bar;
-    private LineGraph line;
+    private BarGraph myBar;
+    private LineGraph myLine;
 
-    public Controller () {
+    /**
+     * constructor
+     */
+    public Controller() {
         myModel = new Model();
         myNameMap = new HashMap<String, Visualization>();
         generateMap();
     }
 
-    public void loadFile () {
+    /**
+     * load file
+     */
+    public final void loadFile() {
         myModel.loadFile();
     }
 
+    /**
+     * generate name map
+     */
     public void generateMap () {
-        myNameMap.put("Bar Graph", bar);
-        myNameMap.put("Line Graph", line);
+        myNameMap.put("Bar Graph", myBar);
+        myNameMap.put("Line Graph", myLine);
     }
 
-    public void getData (Visualization requestedVis) {//String visType, String[] countries, double[] years) {
-//        Visualization requestedVis =  myNameMap.get(visType);
-//        if(visType.equals("Bar Graph")) {
-//            requestedVis = new BarGraph(this);
-//        }
-//        if(visType.equals("Line Graph")) {
-//            requestedVis = new LineGraph(this);
-//        }
-//        requestedVis.setMyCountries(countries);
-//        requestedVis.setMyYears(years);
+    /**
+     * @param requestedVis Visualization being updated
+     */
+    public void getData (Visualization requestedVis) {
         myModel.updateVisualization(requestedVis);
     }
 
-    public double[] getYears () {
+    /**
+     * 
+     * @return get years
+     */
+    public final double[] getYears() {
         return myModel.getYears();
     }
 
-    public String[] getCountries () {
+    /**
+     * 
+     * @return get countries
+     */
+    public final String[] getCountries() {
         return myModel.getCountries();
     }
 }
