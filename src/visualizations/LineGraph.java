@@ -150,7 +150,7 @@ public class LineGraph extends Visualization {
     
     public  void createAndShowLineGui(LineGraph l,String[] country) {
         //LineGraph l=new LineGraph(onecountry,years);
-        double[] a=new double[]{};
+        
         myController.getData("Line Graph",country,myController.getYears());
         JFrame frame = new JFrame("Line Graph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
