@@ -27,15 +27,15 @@ public class Controller {
     /**
      * @param requestedVis Visualization being updated
      */
-    public void getData (Visualization requestedVis) {
-        myModel.updateVisualization(requestedVis);
+    public Visualization createVisualization (String visType, String selectedRowOrCol) {
+        return myModel.createVisualization(visType, selectedRowOrCol, this);
     }
 
     /**
      * 
      * @return get years
      */
-    public final double[] getAllYears() {
+    public final String[] getAllYears() {
         return myModel.getAllYears();
     }
 

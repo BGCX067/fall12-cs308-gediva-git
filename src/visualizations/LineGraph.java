@@ -3,6 +3,7 @@ package visualizations;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import javax.swing.JFrame;
 import controller.Controller;
 
@@ -13,39 +14,15 @@ import controller.Controller;
  */
 @SuppressWarnings("serial")
 public class LineGraph extends Visualization {
-
-/**
- * @param country add country
- * @param year add year
- * @param value add associated values
- */
-    public void addData (String country, double year, double value) {
-        getValues().put(Double.toString(year), value);
-    }
-
-    /**
-     * @param myController
-     */
-    private Controller myController;
-
-    /**
-     *@param maxValue max value used in the paint method
-     */
-    private double maxValue;
-    /**
-     *@param minValue min value used in the paint method
-     */
-    private double minValue;
-
     /**
      * @param PREF_W width of the frame
      */
-    private static final int PREF_W = 1000;
+    private static final int PREF_W = 600;
 
     /**
      * @param PREF_H height of the frame
      */
-    private static final int PREF_H = 800;
+    private static final int PREF_H = 400;
 
     /**
      * @param BORDER_GAP gap between graph and frame boarder
@@ -76,37 +53,10 @@ public class LineGraph extends Visualization {
      * @param Y_HATCH_CNT
      */
     private static final int Y_HATCH_CNT = 10;
-    
-/**
- * @param scores
- */
-    private ArrayList<Double> scores;
 
-/**
- * find the max and min values
- */
-    private void checkValues(){
-        for(int i=0;i<scores.size();i++){
-            if (minValue > scores.get(i))
-                minValue = scores.get(i);
-            if (maxValue < scores.get(i))
-                maxValue = scores.get(i);
-        }
-
-    }
-
-    /**
-     * constructor
-     */
-    public LineGraph(Controller c) {
-        super(c);
-        myController = c;
-        c.getData(this);
-        HashMap<String, Double> lineValues = getValues();
-        scores = new ArrayList<Double>(lineValues.values());
-
-
-
+    public LineGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
+        super(values, selectedRowOrColTitle, contr);
+        setVisTitle("Line Graph for " + selectedRowOrColTitle);
     }
     /**
      * Paint method
@@ -114,18 +64,17 @@ public class LineGraph extends Visualization {
      */
     @Override
     public void paint(Graphics g) {
-        checkValues();
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        double xScale = ((double) getWidth() - 2 * BORDER_GAP) / (scores.size() - 1);
-        double yScale = ((double) getHeight() - 2 * BORDER_GAP) / (maxValue - minValue);
+        double xScale = ((double) getWidth() - 2 * BORDER_GAP) / (getValues().size() - 1);
+        double yScale = ((double) getHeight() - 2 * BORDER_GAP) / (getMaxValue() - getMinValue());
 
         ArrayList<Point> graphPoints = new ArrayList<Point>();
-        for (int i = 0; i < scores.size(); i++) {
+        for (int i = 0; i < getValues().size(); i++) {
             int x1 = (int) (i * xScale + BORDER_GAP);
-            int y1 = (int) ((maxValue - scores.get(i)) * yScale + BORDER_GAP);
+            int y1 = (int) ((getMaxValue() - getValues().get(i)) * yScale + BORDER_GAP);
             graphPoints.add(new Point(x1, y1));
         }
 
@@ -143,8 +92,8 @@ public class LineGraph extends Visualization {
         }
 
         // and for x axis
-        for (int i = 0; i < scores.size() - 1; i++) {
-            int x0 = (i + 1) * (getWidth() - BORDER_GAP * 2) / (scores.size() - 1) + BORDER_GAP;
+        for (int i = 0; i < getValues().size() - 1; i++) {
+            int x0 = (i + 1) * (getWidth() - BORDER_GAP * 2) / (getValues().size() - 1) + BORDER_GAP;
             int x1 = x0;
             int y0 = getHeight() - BORDER_GAP;
             int y1 = y0 - GRAPH_POINT_WIDTH;
@@ -173,25 +122,11 @@ public class LineGraph extends Visualization {
         }
     }
 
-    @Override
-    /**
-     * Returns preferred size
-     */
-    public Dimension getPreferredSize() {
-        return new Dimension(PREF_W, PREF_H);
-    }
-
-    /**
-     * @param country specify which country to display
-     */
-    public  void createAndShowLineGui(String[] country) {
-        setMyCountries(country);
-        JFrame frame = new JFrame("Line Graph");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void visualize() {
+        JFrame frame = new JFrame(getVisTitle());
+        frame.setSize(PREF_W, PREF_H);
         frame.getContentPane().add(this);
-        frame.pack();
-        frame.setLocationByPlatform(true);
         frame.setVisible(true);
-     }
+    }
 }
 

@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -30,7 +31,7 @@ public class View extends JFrame implements ScrollPaneConstants {
     private JList myJList;
     private Controller myController;
     private String[] myCountries;
-    private double[] myYears;
+    private String[] myYears;
     private String myGraphType;
     private boolean myDataLoaded;
 
@@ -48,29 +49,12 @@ public class View extends JFrame implements ScrollPaneConstants {
         createListeners();
         myController = new Controller();
         myListModel = new DefaultListModel();
-        getContentPane().add(makeDisplay(), BorderLayout.SOUTH);
-        getContentPane().add(makeVisualizerChoice(), BorderLayout.NORTH);
-        getContentPane().add(makeDataChoice(), BorderLayout.CENTER);
-        makeMenus();
+        addMessageDisplay();
+        addFileControlButtons();
+        addVisualizationButtons();
+        addMenu();
         pack();
         setVisible(true);
-    }
-
-    private JComponent makeDataChoice () {
-        JPanel panel = new JPanel();
-        panel.add(makeButton("BarGraph"));
-        panel.add(makeButton("LineGraph"));
-        panel.add(makeList(myListModel));
-        return panel;
-    }
-
-    private JScrollPane makeList (DefaultListModel model) {
-        JList list = new JList(model);
-        list.addListSelectionListener(myListSelectionListener);
-        JScrollPane port = new JScrollPane(list,
-                VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        port.setPreferredSize(LIST_SIZE);
-        return port;
     }
 
     /**
@@ -87,11 +71,12 @@ public class View extends JFrame implements ScrollPaneConstants {
                 if (BAR.equals(ea)) {
                     if (myDataLoaded) {
                         myGraphType = BAR;
-                        run();
+                        myYears = myController.getAllYears();
                         myListModel.clear();
-                        for (double y : myYears) {
+                        for (String y : myYears) {
                             myListModel.addElement(y);
                         }
+                        showMessage("Click on year to display.");
                     }
                     else {
                         showMessage("Load Data First!");
@@ -99,26 +84,28 @@ public class View extends JFrame implements ScrollPaneConstants {
                 }
                 else if (LINE.equals(ea)) {
                     if (myDataLoaded) {
-                        run();
+                        myCountries = myController.getAllCountries();
                         myGraphType = LINE;
                         myListModel.clear();
                         for (String s : myCountries) {
                             myListModel.addElement(s);
                         }
+                        showMessage("Click on country to display.");
                     }
                     else {
                         showMessage("Load Data First!");
                     }
-
                 }
                 else if ("Load".equals(ea)) {
                     myDataLoaded = true;
                     myController.loadFile();
+                    showMessage("Data loaded. Select visualization.");
                 }
                 else if ("Clear".equals(ea)) {
                     myDataLoaded = false;
                     myTextArea.setText("");
                     myListModel.clear();
+                    showMessage("Data cleared.");
                 }
             }
         };
@@ -139,23 +126,60 @@ public class View extends JFrame implements ScrollPaneConstants {
     }
 
     private void makeBar(int index) {
-        showMessage("Making a Bar");
-        double[] year = new double[] {(Double) myListModel.get(index)};
-        BarGraph bar = new BarGraph(myController);
-        bar.createAndShowBarGui(year);
+        showMessage("Making a bar");
+        String year = (String) myListModel.get(index);
+        BarGraph bar = (BarGraph) myController.createVisualization(BAR, year);
+        bar.visualize();
     }
 
+    private void makeLine(int index) {
+        showMessage("Making a line");
+        String country = (String) myListModel.get(index);
+        LineGraph line = (LineGraph) myController.createVisualization(LINE, country);
+        line.visualize();
+    }
+
+    private void addMessageDisplay () {
+        myTextArea = new JTextArea(3, FIELD_SIZE);
+        getContentPane().add(new JScrollPane(myTextArea), BorderLayout.SOUTH);
+    }
+    
+    private void addFileControlButtons () {
+        JPanel panel = new JPanel();
+        panel.add(makeButton("LoadCommand"));
+        panel.add(makeButton("ClearCommand"));
+        getContentPane().add(panel, BorderLayout.NORTH);
+    }
+    
+    private void addVisualizationButtons () {
+        JPanel panel = new JPanel();
+        panel.add(makeButton("BarGraph"));
+        panel.add(makeButton("LineGraph"));
+        panel.add(makeList(myListModel));
+        getContentPane().add(panel, BorderLayout.CENTER);
+    }
+    
+    private JScrollPane makeList (DefaultListModel model) {
+        JList list = new JList(model);
+        list.addListSelectionListener(myListSelectionListener);
+        JScrollPane port = new JScrollPane(list,
+                VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        port.setPreferredSize(LIST_SIZE);
+        return port;
+    }
+    
     private JComponent makeButton (String buttonName) {
         JButton button = new JButton(myResources.getString(buttonName));
         button.addActionListener(myActionListener);
         return button;
     }
 
-    private JComponent makeDisplay () {
-        myTextArea = new JTextArea(3, FIELD_SIZE);
-        return new JScrollPane(myTextArea);
+    private void addMenu () {
+        JMenuBar bar = new JMenuBar();
+        bar.add(makeFileMenu());
+        setJMenuBar(bar);
     }
-
+    
     private JMenu makeFileMenu () {
         JMenu fileMenu = new JMenu(myResources.getString("FileMenu"));
         fileMenu.add(new AbstractAction(myResources.getString("LoadCommand")) {
@@ -173,37 +197,6 @@ public class View extends JFrame implements ScrollPaneConstants {
             }
         });
         return fileMenu;
-    }
-
-    private void makeLine(int index) {
-        showMessage("Making a line");
-        String[] country = new String[] {(String) myListModel.get(index)};
-        LineGraph line = new LineGraph(myController);
-        line.createAndShowLineGui(country);
-    }
-
-    private JComponent makeVisualizerChoice () {
-        JPanel panel = new JPanel();
-        panel.add(makeButton("LoadCommand"));
-        panel.add(makeButton("ClearCommand"));
-        return panel;
-    }
-
-    private void makeMenus () {
-        JMenuBar bar = new JMenuBar();
-        bar.add(makeFileMenu());
-        setJMenuBar(bar);
-    }
-
-
-    /**
-     * 
-     */
-    public void run () {
-        // list of countries
-        myCountries = myController.getAllCountries();
-        // list of years
-        myYears = myController.getAllYears();
     }
 
     private void showError (String message) {

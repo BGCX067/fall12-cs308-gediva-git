@@ -2,100 +2,75 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import visualizations.Visualization;
+import java.util.List;
+import controller.Controller;
+import visualizations.*;
 
 
 public class Model {
+    private static final String LINE = "Line Graph";
+    private static final String BAR = "Bar Graph";
     private FileOpener myFileOpener;
-    private String[] myAllCountries;
-    private double[] myAllYears;
-    private HashMap<String, ArrayList<Double>> myAllDataValues;
+    private String[] myAllRowTitles;
+    private String[] myAllColTitles;
+    private HashMap<String, List<Double>> myAllValuesByRow;
+    private HashMap<String, List<Double>> myAllValuesByCol;
 
     public Model () {
         myFileOpener = new FileOpener();
-        myAllDataValues = new HashMap<String, ArrayList<Double>>();
+        myAllValuesByRow = new HashMap<String, List<Double>>();
+        myAllValuesByCol = new HashMap<String, List<Double>>();
     }
 
     public void loadFile () {
         ArrayList<String[]> lines = myFileOpener.readFile();
-        myAllCountries = new String[lines.size() - 1];
-        myAllYears = new double[lines.get(0).length - 1];
+        myAllRowTitles = new String[lines.size() - 1];
+        myAllColTitles = new String[lines.get(0).length - 1];
         for (int i = 0; i < lines.size(); i++) {
             if (i == 0) {
-                addYears(lines.get(0));
+                processColTitles(lines.get(0));
             }
             else {
-                myAllCountries[i - 1] = lines.get(i)[0];
-                addValues(lines.get(i));
+                myAllRowTitles[i - 1] = lines.get(i)[0];
+                processValues(lines.get(i));
             }
         }
     }
     
-    public Visualization updateVisualization (Visualization vis) {
-        vis.clearValues();
-        vis.setMyCountries(myAllCountries);
-        vis.setMyYears(myAllYears);
-        String visName = vis.getClass().getName();
-        if (visName == "visualizations.BarGraph") {
-            updateBarGraph(vis);
+    public Visualization createVisualization (String visType, String selectedRowOrCol, Controller contr) {
+        
+        if (BAR.equals(visType)) {
+            return new BarGraph(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
-        else if (visName == "visualizations.LineGraph") {
-            updateLineGraph(vis);
+        else if (LINE.equals(visType)) {
+            return new LineGraph(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
-        return vis;
+        else return null;
     }
 
-    public void updateLineGraph (Visualization vis) {
-        for (int i = 0; i < vis.getMyYears().length; i++) {
-            double year = vis.getMyYears()[i];
-            String country = vis.getMyCountries()[0];
-            int yearLocation = locateYear(year);
-            double dataPoint = getDataPoint(country, yearLocation);
-            vis.addData(country, year, dataPoint);
-        }
-    }
-
-    public void updateBarGraph (Visualization vis) {
-        vis.setMyCountries(myAllCountries);
-        for (int i = 0; i < vis.getMyCountries().length; i++) {
-            double year = vis.getMyYears()[0];
-            String country = vis.getMyCountries()[i];
-            int yearLocation = locateYear(year);
-            double dataPoint = getDataPoint(country, yearLocation);
-            vis.addData(country, year, dataPoint);
-        }
-    }
-
-    public void addYears (String[] line) {
+    public void processColTitles (String[] line) {
         for (int i = 1; i < line.length; i++) {
-            myAllYears[i - 1] = Double.parseDouble(line[i]);
+            myAllColTitles[i - 1] = line[i];
+            List<Double> colValues = new ArrayList<Double>();
+            myAllValuesByCol.put(line[i], colValues);
         }
     }
 
-    public void addValues (String[] line) {
-        ArrayList<Double> dataValues = new ArrayList<Double>();
-        for (int j = 1; j < line.length; j++) {
-            dataValues.add(Double.parseDouble(line[j]));
+    public void processValues (String[] line) {
+        List<Double> rowValues = new ArrayList<Double>();
+        for (int i = 1; i < line.length; i++) {
+            double val = Double.parseDouble(line[i]);
+            rowValues.add(val);
+            myAllValuesByCol.get(myAllColTitles[i-1]).add(val);
         }
-        myAllDataValues.put(line[0], dataValues);
-    }
-
-    public int locateYear (double year) {
-        for (int i = 0; i < myAllYears.length; i++) {
-            if (year == myAllYears[i]) { return i; }
-        }
-        return -1;
-    }
-
-    public double getDataPoint (String country, int location) {
-        return myAllDataValues.get(country).get(location);
+        myAllValuesByRow.put(line[0], rowValues);
     }
 
     public String[] getAllCountries () {
-        return myAllCountries;
+        return myAllRowTitles;
     }
 
-    public double[] getAllYears () {
-        return myAllYears;
+    public String[] getAllYears () {
+        return myAllColTitles;
     }
 }
