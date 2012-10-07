@@ -4,15 +4,18 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.Set;
 import javax.swing.JFrame;
 import controller.Controller;
 
 
+@SuppressWarnings("serial")
 public class LineGraph extends Visualization {
-    private double[] myYears;
+    public void addData (String country, double year, double value) {
+        getValues().put(Double.toString(year), value);
+    }
     private Controller myController;
 
     private double maxValue ;
@@ -28,7 +31,7 @@ public class LineGraph extends Visualization {
     private static final Stroke GRAPH_STROKE = new BasicStroke(3f);
     private static final int GRAPH_POINT_WIDTH = 12;
     private static final int Y_HATCH_CNT = 10;
-    private ArrayList<Double> scores=new ArrayList<Double>();
+    private ArrayList<Double> scores;
 
 
     private void checkValues(){
@@ -40,34 +43,25 @@ public class LineGraph extends Visualization {
         }
 
     }
-
-
-    public LineGraph(String[] country, double[] years) {
-        String[] countrySelectedForLine = new String[] {"USA"}; // user selects country. hardcode for now
-        myYears = Arrays.copyOf(years, years.length);
-        double[] yearsToDisplayOnLine = myYears;
-        // LineGraph object with data.
-        String selectedVisualizatoin = "Line Graph";
-
-        //LineGraph lineGraph = (LineGraph) myController.getData(
-        //selectedVisualizatoin, countrySelectedForLine, yearsToDisplayOnLine);
-        // map of years to respective values for given country. Plot this data.
-        HashMap<String, Double> lineValues =new HashMap<String, Double>();
-        //= lineGraph.getValues(); 
-
+    public LineGraph(Controller c) {
+        super(c);
+        myController = c;
+        c.getData(this);
+        HashMap<String, Double> lineValues = getValues();
+        scores = new ArrayList<Double>(lineValues.values());
         /*
          * Test case
-        =new HashMap<String, Double>();  
+         * = lineGraph.getValues()
+        =new HashMap<String, Double>();
         lineValues.put("A",2.0);
         lineValues.put("B",3.0);
         lineValues.put("C",4.0);
         lineValues.put("D",5.0);
          */
-
         //test case ={"A","B","C","D"};
         //read the values from HashMap
-        for(int i=0;i<years.length;i++){
-            scores.add(lineValues.get(years[i]));
+        for(int i=0;i<getMyYears().length;i++){
+            
         }
         /*
          * test case
@@ -75,11 +69,11 @@ public class LineGraph extends Visualization {
             System.out.println(scores.get(i));
         }
          */
-        checkValues();
     }
 
     @Override
     public void paint(Graphics g) {
+        checkValues();
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -149,27 +143,18 @@ public class LineGraph extends Visualization {
     }
      */
 
-    public  static void createAndShowLineGui(double[] year) {
 
-
-        String[] a=new String[]{"USA"};
-        LineGraph l=new LineGraph(a,year);
-        JFrame frame = new JFrame(a[0]);
+    public  void createAndShowLineGui(String[] country) {
+        //LineGraph l=new LineGraph(onecountry,years);
+        //        double[] a=new double[]{};
+        //        myController.getData("Line Graph",country,myYears);
+        setMyCountries(country);
+        JFrame frame = new JFrame("Line Graph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(l);
+        frame.getContentPane().add(this);
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
-
-
-    @Override
-    public void addData (String country, double year, double value) {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-
-
 }
+

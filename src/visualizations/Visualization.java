@@ -1,22 +1,28 @@
 package visualizations;
 
 import java.awt.Graphics;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.JPanel;
-import view.View;
+import controller.Controller;
 
 
+
+@SuppressWarnings("serial")
 public abstract class Visualization extends JPanel {
     private double[] myYears;
     private String[] myCountries;
-    private HashMap<String, Double> myValues;
+    private Controller myController;
+    private HashMap<String, Double> myValues = new HashMap<String, Double>();
     
     
     
     
-    public Visualization () {
+    public Visualization (Controller c) {
         myValues = new HashMap<String, Double>();
-        
+        myController = c;
+        myYears = Arrays.copyOf(c.getYears(), c.getYears().length);
+        myCountries = Arrays.copyOf(c.getCountries(), c.getCountries().length);
     }
 
     public double[] getMyYears () {
@@ -38,9 +44,6 @@ public abstract class Visualization extends JPanel {
     public HashMap<String, Double> getValues () {
         return myValues;
     }
-    
-    
-
     public void clearValues () {
         myValues.clear();
         

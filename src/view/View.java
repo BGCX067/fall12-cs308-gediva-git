@@ -145,21 +145,23 @@ public class View extends JFrame implements ScrollPaneConstants {
         myListSelectionListener = new ListSelectionListener() {
             @Override
             public void valueChanged (ListSelectionEvent e) {
-                showMessage("List Changed: " + e);
-                if (myGraphType.equals(BAR)) {
-                    makeBar();
-                }
-                else if (myGraphType.equals(LINE)) {
-                    makeLine();
+                if (!e.getValueIsAdjusting()) {
+                    if(LINE.equals(myGraphType)){
+                        makeLine(e.getLastIndex());
+                    }
+                    else if (BAR.equals(myGraphType)) {
+                        makeBar(e.getLastIndex());
+                    }
                 }
             }
         };
     }
 
-    private void makeBar() {
+    private void makeBar(int index) {
         showMessage("Making a Bar");
-        double[] year = {(Double) myJList.getSelectedValue()};
-//        BarGraph.createAndShowBarGui(myCountries, year);
+        double[] year = new double[] {(Double) myListModel.get(index)};
+        BarGraph bar = new BarGraph(myController);
+        bar.createAndShowBarGui(year);
     }
 
     private JComponent makeButton (String buttonName) {
@@ -192,10 +194,11 @@ public class View extends JFrame implements ScrollPaneConstants {
         return fileMenu;
     }
 
-    private void makeLine() {
+    private void makeLine(int index) {
         showMessage("Making a line");
-        String[] country = {(String) myJList.getSelectedValue()};
-//        LineGraph.createAndShowLineGui(country, myYears);
+        String[] country = new String[] {(String) myListModel.get(index)};
+        LineGraph line = new LineGraph(myController);
+        line.createAndShowLineGui(country);
     }
 
     private JComponent makeVisualizerChoice () {
@@ -231,4 +234,6 @@ public class View extends JFrame implements ScrollPaneConstants {
         myTextArea.append(message + "\n");
         myTextArea.setCaretPosition(myTextArea.getText().length());
     }
+    
+
 }

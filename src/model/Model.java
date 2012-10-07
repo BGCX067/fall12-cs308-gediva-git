@@ -66,6 +66,7 @@ public class Model {
                 String country = vis.getMyCountries()[i];
                 int yearLocation = locateYear(year);
                 double dataPoint = getDataPoint(country, yearLocation);
+                System.out.println(dataPoint);
                 vis.addData(country, year, dataPoint);
             }
         }
@@ -80,6 +81,33 @@ public class Model {
         }
         return vis;
     }
+
+    public void updateLineGraph (Visualization vis) {
+        
+        //push the year data to the vis class
+        vis.setMyYears(myYears);
+        for (int i = 0; i < vis.getMyYears().length; i++) {
+            double year = vis.getMyYears()[i];
+            String country = vis.getMyCountries()[0];
+            int yearLocation = locateYear(year);
+            double dataPoint = getDataPoint(country, yearLocation);
+            vis.addData(country, year, dataPoint);
+        }
+    }
+
+    public void updateBarGraph (Visualization vis) {
+        
+      //push the countries data to the vis class
+        vis.setMyCountries(myCountryList);
+        for (int i = 0; i < vis.getMyCountries().length; i++) {
+            double year = vis.getMyYears()[0];
+            String country = vis.getMyCountries()[i];
+            int yearLocation = locateYear(year);
+            double dataPoint = getDataPoint(country, yearLocation);
+            vis.addData(country, year, dataPoint);
+        }
+    }
+
 
     public String[] getCountries () {
         return myCountryList;
