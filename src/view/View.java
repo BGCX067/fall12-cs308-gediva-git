@@ -114,13 +114,26 @@ public class View extends JFrame implements ScrollPaneConstants {
             @Override
             public void valueChanged (ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = getSelectedIndex(e);
                     if(LINE.equals(myGraphType)){
-                        makeLine(e.getLastIndex());
+                        makeLine(selectedIndex);
                     }
                     else if (BAR.equals(myGraphType)) {
-                        makeBar(e.getLastIndex());
+                        makeBar(selectedIndex);
                     }
                 }
+            }
+
+            private int getSelectedIndex (ListSelectionEvent e) {
+                JList jlist = (JList) e.getSource();
+                int minIndex = jlist.getMinSelectionIndex();
+                int maxIndex = jlist.getMaxSelectionIndex();
+                for (int i = minIndex; i <= maxIndex; i++) {
+                    if (jlist.isSelectedIndex(i)) {
+                        return i;
+                    }
+                }
+                return 0;
             }
         };
     }
