@@ -58,15 +58,15 @@ public class Controller {
      * 
      * @return get years
      */
-    public final double[] getYears() {
-        return myModel.getYears();
+    public final double[] getAllYears() {
+        return myModel.getAllYears();
     }
 
     /**
      * 
      * @return get countries
      */
-    public final String[] getCountries() {
-        return myModel.getCountries();
+    public final String[] getAllCountries() {
+        return myModel.getAllCountries();
     }
 }

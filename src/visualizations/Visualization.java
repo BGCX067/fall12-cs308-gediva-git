@@ -18,8 +18,8 @@ public abstract class Visualization extends JPanel {
     public Visualization (Controller c) {
         myValues = new HashMap<String, Double>();
         myController = c;
-        myYears = Arrays.copyOf(c.getYears(), c.getYears().length);
-        myCountries = Arrays.copyOf(c.getCountries(), c.getCountries().length);
+        myYears = Arrays.copyOf(c.getAllYears(), c.getAllYears().length);
+        myCountries = Arrays.copyOf(c.getAllCountries(), c.getAllCountries().length);
     }
 
     public double[] getMyYears () {

@@ -1,31 +1,12 @@
 package view;
 
 import controller.Controller;
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ResourceBundle;
-import javax.swing.AbstractAction;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JViewport;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import visualizations.BarGraph;
-import visualizations.LineGraph;
+import javax.swing.*;
+import javax.swing.event.*;
+import visualizations.*;
 
 
 /**
@@ -220,9 +201,9 @@ public class View extends JFrame implements ScrollPaneConstants {
      */
     public void run () {
         // list of countries
-        myCountries = myController.getCountries();
+        myCountries = myController.getAllCountries();
         // list of years
-        myYears = myController.getYears();
+        myYears = myController.getAllYears();
     }
 
     private void showError (String message) {
