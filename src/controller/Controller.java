@@ -1,9 +1,6 @@
 package controller;
 
-import java.util.HashMap;
 import model.Model;
-import visualizations.BarGraph;
-import visualizations.LineGraph;
 import visualizations.Visualization;
 
 /**
@@ -12,24 +9,12 @@ import visualizations.Visualization;
  *
  */
 public class Controller {
-    /**
-     * @param myModel model object
-     */
     private Model myModel;
-    /**
-     * @param myNameMap
-     */
-    private HashMap<String, Visualization> myNameMap;
-    private BarGraph myBar;
-    private LineGraph myLine;
-
     /**
      * constructor
      */
     public Controller() {
         myModel = new Model();
-        myNameMap = new HashMap<String, Visualization>();
-        generateMap();
     }
 
     /**
@@ -37,14 +22,6 @@ public class Controller {
      */
     public final void loadFile() {
         myModel.loadFile();
-    }
-
-    /**
-     * generate name map
-     */
-    public void generateMap () {
-        myNameMap.put("Bar Graph", myBar);
-        myNameMap.put("Line Graph", myLine);
     }
 
     /**
