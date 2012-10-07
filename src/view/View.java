@@ -208,6 +208,4 @@ public class View extends JFrame implements ScrollPaneConstants {
         myTextArea.append(message + "\n");
         myTextArea.setCaretPosition(myTextArea.getText().length());
     }
-    
-
 }
