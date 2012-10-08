@@ -113,8 +113,8 @@ public class View extends JFrame implements ScrollPaneConstants {
         myListSelectionListener = new ListSelectionListener() {
             @Override
             public void valueChanged (ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedIndex = getSelectedIndex(e);
+                int selectedIndex = getSelectedIndex(e);
+                if (!e.getValueIsAdjusting() && selectedIndex >= 0) {
                     if(LINE.equals(myGraphType)){
                         makeLine(selectedIndex);
                     }
@@ -133,7 +133,7 @@ public class View extends JFrame implements ScrollPaneConstants {
                         return i;
                     }
                 }
-                return 0;
+                return -1;
             }
         };
     }
