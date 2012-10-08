@@ -25,7 +25,9 @@ public class Controller {
     }
 
     /**
-     * @param requestedVis Visualization being updated
+     * Tells the model to create a new Visualization
+     * @param visType the type of visualization
+     * @param selectedRowOrCol one row or column to visualize
      */
     public Visualization createVisualization (String visType, String selectedRowOrCol) {
         return myModel.createVisualization(visType, selectedRowOrCol, this);
