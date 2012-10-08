@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFileChooser;
 
 
@@ -35,9 +36,9 @@ public class FileOpener {
      * 
      * @return
      */
-    public ArrayList<String[]> readFile () {
+    public List<String[]> readFile () {
         File chosenFile = chooseFile();
-        ArrayList<String[]> lines = new ArrayList<String[]>();
+        List<String[]> lines = new ArrayList<String[]>();
         try {
             FileReader reader = new FileReader(chosenFile);
             BufferedReader br = new BufferedReader(reader);

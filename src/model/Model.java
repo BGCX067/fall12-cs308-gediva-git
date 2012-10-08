@@ -33,7 +33,7 @@ public class Model {
  * loads a file and fills HashMaps.
  */
     public void loadFile () {
-        ArrayList<String[]> lines = myFileOpener.readFile();
+        List<String[]> lines = myFileOpener.readFile();
         myAllRowTitles = new String[lines.size() - 1];
         myAllColTitles = new String[lines.get(0).length - 1];
         for (int i = 0; i < lines.size(); i++) {
