@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JFileChooser;
 
 
@@ -16,19 +14,26 @@ import javax.swing.JFileChooser;
  * 
  */
 public class FileOpener {
-    private static final String[] DELIMITERS = new String[] {",", "\\t" };
+    private FileParser myFileParser = new FileParser();
+    private static final String DELIMITER = ",";     // set based on view input
 
-    // private static final String DELIMITER = ",";
     /**
      * Allows user to choose a file.
      * 
      * @return
      */
     public File chooseFile () {
+        File returnFile = null;
         JFileChooser chooser = new JFileChooser(System.getProperties().getProperty("user.dir"));
         int response = chooser.showOpenDialog(null);
-        if (response == JFileChooser.APPROVE_OPTION) { return chooser.getSelectedFile(); }
-        return null;
+        if (response == JFileChooser.APPROVE_OPTION) {
+            returnFile = chooser.getSelectedFile();
+        }
+        return returnFile;
+    }
+
+    public FileParser getFileParser () {
+        return myFileParser;
     }
 
     /**
@@ -36,27 +41,20 @@ public class FileOpener {
      * 
      * @return
      */
-    public List<String[]> readFile () {
+    public void readFile () {
         File chosenFile = chooseFile();
-        List<String[]> lines = new ArrayList<String[]>();
         try {
             FileReader reader = new FileReader(chosenFile);
             BufferedReader br = new BufferedReader(reader);
             String line = "";
             while ((line = br.readLine()) != null) {
-                for (int i = 0; i < DELIMITERS.length; i++) {
-                    String[] lineArray = line.split(DELIMITERS[i]);
-                    if (lineArray.length > 1) {
-                        lines.add(lineArray);
-                        break;
-                    }
-                }
+                String[] lineArray = line.split(DELIMITER);
+                myFileParser.parse(lineArray);
             }
             br.close();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        return lines;
     }
 }
