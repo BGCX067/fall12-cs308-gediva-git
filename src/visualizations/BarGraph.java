@@ -4,6 +4,7 @@ package visualizations;
 import java.awt.*;
 import java.util.List;
 import javax.swing.JFrame;
+import resources.Constants;
 import view.ControlPanel;
 import controller.Controller;
 
@@ -14,8 +15,6 @@ import controller.Controller;
  */
 @SuppressWarnings("serial")
 public class BarGraph extends Visualization {
-
-    private static final String MY_NAME = "Bar Graph";
 
     /**
      * @param FONT_SIZE1 font size
@@ -38,12 +37,12 @@ public class BarGraph extends Visualization {
 
     public BarGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
         super(values, selectedRowOrColTitle, contr);
-        setVisTitle(MY_NAME + " for " + selectedRowOrColTitle);
+        setVisTitle(Constants.LINE_GRAPH + " for " + selectedRowOrColTitle);
     }
 
 
     public void setTitle (String selectedRowOrColTitle) {
-        setVisTitle("Bar Graph for " + selectedRowOrColTitle);
+        setVisTitle(Constants.BAR_GRAPH + " for " + selectedRowOrColTitle);
     }
 
     @Override
@@ -63,11 +62,11 @@ public class BarGraph extends Visualization {
         FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
         Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
         FontMetrics labelFontMetrics = g.getFontMetrics(labelFont);
-        int titleWidth = titleFontMetrics.stringWidth(MY_NAME);
+        int titleWidth = titleFontMetrics.stringWidth(Constants.BAR_GRAPH);
         int q = titleFontMetrics.getAscent();
         int p = (clientWidth - titleWidth) / 2;
         g.setFont(titleFont);
-        g.drawString(MY_NAME, p, q);
+        g.drawString(Constants.BAR_GRAPH, p, q);
         int top = titleFontMetrics.getHeight()+10;
         int bottom = labelFontMetrics.getHeight()+10;
         if (getMaxValue() == getMinValue())

@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import resources.Constants;
 import controller.Controller;
 import visualizations.BarGraph;
 import visualizations.LineGraph;
@@ -28,8 +29,9 @@ import visualizations.LineGraph;
 public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private static final String CLEAR_COMMAND = "ClearCommand";
     private static final String LOAD_COMMAND = "LoadCommand";
-    private static final String LINE = "Line Graph";
-    private static final String BAR = "Bar Graph";
+    private static final String LINE = Constants.LINE_GRAPH;
+    private static final String BAR = Constants.BAR_GRAPH;
+    private static final String[] DELIMITER_LIST = {"Tab", "Space", "Comma"};
     private static final int FIELD_SIZE = 30;
     private static final Dimension LIST_SIZE = new Dimension(75, 150);
     private ResourceBundle myResources;
@@ -71,6 +73,10 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      */
     public void addToList(String add) {
         myListModel.addElement(add);
+    }
+    
+    private void addDelimiterList () {
+        
     }
 
     private void addMessageDisplay () {

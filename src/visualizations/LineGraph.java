@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 import javax.swing.JFrame;
+import resources.Constants;
 import view.ControlPanel;
 import controller.Controller;
 
@@ -17,8 +18,6 @@ import controller.Controller;
  */
 @SuppressWarnings("serial")
 public class LineGraph extends Visualization {
-
-    private static final String MY_NAME = "Line Graph";
 
     /**
      * @param BORDER_GAP gap between graph and frame boarder
@@ -53,7 +52,7 @@ public class LineGraph extends Visualization {
 
     public LineGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
         super(values, selectedRowOrColTitle, contr);
-        setVisTitle(MY_NAME + " for " + selectedRowOrColTitle);
+        setVisTitle(Constants.LINE_GRAPH + " for " + selectedRowOrColTitle);
     }
 
     public LineGraph () {
@@ -61,7 +60,7 @@ public class LineGraph extends Visualization {
     }
 
     public void setTitle (String selectedRowOrColTitle) {
-        setVisTitle("Line Graph for " + selectedRowOrColTitle);
+        setVisTitle(Constants.LINE_GRAPH + " for " + selectedRowOrColTitle);
     }
 
     @Override
