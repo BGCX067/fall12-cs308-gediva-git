@@ -15,7 +15,7 @@ import visualizations.Visualization;
  * @author Howard
  * 
  */
-public class Model {
+public class DataProcessModel {
     private FileOpener myFileOpener;
     private HashMap<String, List<Double>> myAllValuesByRow;
     private HashMap<String, List<Double>> myAllValuesByCol;
@@ -23,7 +23,7 @@ public class Model {
     /**
      * Creates a new model.
      */
-    public Model () {
+    public DataProcessModel () {
         myFileOpener = new FileOpener();
     }
 

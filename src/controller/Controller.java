@@ -1,6 +1,6 @@
 package controller;
 
-import model.Model;
+import model.DataProcessModel;
 import visualizations.Visualization;
 
 
@@ -10,13 +10,13 @@ import visualizations.Visualization;
  * 
  */
 public class Controller {
-    private Model myModel;
+    private DataProcessModel myModel;
 
     /**
      * constructor
      */
     public Controller () {
-        myModel = new Model();
+        myModel = new DataProcessModel();
     }
 
     /**
