@@ -39,27 +39,39 @@ public class Model {
         myAllValuesByCol = myFileOpener.getFileParser().getValuesByCol();
     }
 
-    public void setVisualization (String visType, String selectedRowOrCol,
-                                              Controller contr) {
-
+    public void setVisualization (String visType, String selectedRowOrCol, Controller contr) {
+        for (String name : Constants.myNameMap.keySet()) {
+            if (name.equals(visType)) {
+                Constants.myNameMap.get(name).setValues(myAllValuesByCol.get(selectedRowOrCol),
+                                                        selectedRowOrCol, contr);
+            }
+        }
+        /*
         if (BAR.equals(visType)) {
-            Constants.myNameMap.get(Constants.BAR_GRAPH).setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
+            Constants.myNameMap.get(Constants.BAR_GRAPH)
+                    .setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
         else if (LINE.equals(visType)) {
-            Constants.myNameMap.get(Constants.LINE_GRAPH).setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
+            Constants.myNameMap.get(Constants.LINE_GRAPH)
+                    .setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
+        */
     }
-/**
- * Get list of years.
- * @return
- */
+
+    /**
+     * Get list of years.
+     * 
+     * @return
+     */
     public String[] getAllYears () {
         return myFileOpener.getFileParser().getAllYears();
     }
-/**
- * Get list of countries.
- * @return
- */
+
+    /**
+     * Get list of countries.
+     * 
+     * @return
+     */
     public String[] getAllCountries () {
         return myFileOpener.getFileParser().getAllCountries();
     }
