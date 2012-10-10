@@ -27,14 +27,6 @@ public class Controller {
         myModel.loadFile();
     }
 
-//    /**
-//     * Tells the model to create a new Visualization
-//     * @param visType the type of visualization
-//     * @param selectedRowOrCol one row or column to visualize
-//     */
-//    public void createVisualization (String visType, String selectedRowOrCol) {
-//        myModel.createVisualization(visType, selectedRowOrCol, this).visualize();
-//    }
 
     public void setVisualization (String visType, String selectedRowOrCol) {
         myModel.setVisualization(visType, selectedRowOrCol, this);
