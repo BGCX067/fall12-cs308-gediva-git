@@ -28,11 +28,31 @@ public abstract class Visualization extends JPanel {
      */
     private static final int PREF_H = 400;
 
+    public Visualization () {
+        //former contents refactored to setValues
+    }
+
+    /** 
+     * alternate constructor.
+     * @param values 
+     * @param selectedRowOrColTitle
+     * @param contr
+     */
     public Visualization (List<Double> values, String selectedRowOrColTitle, Controller contr) {
         myValues = new ArrayList<Double>(values);
         mySelectedRowOrColTitle = selectedRowOrColTitle;
         myMinValue = Collections.min(values);
         myMaxValue = Collections.max(values);
+        //why does this need a controller?
+        myController = contr;
+    }
+
+    public void setValues (List<Double> values, String selectedRowOrColTitle, Controller contr) {
+        myValues = new ArrayList<Double>(values);
+        mySelectedRowOrColTitle = selectedRowOrColTitle;
+        myMinValue = Collections.min(values);
+        myMaxValue = Collections.max(values);
+        //why does this need a controller?
         myController = contr;
     }
     

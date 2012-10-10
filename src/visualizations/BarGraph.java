@@ -32,9 +32,18 @@ public class BarGraph extends Visualization {
      */
     private static final int GAP = 10;
 
+    public BarGraph () {
+
+    }
+
     public BarGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
         super(values, selectedRowOrColTitle, contr);
         setVisTitle(MY_NAME + " for " + selectedRowOrColTitle);
+    }
+
+
+    public void setTitle (String selectedRowOrColTitle) {
+        setVisTitle("Bar Graph for " + selectedRowOrColTitle);
     }
 
     @Override
@@ -54,11 +63,11 @@ public class BarGraph extends Visualization {
         FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
         Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
         FontMetrics labelFontMetrics = g.getFontMetrics(labelFont);
-        int titleWidth = titleFontMetrics.stringWidth(getVisTitle());
+        int titleWidth = titleFontMetrics.stringWidth(MY_NAME);
         int q = titleFontMetrics.getAscent();
         int p = (clientWidth - titleWidth) / 2;
         g.setFont(titleFont);
-        g.drawString(getVisTitle(), p, q);
+        g.drawString(MY_NAME, p, q);
         int top = titleFontMetrics.getHeight()+10;
         int bottom = labelFontMetrics.getHeight()+10;
         if (getMaxValue() == getMinValue())

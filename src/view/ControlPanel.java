@@ -124,7 +124,7 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
             public void valueChanged (ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting() && myJList.getSelectedIndex() >= 0) {
                     String item = (String) myListModel.get(myJList.getSelectedIndex());
-                    myController.createVisualization(myGraphType, item);
+                    myController.setVisualization(myGraphType, item);
                     showMessage("Making a " + myGraphType);
                 }
             }

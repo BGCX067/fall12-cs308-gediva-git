@@ -50,9 +50,18 @@ public class LineGraph extends Visualization {
      */
     private static final int Y_HATCH_CNT = 10;
 
+
     public LineGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
         super(values, selectedRowOrColTitle, contr);
         setVisTitle(MY_NAME + " for " + selectedRowOrColTitle);
+    }
+
+    public LineGraph () {
+
+    }
+
+    public void setTitle (String selectedRowOrColTitle) {
+        setVisTitle("Line Graph for " + selectedRowOrColTitle);
     }
 
     @Override
