@@ -25,6 +25,12 @@ import controller.Controller;
 import visualizations.BarGraph;
 import visualizations.LineGraph;
 
+
+/**
+ * Acts as the View, interfaces with the user.
+ * @author Sam Rang
+ * 
+ */
 @SuppressWarnings("serial")
 public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private static final String CLEAR_COMMAND = "ClearCommand";
@@ -32,8 +38,8 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private static final String LINE = Constants.LINE_GRAPH;
     private static final String BAR = Constants.BAR_GRAPH;
     private static final String[] DELIMITER_LIST = {"Tab", "Space", "Comma"};
-    private static final int FIELD_SIZE = 30;
     private static final Dimension LIST_SIZE = new Dimension(75, 150);
+    private static final Dimension FIELD_SIZE = new Dimension(3, 30);
     private ResourceBundle myResources;
     private JTextArea myTextArea;
     private DefaultListModel myListModel;
@@ -43,7 +49,6 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private Controller myController;
     private String myGraphType;
     private ListSelectionListener myListSelectionListener;
-    private ControlPanel myControlPanel;
 
     /**
      * Used to determine interaction with user and
@@ -74,13 +79,12 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
     public void addToList(String add) {
         myListModel.addElement(add);
     }
-    
+
     private void addDelimiterList () {
-        
     }
 
     private void addMessageDisplay () {
-        myTextArea = new JTextArea(3, FIELD_SIZE);
+        myTextArea = new JTextArea(FIELD_SIZE.height, FIELD_SIZE.width);
         getContentPane().add(new JScrollPane(myTextArea), BorderLayout.SOUTH);
     }
 

@@ -10,6 +10,12 @@ import controller.Controller;
 
 
 
+
+/**
+ * Abstract class for items that can be displayed on
+ * the View
+ * @author Sam Rang, Xi Du
+ */
 @SuppressWarnings("serial")
 public abstract class Visualization extends JPanel {
     private String mySelectedRowOrColTitle;

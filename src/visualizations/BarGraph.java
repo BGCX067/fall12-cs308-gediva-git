@@ -31,16 +31,17 @@ public class BarGraph extends Visualization {
      */
     private static final int GAP = 10;
 
+    /**
+     * Empty construct for initialization
+     */
     public BarGraph () {
 
     }
 
-    public BarGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
-        super(values, selectedRowOrColTitle, contr);
-        setVisTitle(Constants.LINE_GRAPH + " for " + selectedRowOrColTitle);
-    }
-
-
+    /**
+     * Sets the title for the JFrame of the graph
+     * @param selectedRowOrColTitle
+     */
     public void setTitle (String selectedRowOrColTitle) {
         setVisTitle(Constants.BAR_GRAPH + " for " + selectedRowOrColTitle);
     }
@@ -69,8 +70,9 @@ public class BarGraph extends Visualization {
         g.drawString(Constants.BAR_GRAPH, p, q);
         int top = titleFontMetrics.getHeight()+10;
         int bottom = labelFontMetrics.getHeight()+10;
-        if (getMaxValue() == getMinValue())
+        if (getMaxValue() == getMinValue()) {
             return;
+        }
         double scale = (clientHeight - top - bottom) / (getMaxValue() - getMinValue());
         q = clientHeight - labelFontMetrics.getDescent();
         g.setFont(labelFont);
@@ -78,8 +80,9 @@ public class BarGraph extends Visualization {
             int valueP = j * barWidth + 1;
             int valueQ = top;
             int height = (int) (getValues().get(j) * scale);
-            if (getValues().get(j) >= 0)
+            if (getValues().get(j) >= 0) {
                 valueQ += (int) ((getMaxValue() - getValues().get(j)) * scale);
+            }
             else {
                 valueQ += (int) (getMaxValue() * scale);
                 height = -height;

@@ -49,16 +49,18 @@ public class LineGraph extends Visualization {
      */
     private static final int Y_HATCH_CNT = 10;
 
-
-    public LineGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
-        super(values, selectedRowOrColTitle, contr);
-        setVisTitle(Constants.LINE_GRAPH + " for " + selectedRowOrColTitle);
-    }
-
+    /**
+     * Initiallizes Line Graph
+     */
     public LineGraph () {
 
     }
 
+    /**
+     * Sets the title for the graph
+     * @param selectedRowOrColTitle the selected data set
+     * being displayed
+     */
     public void setTitle (String selectedRowOrColTitle) {
         setVisTitle(Constants.LINE_GRAPH + " for " + selectedRowOrColTitle);
     }
