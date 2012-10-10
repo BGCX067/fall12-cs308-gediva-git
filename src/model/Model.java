@@ -16,8 +16,8 @@ import visualizations.Visualization;
  * 
  */
 public class Model {
-    private static final String LINE = "Line Graph";
-    private static final String BAR = "Bar Graph";
+    private static final String LINE = Constants.LINE_GRAPH;
+    private static final String BAR = Constants.BAR_GRAPH;
     private FileOpener myFileOpener;
     private HashMap<String, List<Double>> myAllValuesByRow;
     private HashMap<String, List<Double>> myAllValuesByCol;
