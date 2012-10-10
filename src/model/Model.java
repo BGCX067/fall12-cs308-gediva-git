@@ -40,13 +40,15 @@ public class Model {
     }
 
     public void setVisualization (String visType, String selectedRowOrCol, Controller contr) {
+        /*
         for (String name : Constants.myNameMap.keySet()) {
             if (name.equals(visType)) {
                 Constants.myNameMap.get(name).setValues(myAllValuesByCol.get(selectedRowOrCol),
                                                         selectedRowOrCol, contr);
             }
         }
-        /*
+        */
+
         if (BAR.equals(visType)) {
             Constants.myNameMap.get(Constants.BAR_GRAPH)
                     .setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
@@ -55,7 +57,7 @@ public class Model {
             Constants.myNameMap.get(Constants.LINE_GRAPH)
                     .setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
-        */
+
     }
 
     /**
