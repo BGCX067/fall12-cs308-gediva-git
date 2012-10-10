@@ -55,7 +55,6 @@ public class Model {
  */
     public Visualization createVisualization (String visType, String selectedRowOrCol,
                                               Controller contr) {
-
         if (BAR.equals(visType)) {
             return new BarGraph(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
         }

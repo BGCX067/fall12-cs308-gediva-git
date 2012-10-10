@@ -29,8 +29,8 @@ public class Controller {
      * @param visType the type of visualization
      * @param selectedRowOrCol one row or column to visualize
      */
-    public Visualization createVisualization (String visType, String selectedRowOrCol) {
-        return myModel.createVisualization(visType, selectedRowOrCol, this);
+    public void createVisualization (String visType, String selectedRowOrCol) {
+        myModel.createVisualization(visType, selectedRowOrCol, this).visualize();
     }
 
     /**

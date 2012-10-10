@@ -2,9 +2,12 @@ package visualizations;
 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 import javax.swing.JFrame;
+import view.ControlPanel;
 import controller.Controller;
 
 /**
@@ -14,15 +17,8 @@ import controller.Controller;
  */
 @SuppressWarnings("serial")
 public class LineGraph extends Visualization {
-    /**
-     * @param PREF_W width of the frame
-     */
-    private static final int PREF_W = 600;
 
-    /**
-     * @param PREF_H height of the frame
-     */
-    private static final int PREF_H = 400;
+    private static final String MY_NAME = "Line Graph";
 
     /**
      * @param BORDER_GAP gap between graph and frame boarder
@@ -56,13 +52,14 @@ public class LineGraph extends Visualization {
 
     public LineGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
         super(values, selectedRowOrColTitle, contr);
-        setVisTitle("Line Graph for " + selectedRowOrColTitle);
+        setVisTitle(MY_NAME + " for " + selectedRowOrColTitle);
     }
+
+    @Override
     /**
      * Paint method
      * @param Graphics g
      */
-    @Override
     public void paint(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
@@ -122,11 +119,18 @@ public class LineGraph extends Visualization {
         }
     }
 
-    public void visualize() {
-        JFrame frame = new JFrame(getVisTitle());
-        frame.setSize(PREF_W, PREF_H);
-        frame.getContentPane().add(this);
-        frame.setVisible(true);
+    /**
+     * Listening behavior of a Line Graph
+     * @param event Action Event
+     * @param p Control Panel
+     * @param c Controller
+     */
+    public static void listen(String event, final ControlPanel p, final Controller c) {
+        p.clearList();
+        for (String country : c.getAllCountries()) {
+            p.addToList(country);
+        }
+        p.showMessage("Click on year to display.");
     }
 }
 
