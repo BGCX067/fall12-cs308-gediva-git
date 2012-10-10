@@ -2,6 +2,7 @@ package resources;
 
 import java.util.HashMap;
 import visualizations.BarGraph;
+import visualizations.LineGraph;
 import visualizations.Visualization;
 
 

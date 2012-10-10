@@ -3,41 +3,47 @@ package controller;
 import model.Model;
 import visualizations.Visualization;
 
+
 /**
  * 
- * @author  Howard Chung, Volodymyr Zavidovych,Xi Du,Sam Rang
- *
+ * @author Howard Chung, Volodymyr Zavidovych,Xi Du,Sam Rang
+ * 
  */
 public class Controller {
     private Model myModel;
+
     /**
      * constructor
      */
-    public Controller() {
+    public Controller () {
         myModel = new Model();
     }
 
     /**
      * load file
      */
-    public final void loadFile() {
+    public final void loadFile () {
+        // pass in a delimiter character here
         myModel.loadFile();
     }
 
-    /**
-     * Tells the model to create a new Visualization
-     * @param visType the type of visualization
-     * @param selectedRowOrCol one row or column to visualize
-     */
     public Visualization createVisualization (String visType, String selectedRowOrCol) {
+        // THIS FUNCTION SHOULD NOT EXIST
+        // use setVisualization to modify the contents of a visualization
+        // Visualization now has a setValues method to allow setting values
+        // bar and line graph can set their titles in setTitle method
         return myModel.createVisualization(visType, selectedRowOrCol, this);
+    }
+
+    public void setVisualization (String visType, String selectedRowOrCol) {
+        myModel.setVisualization(visType, selectedRowOrCol, this);
     }
 
     /**
      * 
      * @return get years
      */
-    public final String[] getAllYears() {
+    public final String[] getAllYears () {
         return myModel.getAllYears();
     }
 
@@ -45,7 +51,7 @@ public class Controller {
      * 
      * @return get countries
      */
-    public final String[] getAllCountries() {
+    public final String[] getAllCountries () {
         return myModel.getAllCountries();
     }
 }

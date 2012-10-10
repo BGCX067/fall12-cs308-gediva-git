@@ -3,6 +3,7 @@ package model;
 import controller.Controller;
 import java.util.HashMap;
 import java.util.List;
+import resources.Constants;
 import visualizations.BarGraph;
 import visualizations.LineGraph;
 import visualizations.Visualization;
@@ -38,32 +39,27 @@ public class Model {
         myAllValuesByCol = myFileOpener.getFileParser().getValuesByCol();
     }
 
-    /**
-     * Creates a new visualization.
-     * 
-     * @param visType type of visualization to create
-     * @param selectedRowOrCol column or row of data
-     * @param contr controller to act on
-     * @return
-     */
-    public Visualization createVisualization (String visType, String selectedRowOrCol,
+    public void setVisualization (String visType, String selectedRowOrCol,
                                               Controller contr) {
 
         if (BAR.equals(visType)) {
-            return new BarGraph(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
+            Constants.myNameMap.get(Constants.BAR_GRAPH).setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
         else if (LINE.equals(visType)) {
-            return new LineGraph(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
-        }
-        else {
-            return null;
+            Constants.myNameMap.get(Constants.LINE_GRAPH).setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
     }
-
+/**
+ * Get list of years.
+ * @return
+ */
     public String[] getAllYears () {
         return myFileOpener.getFileParser().getAllYears();
     }
-
+/**
+ * Get list of countries.
+ * @return
+ */
     public String[] getAllCountries () {
         return myFileOpener.getFileParser().getAllCountries();
     }

@@ -36,8 +36,7 @@ public class BarGraph extends Visualization {
      */
     private static final int GAP = 10;
 
-    public BarGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
-        super(values, selectedRowOrColTitle, contr);
+    public void setTitle (String selectedRowOrColTitle) {
         setVisTitle("Bar Graph for " + selectedRowOrColTitle);
     }
     

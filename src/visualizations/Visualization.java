@@ -18,11 +18,16 @@ public abstract class Visualization extends JPanel {
     private double myMinValue;
     private Controller myController;
 
-    public Visualization (List<Double> values, String selectedRowOrColTitle, Controller contr) {
+    public Visualization () {
+        //former contents refactored to setValues
+    }
+
+    public void setValues (List<Double> values, String selectedRowOrColTitle, Controller contr) {
         myValues = new ArrayList<Double>(values);
         mySelectedRowOrColTitle = selectedRowOrColTitle;
         myMinValue = Collections.min(values);
         myMaxValue = Collections.max(values);
+        //why does this need a controller?
         myController = contr;
     }
     
