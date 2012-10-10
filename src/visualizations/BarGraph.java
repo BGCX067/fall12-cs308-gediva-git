@@ -4,6 +4,7 @@ package visualizations;
 import java.awt.*;
 import java.util.List;
 import javax.swing.JFrame;
+import view.ControlPanel;
 import controller.Controller;
 
 /**
@@ -13,13 +14,8 @@ import controller.Controller;
  */
 @SuppressWarnings("serial")
 public class BarGraph extends Visualization {
- 
-    private static final int PREF_W = 600;
 
-    /**
-     * @param PREF_H height of the frame
-     */
-    private static final int PREF_H = 400;
+    private static final String MY_NAME = "Bar Graph";
 
     /**
      * @param FONT_SIZE1 font size
@@ -36,17 +32,29 @@ public class BarGraph extends Visualization {
      */
     private static final int GAP = 10;
 
+    public BarGraph () {
+
+    }
+
+    public BarGraph (List<Double> values, String selectedRowOrColTitle, Controller contr) {
+        super(values, selectedRowOrColTitle, contr);
+        setVisTitle(MY_NAME + " for " + selectedRowOrColTitle);
+    }
+
+
     public void setTitle (String selectedRowOrColTitle) {
         setVisTitle("Bar Graph for " + selectedRowOrColTitle);
     }
-    
+
+    @Override
     /**
      * @param g Graphics
      */
     public void paint(Graphics g) {
         super.paintComponent(g);
-        if (getValues() == null || getValues().size() == 0)
+        if (getValues() == null || getValues().size() == 0) {
             return;
+        }
         Dimension dim = getSize();
         int clientWidth = dim.width;
         int clientHeight = dim.height;
@@ -55,11 +63,11 @@ public class BarGraph extends Visualization {
         FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
         Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
         FontMetrics labelFontMetrics = g.getFontMetrics(labelFont);
-        int titleWidth = titleFontMetrics.stringWidth(getVisTitle());
+        int titleWidth = titleFontMetrics.stringWidth(MY_NAME);
         int q = titleFontMetrics.getAscent();
         int p = (clientWidth - titleWidth) / 2;
         g.setFont(titleFont);
-        g.drawString(getVisTitle(), p, q);
+        g.drawString(MY_NAME, p, q);
         int top = titleFontMetrics.getHeight()+10;
         int bottom = labelFontMetrics.getHeight()+10;
         if (getMaxValue() == getMinValue())
@@ -87,10 +95,17 @@ public class BarGraph extends Visualization {
         }
     }
 
-    public void visualize() {
-        JFrame frame = new JFrame(getVisTitle());
-        frame.setSize(PREF_W, PREF_H);
-        frame.getContentPane().add(this);
-        frame.setVisible(true);
+    /**
+     * Listening behavior for BarGraph
+     * @param event ActionEvent
+     * @param p Control Panel
+     * @param c Controller 
+     */
+    public static void listen(String event, final ControlPanel p, final Controller c) {
+        p.clearList();
+        for (String year : c.getAllYears()) {
+            p.addToList(year);
+        }
+        p.showMessage("Click on year to display.");
     }
 }

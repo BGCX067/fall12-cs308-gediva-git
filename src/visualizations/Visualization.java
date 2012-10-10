@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import controller.Controller;
 
@@ -17,9 +18,33 @@ public abstract class Visualization extends JPanel {
     private double myMaxValue;
     private double myMinValue;
     private Controller myController;
+    /**
+     * @param PREF_W width of the frame
+     */
+    private static final int PREF_W = 600;
+
+    /**
+     * @param PREF_H height of the frame
+     */
+    private static final int PREF_H = 400;
 
     public Visualization () {
         //former contents refactored to setValues
+    }
+
+    /** 
+     * alternate constructor.
+     * @param values 
+     * @param selectedRowOrColTitle
+     * @param contr
+     */
+    public Visualization (List<Double> values, String selectedRowOrColTitle, Controller contr) {
+        myValues = new ArrayList<Double>(values);
+        mySelectedRowOrColTitle = selectedRowOrColTitle;
+        myMinValue = Collections.min(values);
+        myMaxValue = Collections.max(values);
+        //why does this need a controller?
+        myController = contr;
     }
 
     public void setValues (List<Double> values, String selectedRowOrColTitle, Controller contr) {
@@ -60,5 +85,10 @@ public abstract class Visualization extends JPanel {
     }
     
     public abstract void paint (Graphics g);
-    public abstract void visualize();
-}
+    
+    public void visualize() {
+        JFrame frame = new JFrame(getVisTitle());
+        frame.setSize(PREF_W, PREF_H);
+        frame.getContentPane().add(this);
+        frame.setVisible(true);
+    }}

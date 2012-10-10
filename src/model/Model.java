@@ -16,8 +16,6 @@ import visualizations.Visualization;
  * 
  */
 public class Model {
-    private static final String LINE = "Line Graph";
-    private static final String BAR = "Bar Graph";
     private FileOpener myFileOpener;
     private HashMap<String, List<Double>> myAllValuesByRow;
     private HashMap<String, List<Double>> myAllValuesByCol;
@@ -39,24 +37,31 @@ public class Model {
         myAllValuesByCol = myFileOpener.getFileParser().getValuesByCol();
     }
 
+    /**
+     * 
+     * @param visType
+     * @param selectedRowOrCol
+     * @param contr
+     */
     public void setVisualization (String visType, String selectedRowOrCol, Controller contr) {
         /*
-        for (String name : Constants.myNameMap.keySet()) {
-            if (name.equals(visType)) {
-                Constants.myNameMap.get(name).setValues(myAllValuesByCol.get(selectedRowOrCol),
-                                                        selectedRowOrCol, contr);
-            }
-        }
-        */
+         * for (String name : Constants.myNameMap.keySet()) {
+         * if (name.equals(visType)) {
+         * Constants.myNameMap.get(name).setValues(myAllValuesByCol.get(
+         * selectedRowOrCol),
+         * selectedRowOrCol, contr);
+         * }
+         * }
+         */
 
-        if (BAR.equals(visType)) {
-            Constants.myNameMap.get(Constants.BAR_GRAPH)
-                    .setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
+        Visualization myVis = Constants.myNameMap.get(visType);
+        if (Constants.BAR_GRAPH.equals(visType)) {
+            myVis.setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
-        else if (LINE.equals(visType)) {
-            Constants.myNameMap.get(Constants.LINE_GRAPH)
-                    .setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
+        else if (Constants.LINE_GRAPH.equals(visType)) {
+            myVis.setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
+        myVis.visualize();
 
     }
 
@@ -65,6 +70,7 @@ public class Model {
      * 
      * @return
      */
+
     public String[] getAllYears () {
         return myFileOpener.getFileParser().getAllYears();
     }

@@ -1,4 +1,4 @@
-import view.View;
+import view.ControlPanel;
 
 
 /**
@@ -19,6 +19,6 @@ public final class Main {
      */
     public static void main (String[] args) {
         String layout = (args.length > 0) ? args[0] : "default";
-        new View(layout);
+        ControlPanel cp = new ControlPanel(layout);
     }
 }
