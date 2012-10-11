@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import model.Factory;
 import view.ControlPanel;
 import controller.Controller;
+import static resources.Constants.*;
 
 /**
  * 
@@ -18,36 +19,6 @@ import controller.Controller;
  */
 @SuppressWarnings("serial")
 public class LineChart extends Visualization {
-
-    /**
-     * @param BORDER_GAP gap between graph and frame boarder
-     */
-    private static final int BORDER_GAP = 30;
-
-    /**
-     * @param GRAPH_COLOR line color
-     */
-    private static final Color GRAPH_COLOR = Color.blue;
-
-    /**
-     * @param GRAPH_POINT_COLOR point color
-     */
-    private static final Color GRAPH_POINT_COLOR = new Color(150, 50, 50, 180);
-
-    /**
-     * @param GRAPH_STROKE graph stroke
-     */
-    private static final Stroke GRAPH_STROKE = new BasicStroke(3f);
-
-    /**
-     * @param GRAPH_POINT_WIDTH point width
-     */
-    private static final int GRAPH_POINT_WIDTH = 12;
-
-    /**
-     * @param Y_HATCH_CNT
-     */
-    private static final int Y_HATCH_CNT = 10;
 
     /**
      * Initiallizes Line Graph
@@ -66,41 +37,41 @@ public class LineChart extends Visualization {
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        double xScale = ((double) getWidth() - 2 * BORDER_GAP) / (getValues().size() - 1);
-        double yScale = ((double) getHeight() - 2 * BORDER_GAP) / (getMaxValue() - getMinValue());
+        double xScale = ((double) getWidth() - 2 * GAP_BETWEEN_CHART_AND_FRAME) / (getValues().size() - 1);
+        double yScale = ((double) getHeight() - 2 * GAP_BETWEEN_CHART_AND_FRAME) / (getMaxValue() - getMinValue());
 
         ArrayList<Point> graphPoints = new ArrayList<Point>();
         for (int i = 0; i < getValues().size(); i++) {
-            int x1 = (int) (i * xScale + BORDER_GAP);
-            int y1 = (int) ((getMaxValue() - getValues().get(i)) * yScale + BORDER_GAP);
+            int x1 = (int) (i * xScale + GAP_BETWEEN_CHART_AND_FRAME);
+            int y1 = (int) ((getMaxValue() - getValues().get(i)) * yScale + GAP_BETWEEN_CHART_AND_FRAME);
             graphPoints.add(new Point(x1, y1));
         }
 
         // create x and y axes 
-        g2.drawLine(BORDER_GAP, getHeight() - BORDER_GAP, BORDER_GAP, BORDER_GAP);
-        g2.drawLine(BORDER_GAP, getHeight() - BORDER_GAP, getWidth() - BORDER_GAP, getHeight() - BORDER_GAP);
+        g2.drawLine(GAP_BETWEEN_CHART_AND_FRAME, getHeight() - GAP_BETWEEN_CHART_AND_FRAME, GAP_BETWEEN_CHART_AND_FRAME, GAP_BETWEEN_CHART_AND_FRAME);
+        g2.drawLine(GAP_BETWEEN_CHART_AND_FRAME, getHeight() - GAP_BETWEEN_CHART_AND_FRAME, getWidth() - GAP_BETWEEN_CHART_AND_FRAME, getHeight() - GAP_BETWEEN_CHART_AND_FRAME);
 
         // create hatch marks for y axis. 
-        for (int i = 0; i < Y_HATCH_CNT; i++) {
-            int x0 = BORDER_GAP;
-            int x1 = GRAPH_POINT_WIDTH + BORDER_GAP;
-            int y0 = getHeight() - (((i + 1) * (getHeight() - BORDER_GAP * 2)) / Y_HATCH_CNT + BORDER_GAP);
+        for (int i = 0; i < Y_AXIS_NUBMER_OF_MARKS; i++) {
+            int x0 = GAP_BETWEEN_CHART_AND_FRAME;
+            int x1 = LINE_POINT_DIAMETER + GAP_BETWEEN_CHART_AND_FRAME;
+            int y0 = getHeight() - (((i + 1) * (getHeight() - GAP_BETWEEN_CHART_AND_FRAME * 2)) / Y_AXIS_NUBMER_OF_MARKS + GAP_BETWEEN_CHART_AND_FRAME);
             int y1 = y0;
             g2.drawLine(x0, y0, x1, y1);
         }
 
         // and for x axis
         for (int i = 0; i < getValues().size() - 1; i++) {
-            int x0 = (i + 1) * (getWidth() - BORDER_GAP * 2) / (getValues().size() - 1) + BORDER_GAP;
+            int x0 = (i + 1) * (getWidth() - GAP_BETWEEN_CHART_AND_FRAME * 2) / (getValues().size() - 1) + GAP_BETWEEN_CHART_AND_FRAME;
             int x1 = x0;
-            int y0 = getHeight() - BORDER_GAP;
-            int y1 = y0 - GRAPH_POINT_WIDTH;
+            int y0 = getHeight() - GAP_BETWEEN_CHART_AND_FRAME;
+            int y1 = y0 - LINE_POINT_DIAMETER;
             g2.drawLine(x0, y0, x1, y1);
         }
 
         Stroke oldStroke = g2.getStroke();
-        g2.setColor(GRAPH_COLOR);
-        g2.setStroke(GRAPH_STROKE);
+        g2.setColor(LINE_COLOR);
+        g2.setStroke(LINE_STROKE);
         for (int i = 0; i < graphPoints.size() - 1; i++) {
             int x1 = graphPoints.get(i).x;
             int y1 = graphPoints.get(i).y;
@@ -110,12 +81,12 @@ public class LineChart extends Visualization {
         }
 
         g2.setStroke(oldStroke);
-        g2.setColor(GRAPH_POINT_COLOR);
+        g2.setColor(LINE_POINT_COLOR);
         for (int i = 0; i < graphPoints.size(); i++) {
-            int x = graphPoints.get(i).x - GRAPH_POINT_WIDTH / 2;
-            int y = graphPoints.get(i).y - GRAPH_POINT_WIDTH / 2;;
-            int ovalW = GRAPH_POINT_WIDTH;
-            int ovalH = GRAPH_POINT_WIDTH;
+            int x = graphPoints.get(i).x - LINE_POINT_DIAMETER / 2;
+            int y = graphPoints.get(i).y - LINE_POINT_DIAMETER / 2;;
+            int ovalW = LINE_POINT_DIAMETER;
+            int ovalH = LINE_POINT_DIAMETER;
             g2.fillOval(x, y, ovalW, ovalH);
         }
     }

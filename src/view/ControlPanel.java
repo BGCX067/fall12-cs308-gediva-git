@@ -22,8 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.Factory;
 import controller.Controller;
-import visualizations.BarChart;
-import visualizations.LineChart;
+import static resources.Constants.*;
 
 
 /**
@@ -33,10 +32,6 @@ import visualizations.LineChart;
  */
 @SuppressWarnings("serial")
 public class ControlPanel extends JFrame implements ScrollPaneConstants {
-    private static final String LINE = Factory.LINE_GRAPH;
-    private static final String BAR = Factory.BAR_GRAPH;
-    private static final Dimension LIST_SIZE = new Dimension(75, 150);
-    private static final Dimension FIELD_SIZE = new Dimension(6, 60);
     private ResourceBundle myResources;
     private JTextArea myTextArea;
     private DefaultListModel myListModel;
@@ -78,7 +73,7 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
     }
 
     private void addMessageDisplay () {
-        myTextArea = new JTextArea(FIELD_SIZE.height, FIELD_SIZE.width);
+        myTextArea = new JTextArea(MESSAGE_DISPLAY_SIZE.width, MESSAGE_DISPLAY_SIZE.height);
         getContentPane().add(new JScrollPane(myTextArea), BorderLayout.SOUTH);
     }
 
@@ -112,13 +107,13 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
                 else if (myResources.getString("ClearCommand").equals(ea)) {
                     clear();
                 }
-                else if (BAR.equals(ea) && myDataIsLoaded) {
-                    Factory.myVisualizations.get(Factory.BAR_GRAPH).listen(ea, cp, myController);
-                    myChartType = BAR;
+                else if (BAR_VIS_TITLE.equals(ea) && myDataIsLoaded) {
+                    Factory.myVisualizations.get(BAR_VIS_TITLE).listen(ea, cp, myController);
+                    myChartType = BAR_VIS_TITLE;
                 }
-                else if (LINE.equals(ea) && myDataIsLoaded) {
-                    Factory.myVisualizations.get(Factory.LINE_GRAPH).listen(ea, cp, myController);
-                    myChartType = LINE;
+                else if (LINE_VIS_TITLE.equals(ea) && myDataIsLoaded) {
+                    Factory.myVisualizations.get(LINE_VIS_TITLE).listen(ea, cp, myController);
+                    myChartType = LINE_VIS_TITLE;
                 }
             }
         };
@@ -140,7 +135,7 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
         mySelectionList.addListSelectionListener(myListSelectionListener);
         JScrollPane port = new JScrollPane(mySelectionList,
                 VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        port.setPreferredSize(LIST_SIZE);
+        port.setPreferredSize(SELECTION_LIST_SIZE);
         return port;
     }
 

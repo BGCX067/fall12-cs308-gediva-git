@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
+import static resources.Constants.INPUT_DELIMITERS;
 
 
 /**
@@ -18,7 +19,6 @@ import javax.swing.JFileChooser;
  */
 public class InputReader {
     private InputParser myFileParser;
-    private static final String DELIMITER = ",|\\t";     // set based on view input
 
     /**
      * Allows user to choose a file.
@@ -52,7 +52,7 @@ public class InputReader {
             Scanner scanner = new Scanner(chosenFile);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                Scanner lineScanner = new Scanner(line).useDelimiter(DELIMITER);
+                Scanner lineScanner = new Scanner(line).useDelimiter(INPUT_DELIMITERS);
                 ArrayList<String> lineArray = new ArrayList<String>();
                 while (lineScanner.hasNext()) {
                     lineArray.add(lineScanner.next());

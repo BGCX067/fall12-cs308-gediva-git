@@ -3,9 +3,8 @@ package model;
 import controller.Controller;
 import java.util.HashMap;
 import java.util.List;
-import visualizations.BarChart;
-import visualizations.LineChart;
 import visualizations.Visualization;
+import static resources.Constants.*;
 
 
 /**
@@ -50,10 +49,10 @@ public class DataManager {
      */
     public void setVisualization (String visType, String selectedRowOrCol, Controller contr) {
         Visualization myVis = Factory.myVisualizations.get(visType);
-        if (Factory.BAR_GRAPH.equals(visType)) {
+        if (BAR_VIS_TITLE.equals(visType)) {
             myVis.setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
-        else if (Factory.LINE_GRAPH.equals(visType)) {
+        else if (LINE_VIS_TITLE.equals(visType)) {
             myVis.setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
         myVis.visualize();

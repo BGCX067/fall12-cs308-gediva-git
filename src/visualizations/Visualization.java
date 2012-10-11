@@ -8,8 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import view.ControlPanel;
 import controller.Controller;
-
-
+import static resources.Constants.*;
 
 
 /**

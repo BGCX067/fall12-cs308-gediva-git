@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import model.Factory;
 import view.ControlPanel;
 import controller.Controller;
+import static resources.Constants.*;
 
 /**
  * 
@@ -15,22 +16,6 @@ import controller.Controller;
  */
 @SuppressWarnings("serial")
 public class BarChart extends Visualization {
-
-    /**
-     * @param FONT_SIZE1 font size
-     */
-    private static final int FONT_SIZE1 = 15;
-
-    /**
-     * @param FONT_SIZE1 font size
-     */
-    private static final int FONT_SIZE2 = 10;
-
-    /**
-     * @param GAP the space between graph and frame boarder
-     */
-    private static final int GAP = 10;
-
     /**
      * Empty construct for initialization
      */
@@ -50,15 +35,13 @@ public class BarChart extends Visualization {
         int clientWidth = dim.width;
         int clientHeight = dim.height;
         int barWidth = clientWidth / getValues().size();
-        Font titleFont = new Font("Book Antiqua", Font.BOLD, 15);
-        FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
-        Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
-        FontMetrics labelFontMetrics = g.getFontMetrics(labelFont);
-        int titleWidth = titleFontMetrics.stringWidth(Factory.BAR_GRAPH);
+        FontMetrics titleFontMetrics = g.getFontMetrics(CHART_TITLE_FONT);
+        FontMetrics labelFontMetrics = g.getFontMetrics(CHART_LABEL_FONT);
+        int titleWidth = titleFontMetrics.stringWidth(BAR_VIS_TITLE);
         int q = titleFontMetrics.getAscent();
         int p = (clientWidth - titleWidth) / 2;
-        g.setFont(titleFont);
-        g.drawString(Factory.BAR_GRAPH, p, q);
+        g.setFont(CHART_TITLE_FONT);
+        g.drawString(BAR_VIS_TITLE, p, q);
         int top = titleFontMetrics.getHeight()+10;
         int bottom = labelFontMetrics.getHeight()+10;
         if (getMaxValue() == getMinValue()) {
@@ -66,7 +49,7 @@ public class BarChart extends Visualization {
         }
         double scale = (clientHeight - top - bottom) / (getMaxValue() - getMinValue());
         q = clientHeight - labelFontMetrics.getDescent();
-        g.setFont(labelFont);
+        g.setFont(CHART_LABEL_FONT);
         for (int j = 0; j < getValues().size(); j++) {
             int valueP = j * barWidth + 1;
             int valueQ = top;
@@ -78,9 +61,9 @@ public class BarChart extends Visualization {
                 valueQ += (int) (getMaxValue() * scale);
                 height = -height;
             }
-            g.setColor(Color.blue);
+            g.setColor(BAR_FILL_COLOR);
             g.fillRect(valueP, valueQ, barWidth - 2, height);
-            g.setColor(Color.black);
+            g.setColor(BAR_BORDER_COLOR);
             g.drawRect(valueP, valueQ, barWidth - 2, height);
             int labelWidth = labelFontMetrics.stringWidth(getController().getAllRowTitles()[j]);
             p = j * barWidth + (barWidth - labelWidth) / 2;
