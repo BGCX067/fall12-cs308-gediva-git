@@ -1,52 +1,87 @@
 package visualizations;
 
+
+import static resources.Constants.CHART_WIDTH;
+import static resources.Constants.CHART_HEIGHT;
 import java.awt.Graphics;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import view.ControlPanel;
 import controller.Controller;
 
 
-
+/**
+ * Abstract class for items that can be displayed on
+ * the View
+ * 
+ * @author Sam Rang, Xi Du, Volodymyr, Howard
+ */
 @SuppressWarnings("serial")
 public abstract class Visualization extends JPanel {
-    private double[] myYears;
-    private String[] myCountries;
+    private String mySelectedRowOrColTitle;
+    private String myVisTitle;
+    private List<Double> myValues;
+    private double myMaxValue;
+    private double myMinValue;
     private Controller myController;
-    private HashMap<String, Double> myValues = new HashMap<String, Double>();
 
-    public Visualization (Controller c) {
-        myValues = new HashMap<String, Double>();
-        myController = c;
-        myYears = Arrays.copyOf(c.getYears(), c.getYears().length);
-        myCountries = Arrays.copyOf(c.getCountries(), c.getCountries().length);
+    public Visualization () {
+        // former contents refactored to setValues
     }
 
-    public double[] getMyYears () {
-        return myYears;
+    public void setValues (final List<Double> values, final String selectedRowOrColTitle,
+                           final Controller contr) {
+        myValues = new ArrayList<Double>(values);
+        mySelectedRowOrColTitle = selectedRowOrColTitle;
+        myMinValue = Collections.min(values);
+        myMaxValue = Collections.max(values);
+        myController = contr;
+        setVisTitle(selectedRowOrColTitle);
     }
 
-    public void setMyYears (double[] myYear) {
-        this.myYears = myYear;
+    public String getSelectedRowOrColTitle () {
+        return mySelectedRowOrColTitle;
     }
 
-    public String[] getMyCountries () {
-        return myCountries;
-    }
-
-    public void setMyCountries (String[] myCountries) {
-        this.myCountries = myCountries;
-    }
-
-    public HashMap<String, Double> getValues () {
+    public List<Double> getValues () {
         return myValues;
     }
-    public void clearValues () {
-        myValues.clear();
-        
+
+    public double getMinValue () {
+        return myMinValue;
     }
 
-    public abstract void addData (String country, double year, double value);
+    public double getMaxValue () {
+        return myMaxValue;
+    }
 
+    public String getVisTitle () {
+        return myVisTitle;
+    }
+
+    public Controller getController () {
+        return myController;
+    }
+
+    public void setVisTitle (final String visTitle) {
+        myVisTitle = visTitle;
+    }
+
+    public boolean isRowInput(){
+        return false;
+    }
+    @Override
     public abstract void paint (Graphics g);
+
+    public abstract void listen (String event, final ControlPanel p, final Controller c);
+
+    public void visualize () {
+        final JFrame frame = new JFrame(getVisTitle());
+        frame.setSize(CHART_WIDTH, CHART_HEIGHT);
+        frame.getContentPane().add(this);
+        frame.setVisible(true);
+    }
 }

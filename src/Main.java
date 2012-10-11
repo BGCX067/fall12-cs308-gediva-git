@@ -1,11 +1,24 @@
-import model.Model;
-import view.View;
+import view.ControlPanel;
 
 
-public class Main {
+/**
+ * Runs the program.
+ * 
+ * @author Howard
+ * 
+ */
+public final class Main {
+    private Main () {
+        // doesn't do anything
+    }
 
-    public static void main (String[] args) {
-        String layout = (args.length > 0) ? args[0] : "default";
-        View view = new View(layout);
+    /**
+     * Runs the program.
+     * 
+     * @param args program arguments
+     */
+    public static void main (final String[] args) {
+        final String layout = (args.length > 0) ? args[0] : "default";
+        new ControlPanel(layout);
     }
 }

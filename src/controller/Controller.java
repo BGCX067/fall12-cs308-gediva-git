@@ -1,72 +1,47 @@
 package controller;
 
-import java.util.HashMap;
-import model.Model;
-import visualizations.BarGraph;
-import visualizations.LineGraph;
-import visualizations.Visualization;
+import model.DataManager;
+
 
 /**
  * 
- * @author  Howard Chung, Volodymyr Zavidovych,Xi Du,Sam Rang
- *
+ * @author Howard, Volodymyr, Xi Du, Sam Rang
+ * 
  */
 public class Controller {
-    /**
-     * @param myModel model object
-     */
-    private Model myModel;
-    /**
-     * @param myNameMap
-     */
-    private HashMap<String, Visualization> myNameMap;
-    private BarGraph myBar;
-    private LineGraph myLine;
+    private final DataManager myDataManager;
 
     /**
      * constructor
      */
-    public Controller() {
-        myModel = new Model();
-        myNameMap = new HashMap<String, Visualization>();
-        generateMap();
+    public Controller () {
+        myDataManager = new DataManager();
     }
 
     /**
      * load file
      */
-    public final void loadFile() {
-        myModel.loadFile();
+    public final boolean loadFile () {
+        return myDataManager.loadFile();
     }
 
-    /**
-     * generate name map
-     */
-    public void generateMap () {
-        myNameMap.put("Bar Graph", myBar);
-        myNameMap.put("Line Graph", myLine);
-    }
-
-    /**
-     * @param requestedVis Visualization being updated
-     */
-    public void getData (Visualization requestedVis) {
-        myModel.updateVisualization(requestedVis);
+    public void setVisualization (final String visType, final String selectedRowOrCol) {
+        myDataManager.setVisualization(visType, selectedRowOrCol, this);
     }
 
     /**
      * 
      * @return get years
      */
-    public final double[] getYears() {
-        return myModel.getYears();
+    public final String[] getAllColTitles () {
+        return myDataManager.getAllColTitles();
     }
 
     /**
      * 
      * @return get countries
      */
-    public final String[] getCountries() {
-        return myModel.getCountries();
+    public final String[] getAllRowTitles () {
+        return myDataManager.getAllRowTitles();
     }
 }
