@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import view.ControlPanel;
 import controller.Controller;
 
+
 /**
  * 
  * @author Xi Du,Sam Rang, Volodymyr, Howard
@@ -107,11 +108,16 @@ public class LineChart extends Visualization {
      * @param c Controller
      */
     @Override
-    public void listen (final String event, final ControlPanel p, final Controller c) {
+    public void listen (String event, ControlPanel p, Controller c) {
         p.clearList();
-        for (final String country : c.getAllRowTitles()) {
+        for (String country : c.getAllRowTitles()) {
             p.addToList(country);
         }
         p.showMessage(LINE_BUTTON_ONCLICK_MESSAGE);
+    }
+
+    @Override
+    public boolean isRowInput () {
+        return true;
     }
 }
