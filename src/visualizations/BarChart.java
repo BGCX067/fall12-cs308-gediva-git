@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import view.ControlPanel;
-import controller.Controller;
 
 
 /**

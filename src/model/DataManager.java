@@ -51,12 +51,18 @@ public class DataManager {
      */
     public void setVisualization (final String visType, final String selectedRowOrCol,
                                   final Controller contr) {
+
         final Visualization myVis = Factory.myVisualizations.get(visType);
-        if (BAR_VIS_TITLE.equals(visType)) {
-            myVis.setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
+
+        HashMap<String, List<Double>> inputMap = myAllValuesByCol;
+        if (LINE_VIS_TITLE.equals(visType)) {
+            inputMap = myAllValuesByRow;
         }
-        else if (LINE_VIS_TITLE.equals(visType)) {
-            myVis.setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
+        for (String name : Factory.myVisualizations.keySet()) {
+            if (name.equals(visType)) {
+                Factory.myVisualizations.get(name).setValues(inputMap.get(selectedRowOrCol),
+                                                             selectedRowOrCol, contr);
+            }
         }
         myVis.visualize();
     }
