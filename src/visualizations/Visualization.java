@@ -1,5 +1,8 @@
 package visualizations;
 
+
+import static resources.Constants.CHART_WIDTH;
+import static resources.Constants.CHART_HEIGHT;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,13 +11,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import view.ControlPanel;
 import controller.Controller;
-import static resources.Constants.*;
 
 
 /**
  * Abstract class for items that can be displayed on
  * the View
- * @author Sam Rang, Xi Du
+ * 
+ * @author Sam Rang, Xi Du, Volodymyr, Howard
  */
 @SuppressWarnings("serial")
 public abstract class Visualization extends JPanel {
@@ -24,65 +27,57 @@ public abstract class Visualization extends JPanel {
     private double myMaxValue;
     private double myMinValue;
     private Controller myController;
-    /**
-     * @param PREF_W width of the frame
-     */
-    private static final int PREF_W = 600;
-
-    /**
-     * @param PREF_H height of the frame
-     */
-    private static final int PREF_H = 400;
 
     public Visualization () {
-        //former contents refactored to setValues
+        // former contents refactored to setValues
     }
 
-    public void setValues (List<Double> values, String selectedRowOrColTitle, Controller contr) {
+    public void setValues (final List<Double> values, final String selectedRowOrColTitle,
+                           final Controller contr) {
         myValues = new ArrayList<Double>(values);
         mySelectedRowOrColTitle = selectedRowOrColTitle;
         myMinValue = Collections.min(values);
         myMaxValue = Collections.max(values);
-        //why does this need a controller?
         myController = contr;
         setVisTitle(selectedRowOrColTitle);
     }
-    
-    public String getSelectedRowOrColTitle() {
+
+    public String getSelectedRowOrColTitle () {
         return mySelectedRowOrColTitle;
     }
-    
-    public List<Double> getValues() {
+
+    public List<Double> getValues () {
         return myValues;
     }
-    
-    public double getMinValue() {
+
+    public double getMinValue () {
         return myMinValue;
     }
-    
-    public double getMaxValue() {
+
+    public double getMaxValue () {
         return myMaxValue;
     }
-    
-    public String getVisTitle() {
+
+    public String getVisTitle () {
         return myVisTitle;
     }
-    
-    public Controller getController() {
+
+    public Controller getController () {
         return myController;
     }
 
-    public void setVisTitle(String visTitle) {
+    public void setVisTitle (final String visTitle) {
         myVisTitle = visTitle;
     }
-    
+
+    @Override
     public abstract void paint (Graphics g);
-    
-    public abstract void listen(String event, final ControlPanel p, final Controller c);
-    
-    public void visualize() {
-        JFrame frame = new JFrame(getVisTitle());
-        frame.setSize(PREF_W, PREF_H);
+
+    public abstract void listen (String event, final ControlPanel p, final Controller c);
+
+    public void visualize () {
+        final JFrame frame = new JFrame(getVisTitle());
+        frame.setSize(CHART_WIDTH, CHART_HEIGHT);
         frame.getContentPane().add(this);
         frame.setVisible(true);
     }

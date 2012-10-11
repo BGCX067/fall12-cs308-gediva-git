@@ -1,16 +1,15 @@
 package controller;
 
 import model.DataManager;
-import visualizations.Visualization;
 
 
 /**
  * 
- * @author Howard Chung, Volodymyr Zavidovych, Xi Du, Sam Rang
+ * @author Howard, Volodymyr, Xi Du, Sam Rang
  * 
  */
 public class Controller {
-    private DataManager myDataManager;
+    private final DataManager myDataManager;
 
     /**
      * constructor
@@ -26,8 +25,7 @@ public class Controller {
         return myDataManager.loadFile();
     }
 
-
-    public void setVisualization (String visType, String selectedRowOrCol) {
+    public void setVisualization (final String visType, final String selectedRowOrCol) {
         myDataManager.setVisualization(visType, selectedRowOrCol, this);
     }
 

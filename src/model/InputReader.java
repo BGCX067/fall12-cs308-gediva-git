@@ -1,14 +1,11 @@
 package model;
 
-import java.io.BufferedReader;
+import static resources.Constants.INPUT_DELIMITERS;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
-import static resources.Constants.INPUT_DELIMITERS;
 
 
 /**
@@ -27,8 +24,9 @@ public class InputReader {
      */
     public File chooseFile () {
         File returnFile = null;
-        JFileChooser chooser = new JFileChooser(System.getProperties().getProperty("user.dir"));
-        int response = chooser.showOpenDialog(null);
+        final JFileChooser chooser =
+                new JFileChooser(System.getProperties().getProperty("user.dir"));
+        final int response = chooser.showOpenDialog(null);
         if (response == JFileChooser.APPROVE_OPTION) {
             returnFile = chooser.getSelectedFile();
         }
@@ -47,13 +45,13 @@ public class InputReader {
     public boolean readFile () {
         myFileParser = new InputParser();
         boolean inputIsValid = true;
-        File chosenFile = chooseFile();
+        final File chosenFile = chooseFile();
         try {
-            Scanner scanner = new Scanner(chosenFile);
+            final Scanner scanner = new Scanner(chosenFile);
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                Scanner lineScanner = new Scanner(line).useDelimiter(INPUT_DELIMITERS);
-                ArrayList<String> lineArray = new ArrayList<String>();
+                final String line = scanner.nextLine();
+                final Scanner lineScanner = new Scanner(line).useDelimiter(INPUT_DELIMITERS);
+                final ArrayList<String> lineArray = new ArrayList<String>();
                 while (lineScanner.hasNext()) {
                     lineArray.add(lineScanner.next());
                 }
@@ -62,10 +60,10 @@ public class InputReader {
             }
             scanner.close();
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             inputIsValid = false;
         }
-        catch (NullPointerException e) {
+        catch (final NullPointerException e) {
             inputIsValid = false;
         }
         return inputIsValid;

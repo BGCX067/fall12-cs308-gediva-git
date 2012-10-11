@@ -1,10 +1,11 @@
 package model;
 
-import controller.Controller;
+import static resources.Constants.BAR_VIS_TITLE;
+import static resources.Constants.LINE_VIS_TITLE;
 import java.util.HashMap;
 import java.util.List;
 import visualizations.Visualization;
-import static resources.Constants.*;
+import controller.Controller;
 
 
 /**
@@ -14,7 +15,7 @@ import static resources.Constants.*;
  * 
  */
 public class DataManager {
-    private InputReader myFileOpener;
+    private final InputReader myFileOpener;
     private HashMap<String, List<Double>> myAllValuesByRow;
     private HashMap<String, List<Double>> myAllValuesByCol;
     private String[] myAllRowTitles;
@@ -31,7 +32,8 @@ public class DataManager {
      * loads a file and fills HashMaps.
      */
     public boolean loadFile () {
-        boolean inputIsValid = myFileOpener.readFile() && myFileOpener.getFileParser().fillData();
+        final boolean inputIsValid =
+                myFileOpener.readFile() && myFileOpener.getFileParser().fillData();
         if (inputIsValid) {
             myAllValuesByRow = myFileOpener.getFileParser().getValuesByRow();
             myAllValuesByCol = myFileOpener.getFileParser().getValuesByCol();
@@ -47,8 +49,9 @@ public class DataManager {
      * @param selectedRowOrCol
      * @param contr
      */
-    public void setVisualization (String visType, String selectedRowOrCol, Controller contr) {
-        Visualization myVis = Factory.myVisualizations.get(visType);
+    public void setVisualization (final String visType, final String selectedRowOrCol,
+                                  final Controller contr) {
+        final Visualization myVis = Factory.myVisualizations.get(visType);
         if (BAR_VIS_TITLE.equals(visType)) {
             myVis.setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
         }

@@ -1,9 +1,10 @@
 package model;
 
+import static resources.Constants.DEFAULT_INPUT_VALUE;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
 
 /**
  * Parses input lines.
@@ -12,26 +13,23 @@ import java.util.List;
  * 
  */
 public class InputParser {
-    private final static int DEFAULT_VALUE = 0;
-    private List<String[]> myInputLines = new ArrayList<String[]>();
+    private final List<String[]> myInputLines = new ArrayList<String[]>();
     private String[] myAllRowTitles;
     private String[] myAllColTitles;
-    private HashMap<String, List<Double>> myAllValuesByRow;
-    private HashMap<String, List<Double>> myAllValuesByCol;
+    private final HashMap<String, List<Double>> myAllValuesByRow;
+    private final HashMap<String, List<Double>> myAllValuesByCol;
 
     public InputParser () {
         myAllValuesByRow = new HashMap<String, List<Double>>();
         myAllValuesByCol = new HashMap<String, List<Double>>();
     }
 
-    public void parse (String[] line) {
+    public void parse (final String[] line) {
         myInputLines.add(line);
     }
 
     public boolean fillData () {
-        if(!inputIsValid()) {
-            return false;
-        }
+        if (!inputIsValid()) { return false; }
         myAllColTitles = new String[myInputLines.get(0).length - 1];
         myAllRowTitles = new String[myInputLines.size() - 1];
         processColTitles(myInputLines.get(0));
@@ -41,23 +39,21 @@ public class InputParser {
                 processValues(myInputLines.get(i));
             }
         }
-        System.out.println(myAllValuesByRow);
-        System.out.println(myAllValuesByCol);
         return true;
     }
 
     private boolean inputIsValid () {
         boolean valid = false;
-        int numOfLines = myInputLines.size();
-        if(numOfLines > 1) {
-            int sizeOfFirstLine = myInputLines.get(0).length;
+        final int numOfLines = myInputLines.size();
+        if (numOfLines > 1) {
+            final int sizeOfFirstLine = myInputLines.get(0).length;
             if (sizeOfFirstLine > 1) {
                 valid = true;
-                for (String [] line : myInputLines) {
+                for (final String[] line : myInputLines) {
                     if (line.length != sizeOfFirstLine) {
                         valid = false;
                     }
-                }  
+                }
             }
         }
         return valid;
@@ -68,10 +64,10 @@ public class InputParser {
      * 
      * @param line an array of data
      */
-    public void processColTitles (String[] line) {
+    public void processColTitles (final String[] line) {
         for (int i = 1; i < line.length; i++) {
             myAllColTitles[i - 1] = line[i];
-            List<Double> colValues = new ArrayList<Double>();
+            final List<Double> colValues = new ArrayList<Double>();
             myAllValuesByCol.put(line[i], colValues);
         }
     }
@@ -81,15 +77,15 @@ public class InputParser {
      * 
      * @param line an array of data
      */
-    public void processValues (String[] line) {
-        List<Double> rowValues = new ArrayList<Double>();
+    public void processValues (final String[] line) {
+        final List<Double> rowValues = new ArrayList<Double>();
         for (int i = 1; i < line.length; i++) {
             double val;
             try {
                 val = Double.parseDouble(line[i]);
             }
-            catch (NumberFormatException e) {
-                val = DEFAULT_VALUE;
+            catch (final NumberFormatException e) {
+                val = DEFAULT_INPUT_VALUE;
             }
             rowValues.add(val);
             myAllValuesByCol.get(myAllColTitles[i - 1]).add(val);
