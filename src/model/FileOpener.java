@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 import javax.swing.JFileChooser;
 
 
@@ -15,7 +17,7 @@ import javax.swing.JFileChooser;
  */
 public class FileOpener {
     private FileParser myFileParser = new FileParser();
-    private static final String DELIMITER = ",";     // set based on view input
+    private static final String DELIMITER = ",|\\t";     // set based on view input
 
     /**
      * Allows user to choose a file.
@@ -44,14 +46,18 @@ public class FileOpener {
     public void readFile () {
         File chosenFile = chooseFile();
         try {
-            FileReader reader = new FileReader(chosenFile);
-            BufferedReader br = new BufferedReader(reader);
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] lineArray = line.split(DELIMITER);
-                myFileParser.parse(lineArray);
+            Scanner scanner = new Scanner(chosenFile);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                Scanner lineScanner = new Scanner(line).useDelimiter(DELIMITER);
+                ArrayList<String> lineArray = new ArrayList<String>();
+                while (lineScanner.hasNext()) {
+                    lineArray.add(lineScanner.next());
+                }
+                lineScanner.close();
+                myFileParser.parse(lineArray.toArray(new String[lineArray.size()]));
             }
-            br.close();
+            scanner.close();
         }
         catch (IOException e) {
             e.printStackTrace();
