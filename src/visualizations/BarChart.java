@@ -80,6 +80,6 @@ public class BarChart extends Visualization {
         for (final String year : c.getAllColTitles()) {
             p.addToList(year);
         }
-        p.showMessage(LINE_BUTTON_ONCLICK_MESSAGE);
+        p.showMessage(BAR_BUTTON_ONCLICK_MESSAGE);
     }
 }
