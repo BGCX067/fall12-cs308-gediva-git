@@ -1,7 +1,5 @@
 package model;
 
-import static resources.Constants.BAR_VIS_TITLE;
-import static resources.Constants.LINE_VIS_TITLE;
 import java.util.HashMap;
 import java.util.List;
 import visualizations.Visualization;
@@ -54,17 +52,24 @@ public class DataManager {
 
         final Visualization myVis = Factory.myVisualizations.get(visType);
 
-        HashMap<String, List<Double>> inputMap = myAllValuesByCol;
-        if (LINE_VIS_TITLE.equals(visType)) {
-            inputMap = myAllValuesByRow;
-        }
         for (String name : Factory.myVisualizations.keySet()) {
             if (name.equals(visType)) {
-                Factory.myVisualizations.get(name).setValues(inputMap.get(selectedRowOrCol),
+                boolean isRowInput = Factory.myVisualizations.get(name).isRowInput();
+                Factory.myVisualizations.get(name).setValues(getSelectedInputData(isRowInput)
+                                                                     .get(selectedRowOrCol),
                                                              selectedRowOrCol, contr);
             }
         }
         myVis.visualize();
+    }
+
+    public HashMap<String, List<Double>> getSelectedInputData (boolean isRowInput) {
+        if (isRowInput) {
+            return myAllValuesByRow;
+        }
+        else {
+            return myAllValuesByCol;
+        }
     }
 
     /**

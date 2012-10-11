@@ -70,6 +70,9 @@ public abstract class Visualization extends JPanel {
         myVisTitle = visTitle;
     }
 
+    public boolean isRowInput(){
+        return false;
+    }
     @Override
     public abstract void paint (Graphics g);
 

@@ -4,6 +4,7 @@ import static resources.Constants.*;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import controller.Controller;
 import view.ControlPanel;
 
 
@@ -66,6 +67,9 @@ public class BarChart extends Visualization {
         }
     }
 
+    public boolean isRowInput(){
+        return true;
+    }
     /**
      * Listening behavior for BarGraph
      * 
