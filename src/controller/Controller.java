@@ -20,6 +20,8 @@ public class Controller {
      * @param myNameMap
      */
     private HashMap<String, Visualization> myNameMap;
+    private BarGraph myBar;
+    private LineGraph myLine;
 
     /**
      * constructor
@@ -36,27 +38,20 @@ public class Controller {
     public final void loadFile() {
         myModel.loadFile();
     }
-    
+
     /**
      * generate name map
      */
-    public final void generateMap() {
-        myNameMap.put("Bar Graph", new BarGraph());
-        myNameMap.put("Line Graph", new LineGraph());
+    public void generateMap () {
+        myNameMap.put("Bar Graph", myBar);
+        myNameMap.put("Line Graph", myLine);
     }
 
     /**
-     * 
-     * @param visType graph type
-     * @param countries countries
-     * @param years years
-     * @return return Visualization class object
+     * @param requestedVis Visualization being updated
      */
-    public final Visualization getData(final String visType,
-            final String[] countries, final double[] years) {
-        Visualization requestedVis =  myNameMap.get(visType);
-        myModel.updateVisualization(requestedVis, countries, years);
-        return requestedVis;
+    public void getData (Visualization requestedVis) {
+        myModel.updateVisualization(requestedVis);
     }
 
     /**
