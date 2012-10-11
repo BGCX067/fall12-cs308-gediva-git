@@ -22,9 +22,8 @@ public class Controller {
     /**
      * load file
      */
-    public final void loadFile () {
-        // pass in a delimiter character here
-        myModel.loadFile();
+    public final boolean loadFile () {
+        return myModel.loadFile();
     }
 
 
@@ -37,7 +36,7 @@ public class Controller {
      * @return get years
      */
     public final String[] getAllYears () {
-        return myModel.getAllYears();
+        return myModel.getAllColTitles();
     }
 
     /**
@@ -45,6 +44,6 @@ public class Controller {
      * @return get countries
      */
     public final String[] getAllCountries () {
-        return myModel.getAllCountries();
+        return myModel.getAllRowTitles();
     }
 }

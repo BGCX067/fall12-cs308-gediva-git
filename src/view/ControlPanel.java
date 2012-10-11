@@ -37,7 +37,6 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private static final String LOAD_COMMAND = "LoadCommand";
     private static final String LINE = Constants.LINE_GRAPH;
     private static final String BAR = Constants.BAR_GRAPH;
-    private static final String[] DELIMITER_LIST = {"Tab", "Space", "Comma"};
     private static final Dimension LIST_SIZE = new Dimension(75, 150);
     private static final Dimension FIELD_SIZE = new Dimension(3, 30);
     private ResourceBundle myResources;
@@ -78,9 +77,6 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      */
     public void addToList(String add) {
         myListModel.addElement(add);
-    }
-
-    private void addDelimiterList () {
     }
 
     private void addMessageDisplay () {
@@ -219,9 +215,13 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      * Loads data into the model.
      */
     public void load () {
-        myDataLoaded = true;
-        myController.loadFile();
-        showMessage("Data loaded. Select visualization.");
+        if(myController.loadFile()) {
+            myDataLoaded = true;
+            showMessage("Data loaded. Select visualization.");
+        }
+        else {
+            showMessage("Invalid file. Upload a tab or comma separated table.");
+        }
     }
 
 }

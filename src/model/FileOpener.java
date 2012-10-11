@@ -16,7 +16,7 @@ import javax.swing.JFileChooser;
  * 
  */
 public class FileOpener {
-    private FileParser myFileParser = new FileParser();
+    private FileParser myFileParser;
     private static final String DELIMITER = ",|\\t";     // set based on view input
 
     /**
@@ -43,7 +43,9 @@ public class FileOpener {
      * 
      * @return
      */
-    public void readFile () {
+    public boolean readFile () {
+        myFileParser = new FileParser();
+        boolean inputIsValid = true;
         File chosenFile = chooseFile();
         try {
             Scanner scanner = new Scanner(chosenFile);
@@ -61,6 +63,8 @@ public class FileOpener {
         }
         catch (IOException e) {
             e.printStackTrace();
+            inputIsValid = false;
         }
+        return inputIsValid;
     }
 }

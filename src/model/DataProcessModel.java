@@ -19,6 +19,8 @@ public class DataProcessModel {
     private FileOpener myFileOpener;
     private HashMap<String, List<Double>> myAllValuesByRow;
     private HashMap<String, List<Double>> myAllValuesByCol;
+    private String[] myAllRowTitles;
+    private String[] myAllColTitles;
 
     /**
      * Creates a new model.
@@ -30,11 +32,15 @@ public class DataProcessModel {
     /**
      * loads a file and fills HashMaps.
      */
-    public void loadFile () {
-        myFileOpener.readFile();
-        myFileOpener.getFileParser().fillData();
-        myAllValuesByRow = myFileOpener.getFileParser().getValuesByRow();
-        myAllValuesByCol = myFileOpener.getFileParser().getValuesByCol();
+    public boolean loadFile () {
+        boolean inputIsValid = myFileOpener.readFile() && myFileOpener.getFileParser().fillData();
+        if (inputIsValid) {
+            myAllValuesByRow = myFileOpener.getFileParser().getValuesByRow();
+            myAllValuesByCol = myFileOpener.getFileParser().getValuesByCol();
+            myAllRowTitles = myFileOpener.getFileParser().getAllRowTitles();
+            myAllColTitles = myFileOpener.getFileParser().getAllColTitles();
+        }
+        return inputIsValid;
     }
 
     /**
@@ -44,16 +50,6 @@ public class DataProcessModel {
      * @param contr
      */
     public void setVisualization (String visType, String selectedRowOrCol, Controller contr) {
-        /*
-         * for (String name : Constants.myNameMap.keySet()) {
-         * if (name.equals(visType)) {
-         * Constants.myNameMap.get(name).setValues(myAllValuesByCol.get(
-         * selectedRowOrCol),
-         * selectedRowOrCol, contr);
-         * }
-         * }
-         */
-
         Visualization myVis = Constants.myNameMap.get(visType);
         if (Constants.BAR_GRAPH.equals(visType)) {
             myVis.setValues(myAllValuesByCol.get(selectedRowOrCol), selectedRowOrCol, contr);
@@ -62,7 +58,6 @@ public class DataProcessModel {
             myVis.setValues(myAllValuesByRow.get(selectedRowOrCol), selectedRowOrCol, contr);
         }
         myVis.visualize();
-
     }
 
     /**
@@ -71,8 +66,8 @@ public class DataProcessModel {
      * @return
      */
 
-    public String[] getAllYears () {
-        return myFileOpener.getFileParser().getAllYears();
+    public String[] getAllColTitles () {
+        return myAllColTitles;
     }
 
     /**
@@ -80,7 +75,7 @@ public class DataProcessModel {
      * 
      * @return
      */
-    public String[] getAllCountries () {
-        return myFileOpener.getFileParser().getAllCountries();
+    public String[] getAllRowTitles () {
+        return myAllRowTitles;
     }
 }

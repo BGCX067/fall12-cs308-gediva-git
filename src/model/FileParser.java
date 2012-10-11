@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public class FileParser {
-    List<String[]> lines = new ArrayList<String[]>();
+    private List<String[]> myInputLines = new ArrayList<String[]>();
     private String[] myAllRowTitles;
     private String[] myAllColTitles;
     private HashMap<String, List<Double>> myAllValuesByRow;
@@ -19,22 +19,42 @@ public class FileParser {
     }
 
     public void parse (String[] line) {
-        lines.add(line);
-
+        myInputLines.add(line);
     }
 
-    public void fillData () {
-        myAllColTitles = new String[lines.get(0).length - 1];
-        myAllRowTitles = new String[lines.size() - 1];
-        processColTitles(lines.get(0));
-        for (int i = 0; i < lines.size(); i++) {
+    public boolean fillData () {
+        if(!inputIsValid()) {
+            return false;
+        }
+        myAllColTitles = new String[myInputLines.get(0).length - 1];
+        myAllRowTitles = new String[myInputLines.size() - 1];
+        processColTitles(myInputLines.get(0));
+        for (int i = 0; i < myInputLines.size(); i++) {
             if (i != 0) {
-                myAllRowTitles[i - 1] = lines.get(i)[0];
-                processValues(lines.get(i));
+                myAllRowTitles[i - 1] = myInputLines.get(i)[0];
+                processValues(myInputLines.get(i));
             }
         }
         System.out.println(myAllValuesByRow);
         System.out.println(myAllValuesByCol);
+        return true;
+    }
+
+    private boolean inputIsValid () {
+        boolean valid = false;
+        int numOfLines = myInputLines.size();
+        if(numOfLines > 1) {
+            int sizeOfFirstLine = myInputLines.get(0).length;
+            if (sizeOfFirstLine > 1) {
+                valid = true;
+                for (String [] line : myInputLines) {
+                    if (line.length != sizeOfFirstLine) {
+                        valid = false;
+                    }
+                }  
+            }
+        }
+        return valid;
     }
 
     /**
@@ -70,7 +90,7 @@ public class FileParser {
      * 
      * @return
      */
-    public String[] getAllCountries () {
+    public String[] getAllRowTitles () {
         return myAllRowTitles;
     }
 
@@ -79,7 +99,7 @@ public class FileParser {
      * 
      * @return
      */
-    public String[] getAllYears () {
+    public String[] getAllColTitles () {
         return myAllColTitles;
     }
 
