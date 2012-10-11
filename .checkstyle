@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
+<<<<<<< HEAD
   <fileset name="all" enabled="true" check-config-name="Sun Checks" local="false">
     <file-match-pattern match-pattern="." include-pattern="true"/>
+=======
+  <fileset name="all" enabled="true" check-config-name="CS308newer" local="false">
+    <file-match-pattern match-pattern=".*" include-pattern="true"/>
+>>>>>>> 3d32fe4103b3781ae5e64f3858a6f982e13002ac
   </fileset>
 </fileset-config>

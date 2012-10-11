@@ -1,10 +1,9 @@
 package view;
 
-import static resources.Constants.*;
+import controller.Controller;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -21,7 +20,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.Factory;
-import controller.Controller;
+import static resources.Constants.*;
 
 
 /**
@@ -33,8 +32,8 @@ import controller.Controller;
 @SuppressWarnings("serial")
 public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private JTextArea myTextArea;
-    private final DefaultListModel<String> myListModel;
-    private JList<String> mySelectionList;
+    private DefaultListModel myListModel;
+    private JList mySelectionList;
     private ActionListener myActionListener;
     private boolean myDataIsLoaded;
     private final Controller myController;
@@ -45,16 +44,14 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      * Used to determine interaction with user and
      * passes that onto the controller to determine
      * what the model does.
-     * 
-     * @param layout Preferred resource document
      */
-    public ControlPanel (final String layout) {
+    public ControlPanel () {
         myController = new Controller();
         myDataIsLoaded = false;
         createListeners(this);
         setTitle(CONTROL_PANEL_TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myListModel = new DefaultListModel<String>();
+        myListModel = new DefaultListModel();
         addMessageDisplay();
         addFileControlButtons();
         addVisualizationButtons();
@@ -68,7 +65,7 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      * 
      * @param add Item to be added
      */
-    public void addToList (final String add) {
+    public void addToList (String add) {
         myListModel.addElement(add);
     }
 
@@ -78,14 +75,14 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
     }
 
     private void addFileControlButtons () {
-        final JPanel panel = new JPanel();
+        JPanel panel = new JPanel();
         panel.add(makeButton(LOAD_BUTTON_TEXT));
         panel.add(makeButton(CLEAR_BUTTON_TEXT));
         getContentPane().add(panel, BorderLayout.NORTH);
     }
 
     private void addVisualizationButtons () {
-        final JPanel panel = new JPanel();
+        JPanel panel = new JPanel();
         panel.add(makeButton(BAR_VIS_TITLE));
         panel.add(makeButton(LINE_VIS_TITLE));
         panel.add(makeList(myListModel));
@@ -99,8 +96,8 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private void createListeners (final ControlPanel cp) {
         myActionListener = new ActionListener() {
             @Override
-            public void actionPerformed (final ActionEvent e) {
-                final String ea = e.getActionCommand();
+            public void actionPerformed (ActionEvent e) {
+                String ea = e.getActionCommand();
                 if (LOAD_BUTTON_TEXT.equals(ea)) {
                     load();
                 }
@@ -120,9 +117,9 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
         // listener for JList events
         myListSelectionListener = new ListSelectionListener() {
             @Override
-            public void valueChanged (final ListSelectionEvent e) {
+            public void valueChanged (ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting() && mySelectionList.getSelectedIndex() >= 0) {
-                    final String item =
+                    String item =
                             (String) myListModel.get(mySelectionList.getSelectedIndex());
                     myController.setVisualization(myChartType, item);
                     showMessage(CHART_CREATION_MESSAGE + myChartType);
@@ -131,30 +128,30 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
         };
     }
 
-    private JScrollPane makeList (final DefaultListModel<String> model) {
-        mySelectionList = new JList<String>(model);
+    private JScrollPane makeList (DefaultListModel model) {
+        mySelectionList = new JList(model);
         mySelectionList.addListSelectionListener(myListSelectionListener);
-        final JScrollPane port =
+        JScrollPane port =
                 new JScrollPane(mySelectionList, VERTICAL_SCROLLBAR_AS_NEEDED,
                                 HORIZONTAL_SCROLLBAR_AS_NEEDED);
         port.setPreferredSize(SELECTION_LIST_SIZE);
         return port;
     }
 
-    private JComponent makeButton (final String buttonName) {
-        final JButton button = new JButton(buttonName);
+    private JComponent makeButton (String buttonName) {
+        JButton button = new JButton(buttonName);
         button.addActionListener(myActionListener);
         return button;
     }
 
     private void addMenu () {
-        final JMenuBar bar = new JMenuBar();
+        JMenuBar bar = new JMenuBar();
         bar.add(makeFileMenu());
         setJMenuBar(bar);
     }
 
     private JMenu makeFileMenu () {
-        final JMenu fileMenu = new JMenu(FILE_MENU_TEXT);
+        JMenu fileMenu = new JMenu(FILE_MENU_TEXT);
         fileMenu.add(new AbstractAction(LOAD_BUTTON_TEXT) {
             @Override
             public void actionPerformed (final ActionEvent e) {
@@ -175,7 +172,7 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      * 
      * @param message Error message
      */
-    public void showError (final String message) {
+    public void showError (String message) {
         JOptionPane.showMessageDialog(this, message, ERROR_DIALOG_TITLE, JOptionPane.ERROR_MESSAGE);
     }
 
@@ -184,7 +181,7 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      * 
      * @param message Printed message
      */
-    public void showMessage (final String message) {
+    public void showMessage (String message) {
         myTextArea.append(message + "\n");
         myTextArea.setCaretPosition(myTextArea.getText().length());
     }

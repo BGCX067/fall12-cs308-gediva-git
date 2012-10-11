@@ -87,8 +87,8 @@ public class BarChart extends Visualization {
 /**
  * @return true if row input
  */
-    public final boolean isRowInput() {
-        return true;
+    public boolean isRowInput() {
+        return false;
     }
 
 /**
@@ -98,10 +98,14 @@ public class BarChart extends Visualization {
 * @param c Controller
 */
     @Override
+<<<<<<< HEAD
     public final void listen(final String event,
             final ControlPanel p, final Controller c) {
+=======
+    public void listen(String event, ControlPanel p, Controller c) {
+>>>>>>> 3d32fe4103b3781ae5e64f3858a6f982e13002ac
         p.clearList();
-        for (final String year : c.getAllColTitles()) {
+        for (String year : c.getAllColTitles()) {
             p.addToList(year);
         }
         p.showMessage(BAR_BUTTON_ONCLICK_MESSAGE);
