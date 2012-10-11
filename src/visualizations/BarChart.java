@@ -86,7 +86,7 @@ public class BarChart extends Visualization {
  * @return true if row input
  */
     public final boolean isRowInput() {
-        return true;
+        return false;
     }
 
 /**

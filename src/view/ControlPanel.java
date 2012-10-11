@@ -33,7 +33,7 @@ import controller.Controller;
 @SuppressWarnings("serial")
 public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private JTextArea myTextArea;
-    private final DefaultListModel<String> myListModel;
+    private final DefaultListModel myListModel;
     private JList mySelectionList;
     private ActionListener myActionListener;
     private boolean myDataIsLoaded;

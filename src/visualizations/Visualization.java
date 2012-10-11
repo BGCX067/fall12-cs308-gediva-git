@@ -32,8 +32,8 @@ public abstract class Visualization extends JPanel {
         // former contents refactored to setValues
     }
 
-    public void setValues (final List<Double> values, final String selectedRowOrColTitle,
-                           final Controller contr) {
+    public void setValues (List<Double> values, String selectedRowOrColTitle,
+                           Controller contr) {
         myValues = new ArrayList<Double>(values);
         mySelectedRowOrColTitle = selectedRowOrColTitle;
         myMinValue = Collections.min(values);
@@ -70,9 +70,8 @@ public abstract class Visualization extends JPanel {
         myVisTitle = visTitle;
     }
 
-    public boolean isRowInput(){
-        return false;
-    }
+    public abstract boolean isRowInput();
+
     @Override
     public abstract void paint (Graphics g);
 

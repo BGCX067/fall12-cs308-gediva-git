@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import view.ControlPanel;
 import controller.Controller;
 
+
 /**
  * 
  * @author Xi Du,Sam Rang, Volodymyr, Howard
@@ -113,5 +114,10 @@ public class LineChart extends Visualization {
             p.addToList(country);
         }
         p.showMessage(LINE_BUTTON_ONCLICK_MESSAGE);
+    }
+
+    @Override
+    public boolean isRowInput () {
+        return true;
     }
 }
