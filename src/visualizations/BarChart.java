@@ -1,5 +1,6 @@
 package visualizations;
 
+//import constants
 import static resources.Constants.BAR_BORDER_COLOR;
 import static resources.Constants.BAR_BUTTON_ONCLICK_MESSAGE;
 import static resources.Constants.BAR_FILL_COLOR;
@@ -10,7 +11,7 @@ import static resources.Constants.BAR_VIS_TITLE;
 
 import java.awt.Dimension;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import controller.Controller;
 import view.ControlPanel;
 
@@ -22,9 +23,10 @@ import view.ControlPanel;
  */
 @SuppressWarnings("serial")
 public class BarChart extends Visualization {
-    /**
-     * Empty construct for initialization
-     */
+
+/**
+ * Empty construct for initialization.
+ */
     public BarChart() {
     }
 
@@ -32,7 +34,7 @@ public class BarChart extends Visualization {
     /**
      * @param g Graphics
      */
-    public void paint(final Graphics g) {
+    public final void paint(final Graphics2D g) {
         super.paintComponent(g);
         if (getValues() == null || getValues().size() == 0) { return; }
         final Dimension dim = getSize();
@@ -90,13 +92,13 @@ public class BarChart extends Visualization {
     }
 
 /**
-* Listening behavior for BarGraph
+* Listening behavior for BarGraph.
 * @param event ActionEvent
 * @param p Control Panel
 * @param c Controller
 */
     @Override
-    public void listen(final String event,
+    public final void listen(final String event,
             final ControlPanel p, final Controller c) {
         p.clearList();
         for (final String year : c.getAllColTitles()) {

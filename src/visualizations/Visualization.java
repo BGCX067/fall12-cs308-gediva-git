@@ -4,6 +4,7 @@ package visualizations;
 import static resources.Constants.CHART_WIDTH;
 import static resources.Constants.CHART_HEIGHT;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,8 +74,8 @@ public abstract class Visualization extends JPanel {
     public boolean isRowInput(){
         return false;
     }
-    @Override
-    public abstract void paint (Graphics g);
+    
+    public abstract void paint (Graphics2D g);
 
     public abstract void listen (String event, final ControlPanel p, final Controller c);
 
