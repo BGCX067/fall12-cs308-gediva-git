@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 import javax.swing.JFrame;
-import resources.Constants;
+import model.Factory;
 import view.ControlPanel;
 import controller.Controller;
 
@@ -17,7 +17,7 @@ import controller.Controller;
  *
  */
 @SuppressWarnings("serial")
-public class LineGraph extends Visualization {
+public class LineChart extends Visualization {
 
     /**
      * @param BORDER_GAP gap between graph and frame boarder
@@ -52,17 +52,8 @@ public class LineGraph extends Visualization {
     /**
      * Initiallizes Line Graph
      */
-    public LineGraph () {
+    public LineChart () {
 
-    }
-
-    /**
-     * Sets the title for the graph
-     * @param selectedRowOrColTitle the selected data set
-     * being displayed
-     */
-    public void setTitle (String selectedRowOrColTitle) {
-        setVisTitle(Constants.LINE_GRAPH + " for " + selectedRowOrColTitle);
     }
 
     @Override
@@ -135,7 +126,7 @@ public class LineGraph extends Visualization {
      * @param p Control Panel
      * @param c Controller
      */
-    public static void listen(String event, final ControlPanel p, final Controller c) {
+    public void listen(String event, final ControlPanel p, final Controller c) {
         p.clearList();
         for (String country : c.getAllRowTitles()) {
             p.addToList(country);

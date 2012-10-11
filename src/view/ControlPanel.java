@@ -20,10 +20,10 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import resources.Constants;
+import model.Factory;
 import controller.Controller;
-import visualizations.BarGraph;
-import visualizations.LineGraph;
+import visualizations.BarChart;
+import visualizations.LineChart;
 
 
 /**
@@ -33,20 +33,18 @@ import visualizations.LineGraph;
  */
 @SuppressWarnings("serial")
 public class ControlPanel extends JFrame implements ScrollPaneConstants {
-    private static final String CLEAR_COMMAND = "ClearCommand";
-    private static final String LOAD_COMMAND = "LoadCommand";
-    private static final String LINE = Constants.LINE_GRAPH;
-    private static final String BAR = Constants.BAR_GRAPH;
+    private static final String LINE = Factory.LINE_GRAPH;
+    private static final String BAR = Factory.BAR_GRAPH;
     private static final Dimension LIST_SIZE = new Dimension(75, 150);
-    private static final Dimension FIELD_SIZE = new Dimension(3, 30);
+    private static final Dimension FIELD_SIZE = new Dimension(6, 60);
     private ResourceBundle myResources;
     private JTextArea myTextArea;
     private DefaultListModel myListModel;
-    private JList myJList;
+    private JList mySelectionList;
     private ActionListener myActionListener;
-    private boolean myDataLoaded;
+    private boolean myDataIsLoaded;
     private Controller myController;
-    private String myGraphType;
+    private String myChartType;
     private ListSelectionListener myListSelectionListener;
 
     /**
@@ -58,7 +56,7 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
     public ControlPanel (String layout) {
         myController = new Controller();
         myResources = ResourceBundle.getBundle("resources." + layout);
-        myDataLoaded = false;
+        myDataIsLoaded = false;
         createListeners(this);
         setTitle("Control Panel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,15 +84,15 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
 
     private void addFileControlButtons () {
         JPanel panel = new JPanel();
-        panel.add(makeButton(LOAD_COMMAND));
-        panel.add(makeButton(CLEAR_COMMAND));
+        panel.add(makeButton(myResources.getString("LoadCommand")));
+        panel.add(makeButton(myResources.getString("ClearCommand")));
         getContentPane().add(panel, BorderLayout.NORTH);
     }
 
     private void addVisualizationButtons () {
         JPanel panel = new JPanel();
-        panel.add(makeButton("BarGraph"));
-        panel.add(makeButton("LineGraph"));
+        panel.add(makeButton(myResources.getString("BarChart")));
+        panel.add(makeButton(myResources.getString("LineChart")));
         panel.add(makeList(myListModel));
         getContentPane().add(panel, BorderLayout.CENTER);
     }
@@ -108,19 +106,19 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
             @Override
             public void actionPerformed (ActionEvent e) {
                 String ea = e.getActionCommand();
-                if ("Load".equals(ea)) {
+                if (myResources.getString("LoadCommand").equals(ea)) {
                     load();
                 }
-                else if ("Clear".equals(ea)) {
+                else if (myResources.getString("ClearCommand").equals(ea)) {
                     clear();
                 }
-                else if (BAR.equals(ea) && myDataLoaded) {
-                    BarGraph.listen(ea, cp, myController);
-                    myGraphType = BAR;
+                else if (BAR.equals(ea) && myDataIsLoaded) {
+                    Factory.myVisualizations.get(Factory.BAR_GRAPH).listen(ea, cp, myController);
+                    myChartType = BAR;
                 }
-                else if (LINE.equals(ea) && myDataLoaded) {
-                    LineGraph.listen(ea, cp, myController);
-                    myGraphType = LINE;
+                else if (LINE.equals(ea) && myDataIsLoaded) {
+                    Factory.myVisualizations.get(Factory.LINE_GRAPH).listen(ea, cp, myController);
+                    myChartType = LINE;
                 }
             }
         };
@@ -128,26 +126,26 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
         myListSelectionListener = new ListSelectionListener() {
             @Override
             public void valueChanged (ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting() && myJList.getSelectedIndex() >= 0) {
-                    String item = (String) myListModel.get(myJList.getSelectedIndex());
-                    myController.setVisualization(myGraphType, item);
-                    showMessage("Making a " + myGraphType);
+                if (!e.getValueIsAdjusting() && mySelectionList.getSelectedIndex() >= 0) {
+                    String item = (String) myListModel.get(mySelectionList.getSelectedIndex());
+                    myController.setVisualization(myChartType, item);
+                    showMessage("Making a " + myChartType);
                 }
             }
         };
     }
 
     private JScrollPane makeList (DefaultListModel model) {
-        myJList = new JList(model);
-        myJList.addListSelectionListener(myListSelectionListener);
-        JScrollPane port = new JScrollPane(myJList,
+        mySelectionList = new JList(model);
+        mySelectionList.addListSelectionListener(myListSelectionListener);
+        JScrollPane port = new JScrollPane(mySelectionList,
                 VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
         port.setPreferredSize(LIST_SIZE);
         return port;
     }
 
     private JComponent makeButton (String buttonName) {
-        JButton button = new JButton(myResources.getString(buttonName));
+        JButton button = new JButton(buttonName);
         button.addActionListener(myActionListener);
         return button;
     }
@@ -160,13 +158,13 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
 
     private JMenu makeFileMenu () {
         JMenu fileMenu = new JMenu(myResources.getString("FileMenu"));
-        fileMenu.add(new AbstractAction(myResources.getString(LOAD_COMMAND)) {
+        fileMenu.add(new AbstractAction(myResources.getString("LoadCommand")) {
             @Override
             public void actionPerformed (ActionEvent e) {
                 load();
             }
         });
-        fileMenu.add(new AbstractAction(myResources.getString(CLEAR_COMMAND)) {
+        fileMenu.add(new AbstractAction(myResources.getString("ClearCommand")) {
             @Override
             public void actionPerformed (ActionEvent e) {
                 clear();
@@ -205,10 +203,10 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      * Resets the board.
      */
     public void clear () {
-        myDataLoaded = false;
+        myDataIsLoaded = false;
         myTextArea.setText("");
         myListModel.clear();
-        showMessage("Data cleared.");
+        showMessage(myResources.getString("DataClearedMessage"));
     }
 
     /**
@@ -216,11 +214,11 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
      */
     public void load () {
         if(myController.loadFile()) {
-            myDataLoaded = true;
-            showMessage("Data loaded. Select visualization.");
+            myDataIsLoaded = true;
+            showMessage(myResources.getString("DataLoadedMessage"));
         }
         else {
-            showMessage("Invalid file. Upload a tab or comma separated table.");
+            showError(myResources.getString("InvalidFileMessage"));
         }
     }
 

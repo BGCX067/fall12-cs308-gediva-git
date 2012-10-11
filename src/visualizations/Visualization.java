@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import view.ControlPanel;
 import controller.Controller;
 
 
@@ -38,21 +39,6 @@ public abstract class Visualization extends JPanel {
         //former contents refactored to setValues
     }
 
-    /** 
-     * alternate constructor.
-     * @param values 
-     * @param selectedRowOrColTitle
-     * @param contr
-     */
-    public Visualization (List<Double> values, String selectedRowOrColTitle, Controller contr) {
-        myValues = new ArrayList<Double>(values);
-        mySelectedRowOrColTitle = selectedRowOrColTitle;
-        myMinValue = Collections.min(values);
-        myMaxValue = Collections.max(values);
-        //why does this need a controller?
-        myController = contr;
-    }
-
     public void setValues (List<Double> values, String selectedRowOrColTitle, Controller contr) {
         myValues = new ArrayList<Double>(values);
         mySelectedRowOrColTitle = selectedRowOrColTitle;
@@ -60,6 +46,7 @@ public abstract class Visualization extends JPanel {
         myMaxValue = Collections.max(values);
         //why does this need a controller?
         myController = contr;
+        setVisTitle(selectedRowOrColTitle);
     }
     
     public String getSelectedRowOrColTitle() {
@@ -85,16 +72,19 @@ public abstract class Visualization extends JPanel {
     public Controller getController() {
         return myController;
     }
-    
+
     public void setVisTitle(String visTitle) {
         myVisTitle = visTitle;
     }
     
     public abstract void paint (Graphics g);
     
+    public abstract void listen(String event, final ControlPanel p, final Controller c);
+    
     public void visualize() {
         JFrame frame = new JFrame(getVisTitle());
         frame.setSize(PREF_W, PREF_H);
         frame.getContentPane().add(this);
         frame.setVisible(true);
-    }}
+    }
+}

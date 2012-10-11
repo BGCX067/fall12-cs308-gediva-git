@@ -2,6 +2,7 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,7 +63,9 @@ public class InputReader {
             scanner.close();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            inputIsValid = false;
+        }
+        catch (NullPointerException e) {
             inputIsValid = false;
         }
         return inputIsValid;

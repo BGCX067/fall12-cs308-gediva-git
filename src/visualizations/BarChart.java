@@ -4,7 +4,7 @@ package visualizations;
 import java.awt.*;
 import java.util.List;
 import javax.swing.JFrame;
-import resources.Constants;
+import model.Factory;
 import view.ControlPanel;
 import controller.Controller;
 
@@ -14,7 +14,7 @@ import controller.Controller;
  *
  */
 @SuppressWarnings("serial")
-public class BarGraph extends Visualization {
+public class BarChart extends Visualization {
 
     /**
      * @param FONT_SIZE1 font size
@@ -34,16 +34,7 @@ public class BarGraph extends Visualization {
     /**
      * Empty construct for initialization
      */
-    public BarGraph () {
-
-    }
-
-    /**
-     * Sets the title for the JFrame of the graph
-     * @param selectedRowOrColTitle
-     */
-    public void setTitle (String selectedRowOrColTitle) {
-        setVisTitle(Constants.BAR_GRAPH + " for " + selectedRowOrColTitle);
+    public BarChart () {
     }
 
     @Override
@@ -63,11 +54,11 @@ public class BarGraph extends Visualization {
         FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
         Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
         FontMetrics labelFontMetrics = g.getFontMetrics(labelFont);
-        int titleWidth = titleFontMetrics.stringWidth(Constants.BAR_GRAPH);
+        int titleWidth = titleFontMetrics.stringWidth(Factory.BAR_GRAPH);
         int q = titleFontMetrics.getAscent();
         int p = (clientWidth - titleWidth) / 2;
         g.setFont(titleFont);
-        g.drawString(Constants.BAR_GRAPH, p, q);
+        g.drawString(Factory.BAR_GRAPH, p, q);
         int top = titleFontMetrics.getHeight()+10;
         int bottom = labelFontMetrics.getHeight()+10;
         if (getMaxValue() == getMinValue()) {
@@ -103,7 +94,7 @@ public class BarGraph extends Visualization {
      * @param p Control Panel
      * @param c Controller 
      */
-    public static void listen(String event, final ControlPanel p, final Controller c) {
+    public void listen(String event, final ControlPanel p, final Controller c) {
         p.clearList();
         for (String year : c.getAllColTitles()) {
             p.addToList(year);
