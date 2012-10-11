@@ -4,14 +4,17 @@ package visualizations;
 import static resources.Constants.BAR_BORDER_COLOR;
 import static resources.Constants.BAR_BUTTON_ONCLICK_MESSAGE;
 import static resources.Constants.BAR_FILL_COLOR;
+import static resources.Constants.CHART_HEIGHT;
 import static resources.Constants.CHART_LABEL_FONT;
 import static resources.Constants.CHART_TITLE_FONT;
 import static resources.Constants.BAR_VIS_TITLE;
+import static resources.Constants.CHART_WIDTH;
 
 
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import javax.swing.JFrame;
 import controller.Controller;
 import view.ControlPanel;
 
@@ -28,6 +31,7 @@ public class BarChart extends Visualization {
  * Empty construct for initialization.
  */
     public BarChart() {
+        System.out.println(getValues());
     }
 
     @Override
@@ -50,20 +54,20 @@ public class BarChart extends Visualization {
         g.drawString(BAR_VIS_TITLE, p, q);
         final int top = titleFontMetrics.getHeight();
         final int bottom = labelFontMetrics.getHeight();
-        if (getMaxValue() == getMinValue()) { return; }
+        if (maxValue == minValue) { return; }
         final double scale = (clientHeight - top - bottom)
-                / (getMaxValue() - getMinValue());
+                / (maxValue - minValue);
         q = clientHeight - labelFontMetrics.getDescent();
         g.setFont(CHART_LABEL_FONT);
-        for (int j = 0; j < getValues().size(); j++) {
+        for (int j = 0; j < paintArray.length; j++) {
             final int valueP = j * barWidth + 1;
             int valueQ = top;
-            int height = (int) (getValues().get(j) * scale);
-            if (getValues().get(j) >= 0) {
-                valueQ += (int) ((getMaxValue() - getValues().get(j)) * scale);
+            int height = (int) (paintArray[j] * scale);
+            if (paintArray[j] >= 0) {
+                valueQ += (int) ((maxValue - paintArray[j]) * scale);
             }
             else {
-                valueQ += (int) (getMaxValue() * scale);
+                valueQ += (int) (maxValue * scale);
                 height = -height;
             }
             g.setColor(BAR_FILL_COLOR);
@@ -98,16 +102,13 @@ public class BarChart extends Visualization {
 * @param c Controller
 */
     @Override
-<<<<<<< HEAD
-    public final void listen(final String event,
-            final ControlPanel p, final Controller c) {
-=======
+
     public void listen(String event, ControlPanel p, Controller c) {
->>>>>>> 3d32fe4103b3781ae5e64f3858a6f982e13002ac
         p.clearList();
         for (String year : c.getAllColTitles()) {
             p.addToList(year);
         }
         p.showMessage(BAR_BUTTON_ONCLICK_MESSAGE);
     }
+
 }

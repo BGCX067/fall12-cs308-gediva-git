@@ -1,6 +1,8 @@
 package visualizations;
 
 //import constants
+import static resources.Constants.CHART_HEIGHT;
+import static resources.Constants.CHART_WIDTH;
 import static resources.Constants.GAP_BETWEEN_CHART_AND_FRAME;
 import static resources.Constants.Y_AXIS_NUBMER_OF_MARKS;
 import static resources.Constants.LINE_POINT_DIAMETER;
@@ -14,6 +16,7 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import view.ControlPanel;
 import controller.Controller;
 
@@ -29,7 +32,9 @@ public class LineChart extends Visualization {
     /**
      * Initializes Line Graph.
      */
-    public LineChart() { }
+    public LineChart() {
+        System.out.println(getValues()); 
+        }
 
     @Override
     /**
@@ -131,5 +136,12 @@ public class LineChart extends Visualization {
     @Override
     public boolean isRowInput () {
         return true;
+    }
+    public void visualize () {
+        System.out.println(this.getValues());
+        final JFrame frame = new JFrame(getVisTitle());
+        frame.setSize(CHART_WIDTH, CHART_HEIGHT);
+        frame.getContentPane().add(this);
+        frame.setVisible(true);
     }
 }

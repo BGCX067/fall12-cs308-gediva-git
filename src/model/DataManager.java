@@ -55,14 +55,16 @@ public class DataManager {
         for (String name : Factory.myVisualizations.keySet()) {
             if (name.equals(visType)) {
                 boolean isRowInput = Factory.myVisualizations.get(name).isRowInput();
-                System.out.println(isRowInput);
-                System.out.println(getSelectedInputData(isRowInput).get(selectedRowOrCol));
+                //System.out.println(isRowInput);
+                //System.out.println(getSelectedInputData(isRowInput).get(selectedRowOrCol));
                 Factory.myVisualizations.get(name).setValues(getSelectedInputData(isRowInput)
                                                                      .get(selectedRowOrCol),
                                                              selectedRowOrCol, contr);
             }
         }
-        myVis.visualize();
+        
+        myVis.visualize(myVis);
+        
     }
 
     public HashMap<String, List<Double>> getSelectedInputData (boolean isRowInput) {

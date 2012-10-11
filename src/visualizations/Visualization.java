@@ -3,7 +3,6 @@ package visualizations;
 
 import static resources.Constants.CHART_WIDTH;
 import static resources.Constants.CHART_HEIGHT;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +37,9 @@ public abstract class Visualization extends JPanel {
         myValues = new ArrayList<Double>(values);
         mySelectedRowOrColTitle = selectedRowOrColTitle;
         myMinValue = Collections.min(values);
+        
         myMaxValue = Collections.max(values);
+        
         myController = contr;
         setVisTitle(selectedRowOrColTitle);
     }
@@ -71,25 +72,21 @@ public abstract class Visualization extends JPanel {
         myVisTitle = visTitle;
     }
 
-<<<<<<< HEAD
+
     public boolean isRowInput(){
         return false;
     }
     
     public abstract void paint (Graphics2D g);
-=======
-    public abstract boolean isRowInput();
 
-    @Override
-    public abstract void paint (Graphics g);
->>>>>>> 3d32fe4103b3781ae5e64f3858a6f982e13002ac
 
-    public abstract void listen (String event, final ControlPanel p, final Controller c);
 
-    public void visualize () {
+    public abstract void listen (String event, ControlPanel p, Controller c);
+
+    public void visualize (Visualization vis) {
         final JFrame frame = new JFrame(getVisTitle());
         frame.setSize(CHART_WIDTH, CHART_HEIGHT);
-        frame.getContentPane().add(this);
+        frame.getContentPane().add(vis);
         frame.setVisible(true);
     }
 }

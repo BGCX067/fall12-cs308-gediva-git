@@ -17,6 +17,7 @@ public class Factory {
     /**
      * Maps the name to the type of object
      */
+    @SuppressWarnings("serial")
     public static HashMap<String, Visualization> myVisualizations =
             new HashMap<String, Visualization>() {
                 {
