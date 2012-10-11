@@ -5,15 +5,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-
-public class FileParser {
+/**
+ * Parses input lines.
+ * 
+ * @author Howard, Volodymyr
+ * 
+ */
+public class InputParser {
+    private final static int DEFAULT_VALUE = 0;
     private List<String[]> myInputLines = new ArrayList<String[]>();
     private String[] myAllRowTitles;
     private String[] myAllColTitles;
     private HashMap<String, List<Double>> myAllValuesByRow;
     private HashMap<String, List<Double>> myAllValuesByCol;
 
-    public FileParser () {
+    public InputParser () {
         myAllValuesByRow = new HashMap<String, List<Double>>();
         myAllValuesByCol = new HashMap<String, List<Double>>();
     }
@@ -78,7 +84,13 @@ public class FileParser {
     public void processValues (String[] line) {
         List<Double> rowValues = new ArrayList<Double>();
         for (int i = 1; i < line.length; i++) {
-            double val = Double.parseDouble(line[i]);
+            double val;
+            try {
+                val = Double.parseDouble(line[i]);
+            }
+            catch (NumberFormatException e) {
+                val = DEFAULT_VALUE;
+            }
             rowValues.add(val);
             myAllValuesByCol.get(myAllColTitles[i - 1]).add(val);
         }

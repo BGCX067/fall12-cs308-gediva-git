@@ -137,7 +137,7 @@ public class LineGraph extends Visualization {
      */
     public static void listen(String event, final ControlPanel p, final Controller c) {
         p.clearList();
-        for (String country : c.getAllCountries()) {
+        for (String country : c.getAllRowTitles()) {
             p.addToList(country);
         }
         p.showMessage("Click on year to display.");

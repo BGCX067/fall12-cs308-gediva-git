@@ -1,49 +1,49 @@
 package controller;
 
-import model.DataProcessModel;
+import model.DataManager;
 import visualizations.Visualization;
 
 
 /**
  * 
- * @author Howard Chung, Volodymyr Zavidovych,Xi Du,Sam Rang
+ * @author Howard Chung, Volodymyr Zavidovych, Xi Du, Sam Rang
  * 
  */
 public class Controller {
-    private DataProcessModel myModel;
+    private DataManager myDataManager;
 
     /**
      * constructor
      */
     public Controller () {
-        myModel = new DataProcessModel();
+        myDataManager = new DataManager();
     }
 
     /**
      * load file
      */
     public final boolean loadFile () {
-        return myModel.loadFile();
+        return myDataManager.loadFile();
     }
 
 
     public void setVisualization (String visType, String selectedRowOrCol) {
-        myModel.setVisualization(visType, selectedRowOrCol, this);
+        myDataManager.setVisualization(visType, selectedRowOrCol, this);
     }
 
     /**
      * 
      * @return get years
      */
-    public final String[] getAllYears () {
-        return myModel.getAllColTitles();
+    public final String[] getAllColTitles () {
+        return myDataManager.getAllColTitles();
     }
 
     /**
      * 
      * @return get countries
      */
-    public final String[] getAllCountries () {
-        return myModel.getAllRowTitles();
+    public final String[] getAllRowTitles () {
+        return myDataManager.getAllRowTitles();
     }
 }

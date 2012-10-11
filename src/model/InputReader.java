@@ -12,11 +12,11 @@ import javax.swing.JFileChooser;
 /**
  * Opens a file and stores in an ArrayList of lines.
  * 
- * @author Howard
+ * @author Howard, Volodymyr
  * 
  */
-public class FileOpener {
-    private FileParser myFileParser;
+public class InputReader {
+    private InputParser myFileParser;
     private static final String DELIMITER = ",|\\t";     // set based on view input
 
     /**
@@ -34,7 +34,7 @@ public class FileOpener {
         return returnFile;
     }
 
-    public FileParser getFileParser () {
+    public InputParser getFileParser () {
         return myFileParser;
     }
 
@@ -44,7 +44,7 @@ public class FileOpener {
      * @return
      */
     public boolean readFile () {
-        myFileParser = new FileParser();
+        myFileParser = new InputParser();
         boolean inputIsValid = true;
         File chosenFile = chooseFile();
         try {

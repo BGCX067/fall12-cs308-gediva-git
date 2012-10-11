@@ -10,13 +10,13 @@ import visualizations.Visualization;
 
 
 /**
- * Model for data processing.
+ * Manages data.
  * 
- * @author Howard
+ * @author Howard, Volodymyr
  * 
  */
-public class DataProcessModel {
-    private FileOpener myFileOpener;
+public class DataManager {
+    private InputReader myFileOpener;
     private HashMap<String, List<Double>> myAllValuesByRow;
     private HashMap<String, List<Double>> myAllValuesByCol;
     private String[] myAllRowTitles;
@@ -25,8 +25,8 @@ public class DataProcessModel {
     /**
      * Creates a new model.
      */
-    public DataProcessModel () {
-        myFileOpener = new FileOpener();
+    public DataManager () {
+        myFileOpener = new InputReader();
     }
 
     /**

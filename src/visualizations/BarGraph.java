@@ -91,9 +91,9 @@ public class BarGraph extends Visualization {
             g.fillRect(valueP, valueQ, barWidth - 2, height);
             g.setColor(Color.black);
             g.drawRect(valueP, valueQ, barWidth - 2, height);
-            int labelWidth = labelFontMetrics.stringWidth(getController().getAllCountries()[j]);
+            int labelWidth = labelFontMetrics.stringWidth(getController().getAllRowTitles()[j]);
             p = j * barWidth + (barWidth - labelWidth) / 2;
-            g.drawString(getController().getAllCountries()[j], p, q);
+            g.drawString(getController().getAllRowTitles()[j], p, q);
         }
     }
 
@@ -105,7 +105,7 @@ public class BarGraph extends Visualization {
      */
     public static void listen(String event, final ControlPanel p, final Controller c) {
         p.clearList();
-        for (String year : c.getAllYears()) {
+        for (String year : c.getAllColTitles()) {
             p.addToList(year);
         }
         p.showMessage("Click on year to display.");
