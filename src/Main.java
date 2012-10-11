@@ -18,7 +18,7 @@ public final class Main {
      * @param args program arguments
      */
     public static void main (final String[] args) {
-        final String layout = (args.length > 0) ? args[0] : "default";
-        new ControlPanel(layout);
+//        final String layout = (args.length > 0) ? args[0] : "default";
+        new ControlPanel();
     }
 }
