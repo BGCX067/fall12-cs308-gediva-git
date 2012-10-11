@@ -12,7 +12,7 @@ import controller.Controller;
 
 /**
  * 
- * @author Xi Du
+ * @author Xi Du,Sam Rang, Volodymyr, Howard
  * 
  */
 @SuppressWarnings("serial")
