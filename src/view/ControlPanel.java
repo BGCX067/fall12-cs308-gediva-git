@@ -34,7 +34,7 @@ import controller.Controller;
 public class ControlPanel extends JFrame implements ScrollPaneConstants {
     private JTextArea myTextArea;
     private final DefaultListModel<String> myListModel;
-    private JList<String> mySelectionList;
+    private JList mySelectionList;
     private ActionListener myActionListener;
     private boolean myDataIsLoaded;
     private final Controller myController;
@@ -54,7 +54,7 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
         createListeners(this);
         setTitle(CONTROL_PANEL_TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myListModel = new DefaultListModel<String>();
+        myListModel = new DefaultListModel();
         addMessageDisplay();
         addFileControlButtons();
         addVisualizationButtons();
@@ -131,8 +131,8 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
         };
     }
 
-    private JScrollPane makeList (final DefaultListModel<String> model) {
-        mySelectionList = new JList<String>(model);
+    private JScrollPane makeList (final DefaultListModel model) {
+        mySelectionList = new JList(model);
         mySelectionList.addListSelectionListener(myListSelectionListener);
         final JScrollPane port =
                 new JScrollPane(mySelectionList, VERTICAL_SCROLLBAR_AS_NEEDED,
