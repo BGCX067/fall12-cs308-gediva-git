@@ -1,22 +1,22 @@
 package visualizations;
 
+import controller.Controller;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import view.ControlPanel;
+
 //import constants
 import static resources.Constants.BAR_BORDER_COLOR;
 import static resources.Constants.BAR_BUTTON_ONCLICK_MESSAGE;
 import static resources.Constants.BAR_FILL_COLOR;
-import static resources.Constants.CHART_HEIGHT;
 import static resources.Constants.CHART_LABEL_FONT;
 import static resources.Constants.CHART_TITLE_FONT;
 import static resources.Constants.BAR_VIS_TITLE;
-import static resources.Constants.CHART_WIDTH;
 
 
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import javax.swing.JFrame;
-import controller.Controller;
-import view.ControlPanel;
+
+
 
 
 /**
@@ -54,20 +54,20 @@ public class BarChart extends Visualization {
         g.drawString(BAR_VIS_TITLE, p, q);
         final int top = titleFontMetrics.getHeight();
         final int bottom = labelFontMetrics.getHeight();
-        if (maxValue == minValue) { return; }
+        if (getMaxValue() == getMinValue()) { return; }
         final double scale = (clientHeight - top - bottom)
-                / (maxValue - minValue);
+                / (getMaxValue() - getMinValue());
         q = clientHeight - labelFontMetrics.getDescent();
         g.setFont(CHART_LABEL_FONT);
-        for (int j = 0; j < paintArray.length; j++) {
+        for (int j = 0; j < getValues().size(); j++) {
             final int valueP = j * barWidth + 1;
             int valueQ = top;
-            int height = (int) (paintArray[j] * scale);
-            if (paintArray[j] >= 0) {
-                valueQ += (int) ((maxValue - paintArray[j]) * scale);
+            int height = (int) (getValues().get(j) * scale);
+            if (getValues().get(j) >= 0) {
+                valueQ += (int) ((getMaxValue() - getValues().get(j)) * scale);
             }
             else {
-                valueQ += (int) (maxValue * scale);
+                valueQ += (int) (getMaxValue() * scale);
                 height = -height;
             }
             g.setColor(BAR_FILL_COLOR);

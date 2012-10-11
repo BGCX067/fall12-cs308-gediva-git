@@ -35,7 +35,7 @@ public class Constants {
     /**
      * @param CHART_WIDTH the width of the chart
      */
-    public static final int CHART_WIDTH = 600;
+    public static int CHART_WIDTH = 600;
     /**
      * @param CHART_HEIGHT the height of the chart
      */

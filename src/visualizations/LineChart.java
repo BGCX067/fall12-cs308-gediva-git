@@ -1,8 +1,13 @@
 package visualizations;
+import controller.Controller;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
+import java.util.ArrayList;
+import view.ControlPanel;
 
 //import constants
-import static resources.Constants.CHART_HEIGHT;
-import static resources.Constants.CHART_WIDTH;
 import static resources.Constants.GAP_BETWEEN_CHART_AND_FRAME;
 import static resources.Constants.Y_AXIS_NUBMER_OF_MARKS;
 import static resources.Constants.LINE_POINT_DIAMETER;
@@ -11,20 +16,13 @@ import static resources.Constants.LINE_STROKE;
 import static resources.Constants.LINE_POINT_COLOR;
 import static resources.Constants.LINE_BUTTON_ONCLICK_MESSAGE;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.util.ArrayList;
-import javax.swing.JFrame;
-import view.ControlPanel;
-import controller.Controller;
+
 
 
 /**
- * 
+ *
  * @author Xi Du,Sam Rang, Volodymyr, Howard
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class LineChart extends Visualization {
@@ -33,20 +31,19 @@ public class LineChart extends Visualization {
      * Initializes Line Graph.
      */
     public LineChart() {
-        System.out.println(getValues()); 
-        }
+        System.out.println(getValues());
+    }
 
     @Override
     /**
      * Paint method
      * @param Graphics g
      */
-    public final void paint(final Graphics2D g) {
+    public void paint(final Graphics2D g) {
         super.paintComponent(g);
         final Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-
         final double xScale =
                 ((double) getWidth() - 2 * GAP_BETWEEN_CHART_AND_FRAME)
                 / (getValues().size() - 1);
@@ -62,7 +59,6 @@ public class LineChart extends Visualization {
                             + GAP_BETWEEN_CHART_AND_FRAME);
             graphPoints.add(new Point(x1, y1));
         }
-
         // create x and y axes
         g2.drawLine(GAP_BETWEEN_CHART_AND_FRAME, getHeight()
                 - GAP_BETWEEN_CHART_AND_FRAME,
@@ -71,7 +67,6 @@ public class LineChart extends Visualization {
                 - GAP_BETWEEN_CHART_AND_FRAME,
                     getWidth() - GAP_BETWEEN_CHART_AND_FRAME, getHeight()
                     - GAP_BETWEEN_CHART_AND_FRAME);
-
         // create hatch marks for y axis.
         for (int i = 0; i < Y_AXIS_NUBMER_OF_MARKS; i++) {
             final int x0 = GAP_BETWEEN_CHART_AND_FRAME;
@@ -84,7 +79,6 @@ public class LineChart extends Visualization {
             final int y1 = y0;
             g2.drawLine(x0, y0, x1, y1);
         }
-
         // and for x axis
         for (int i = 0; i < getValues().size() - 1; i++) {
             final int x0 =
@@ -118,7 +112,6 @@ public class LineChart extends Visualization {
 
     /**
      * Listening behavior of a Line Graph.
-     * 
      * @param event Action Event
      * @param p Control Panel
      * @param c Controller
@@ -137,11 +130,5 @@ public class LineChart extends Visualization {
     public boolean isRowInput () {
         return true;
     }
-    public void visualize () {
-        System.out.println(this.getValues());
-        final JFrame frame = new JFrame(getVisTitle());
-        frame.setSize(CHART_WIDTH, CHART_HEIGHT);
-        frame.getContentPane().add(this);
-        frame.setVisible(true);
-    }
+
 }

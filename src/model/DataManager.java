@@ -63,7 +63,7 @@ public class DataManager {
             }
         }
         
-        myVis.visualize(myVis);
+        myVis.visualize();
         
     }
 
