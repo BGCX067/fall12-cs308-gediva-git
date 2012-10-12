@@ -105,11 +105,11 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
                     clear();
                 }
                 else if (BAR_VIS_TITLE.equals(ea) && myDataIsLoaded) {
-                    Factory.myVisualizations.get(BAR_VIS_TITLE).listen(ea, cp, myController);
+                    Factory.MYVISUALIZATIONS.get(BAR_VIS_TITLE).listen(ea, cp, myController);
                     myChartType = BAR_VIS_TITLE;
                 }
                 else if (LINE_VIS_TITLE.equals(ea) && myDataIsLoaded) {
-                    Factory.myVisualizations.get(LINE_VIS_TITLE).listen(ea, cp, myController);
+                    Factory.MYVISUALIZATIONS.get(LINE_VIS_TITLE).listen(ea, cp, myController);
                     myChartType = LINE_VIS_TITLE;
                 }
             }
