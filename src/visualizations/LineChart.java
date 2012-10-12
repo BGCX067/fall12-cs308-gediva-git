@@ -18,8 +18,6 @@ import static resources.Constants.LINE_POINT_COLOR;
 import static resources.Constants.LINE_BUTTON_ONCLICK_MESSAGE;
 
 
-
-
 /**
  *
  * @author Xi Du,Sam Rang, Volodymyr, Howard
@@ -57,13 +55,9 @@ public class LineChart extends Visualization {
                     GAP_BETWEEN_CHART_AND_FRAME);
             graphPoints.add(new Point(x1, y1));
         }
-        // create x and y axes
         createXYaxis(g2);
-        // create hatch marks for y axis.
         drawMarkforY(g2);
-        // and for x axis
         drawMarkforX(g2);
-
         Stroke oldStroke = g2.getStroke();
         g2.setColor(LINE_COLOR);
         g2.setStroke(LINE_STROKE);
