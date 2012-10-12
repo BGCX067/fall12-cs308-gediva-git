@@ -29,8 +29,7 @@ public class Constants {
     public static final String CLEAR_BUTTON_TEXT = myResources.getString("ClearButtonText");
     public static final Dimension SELECTION_LIST_SIZE = new Dimension(75, 150);
     public static final Dimension MESSAGE_DISPLAY_SIZE = new Dimension(6, 30);
-    
-    
+
     // Visualizations
     /**
      * @param CHART_WIDTH the width of the chart

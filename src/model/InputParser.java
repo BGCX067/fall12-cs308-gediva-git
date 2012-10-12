@@ -1,9 +1,10 @@
 package model;
 
-import static resources.Constants.DEFAULT_INPUT_VALUE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import static resources.Constants.DEFAULT_INPUT_VALUE;
+
 
 
 /**

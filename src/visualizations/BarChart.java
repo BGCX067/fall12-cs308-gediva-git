@@ -98,7 +98,7 @@ public class BarChart extends Visualization {
 /**
 * Listening behavior for BarGraph.
 * @param event ActionEvent
-* @param p Control Panel
+* @param p Control Panel p
 * @param c Controller
 */
     @Override
