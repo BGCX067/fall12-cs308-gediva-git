@@ -14,11 +14,6 @@ import static resources.Constants.CHART_LABEL_FONT;
 import static resources.Constants.CHART_TITLE_FONT;
 import static resources.Constants.BAR_VIS_TITLE;
 
-
-
-
-
-
 /**
  *
  * @author  Xi Du,Sam Rang, Volodymyr, Howard

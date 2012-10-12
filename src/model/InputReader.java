@@ -16,7 +16,6 @@ import resources.Constants;
  */
 public class InputReader {
     private InputParser myFileParser;
-
     /**
      * Allows user to choose a file.
      * 
