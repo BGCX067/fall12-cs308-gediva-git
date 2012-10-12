@@ -1,7 +1,7 @@
 package visualizations;
 
 import controller.Controller;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,19 +28,19 @@ public abstract class Visualization extends JPanel {
     private double myMaxValue;
     private double myMinValue;
     private Controller myController;
-/**
- * former contents refactored to setValues.
- */
+    /**
+     * former contents refactored to setValues.
+     */
     public Visualization () {
         // former contents refactored to setValues
     }
-/**
- * @param values values used in the graph
- * @param selectedRowOrColTitle row or column title
- * @param contr controller
- */
+    /**
+     * @param values values used in the graph
+     * @param selectedRowOrColTitle row or column title
+     * @param contr controller
+     */
     public void setValues (List<Double> values, String selectedRowOrColTitle,
-                           Controller contr) {
+            Controller contr) {
         myValues = new ArrayList<Double>(values);
         mySelectedRowOrColTitle = selectedRowOrColTitle;
         myMinValue = Collections.min(values);
@@ -48,80 +48,81 @@ public abstract class Visualization extends JPanel {
         myController = contr;
         setVisTitle(selectedRowOrColTitle);
     }
-/**
- *
- * @return mySelectedRowOrColTitle
- */
+    /**
+     *
+     * @return mySelectedRowOrColTitle
+     */
     public String getSelectedRowOrColTitle () {
         return mySelectedRowOrColTitle;
     }
-/**
- *
- * @return myValues
- */
+    /**
+     *
+     * @return myValues
+     */
     public List<Double> getValues () {
         return myValues;
     }
-/**
- *
- * @return myMinValue
- */
+    /**
+     *
+     * @return myMinValue
+     */
     public double getMinValue () {
         return myMinValue;
     }
-/**
- *
- * @return myMaxValue
- */
+    /**
+     *
+     * @return myMaxValue
+     */
     public double getMaxValue () {
         return myMaxValue;
     }
-/**
- *
- * @return myVisTitle
- */
+    /**
+     *
+     * @return myVisTitle
+     */
     public String getVisTitle () {
         return myVisTitle;
     }
-/**
- *
- * @return myController
- */
+    /**
+     *
+     * @return myController
+     */
     public Controller getController () {
         return myController;
     }
-/**
- *
- * @param visTitle string
- */
+    /**
+     *
+     * @param visTitle string
+     */
     public void setVisTitle (final String visTitle) {
         myVisTitle = visTitle;
     }
 
-/**
- *
- * @return if row has been inputed
- */
+    /**
+     *
+     * @return if row has been inputed
+     */
     public boolean isRowInput() {
         return false;
     }
-/**
- *
- * @param g Graphics2D
- */
-    public abstract void paint (Graphics2D g);
-/**
- *
- * @param event string
- * @param p ControlPanel
- * @param c controller
- */
+    @Override
+    /**
+     *
+     * @param g Graphics2D
+     */
+    public abstract void paint (Graphics g);
+    /**
+     *
+     * @param event string
+     * @param p ControlPanel
+     * @param c controller
+     */
     public abstract void listen (String event, ControlPanel p, Controller c);
-/**
- * visualize the graph.
- */
+    /**
+     * visualize the graph.
+     */
     public void visualize () {
-        final JFrame frame = new JFrame(getVisTitle());
+        JFrame frame = new JFrame(getVisTitle());
         frame.setSize(CHART_WIDTH, CHART_HEIGHT);
         frame.getContentPane().add(this);
         frame.setVisible(true);

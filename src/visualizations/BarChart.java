@@ -3,6 +3,7 @@ package visualizations;
 import controller.Controller;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import view.ControlPanel;
 
@@ -21,66 +22,62 @@ import static resources.Constants.BAR_VIS_TITLE;
  */
 @SuppressWarnings("serial")
 public class BarChart extends Visualization {
+    private int myClientWidth;
+    private int myClientHeight;
+    private int myBarWidth;
     /**
-     * @param myDim
+     * Empty constructor for initialization.
      */
-    private final Dimension myDim = getSize();
-/**
- * @param myClientWidth
- */
-    private final  int myClientWidth = myDim.width;
-        /**
-         * @param myClientHeight
-         */
-    private final  int myClientHeight = myDim.height;
-/**
-         * @param myBarWidth
-         */
-    private final int myBarWidth = myClientWidth / getValues().size();
-/**
- * Empty construct for initialization.
- */
     public BarChart() {
-        System.out.println(getValues());
     }
 
     @Override
     /**
      * @param g Graphics
      */
-    public final void paint(final Graphics2D g) {
+    public void paint(Graphics g) {
         super.paintComponent(g);
-        if (getValues() == null || getValues().size() == 0) { return; }
-        final FontMetrics titleFontMetrics = g.getFontMetrics(CHART_TITLE_FONT);
-        final FontMetrics labelFontMetrics = g.getFontMetrics(CHART_LABEL_FONT);
-        final int titleWidth = titleFontMetrics.stringWidth(BAR_VIS_TITLE);
+        if (getValues() == null || getValues().size() == 0) {
+            return;
+        }
+        Graphics2D g2 = (Graphics2D) g;
+        initializeValues();
+        FontMetrics titleFontMetrics = g.getFontMetrics(CHART_TITLE_FONT);
+        FontMetrics labelFontMetrics = g.getFontMetrics(CHART_LABEL_FONT);
+        int titleWidth = titleFontMetrics.stringWidth(BAR_VIS_TITLE);
         int q = titleFontMetrics.getAscent();
         int p = (myClientWidth - titleWidth) / 2;
         g.setFont(CHART_TITLE_FONT);
         g.drawString(BAR_VIS_TITLE, p, q);
-        final int top = titleFontMetrics.getHeight();
-        final int bottom = labelFontMetrics.getHeight();
+        int top = titleFontMetrics.getHeight();
+        int bottom = labelFontMetrics.getHeight();
         if (getMaxValue() == getMinValue()) { return; }
-        final double scale = (myClientHeight - top - bottom)
-                / (getMaxValue() - getMinValue());
+        double scale = (myClientHeight - top - bottom) / (getMaxValue() - getMinValue());
         q = myClientHeight - labelFontMetrics.getDescent();
         g.setFont(CHART_LABEL_FONT);
-        drawComponent(g, labelFontMetrics, q, top, scale);
+        drawComponent(g2, labelFontMetrics, q, top, scale);
+
+
     }
-/**
- * Draw bar chart component.
- * @param g
- * @param labelFontMetrics
- * @param q
- * @param top
- * @param scale
- */
-    private void drawComponent (final Graphics2D g,
-            final FontMetrics labelFontMetrics, int q, final int top,
-            final double scale) {
+    private void initializeValues () {
+        myClientWidth = getSize().width;
+        myClientHeight = getSize().height;
+        myBarWidth = myClientWidth / getValues().size();
+    }
+
+    /**
+     * Draw bar chart component.
+     * @param g
+     * @param labelFontMetrics
+     * @param q
+     * @param top
+     * @param scale
+     */
+    private void drawComponent (Graphics2D g, FontMetrics labelFontMetrics,
+            int q, int top, double scale) {
         int p;
         for (int j = 0; j < getValues().size(); j++) {
-            final int valueP = j * myBarWidth + 1;
+            int valueP = j * myBarWidth + 1;
             int valueQ = top;
             int height = (int) (getValues().get(j) * scale);
             if (getValues().get(j) >= 0) {
@@ -94,7 +91,7 @@ public class BarChart extends Visualization {
             g.fillRect(valueP, valueQ, myBarWidth - 2, height);
             g.setColor(BAR_BORDER_COLOR);
             g.drawRect(valueP, valueQ, myBarWidth - 2, height);
-            final int labelWidth =
+            int labelWidth =
                     labelFontMetrics.stringWidth(
                             getController().getAllRowTitles()[j]);
             p = j * myBarWidth + (myBarWidth - labelWidth) / 2;
@@ -105,19 +102,19 @@ public class BarChart extends Visualization {
             g.drawString(getController().getAllRowTitles()[j], p, q);
         }
     }
-/**
- * @return true if row input
- */
+    /**
+     * @return true if row input
+     */
     public boolean isRowInput() {
         return false;
     }
 
-/**
-* Listening behavior for BarGraph.
-* @param event ActionEvent
-* @param p Control Panel p
-* @param c Controller
-*/
+    /**
+     * Listening behavior for BarGraph.
+     * @param event ActionEvent
+     * @param p Control Panel p
+     * @param c Controller
+     */
     @Override
 
     public void listen(String event, ControlPanel p, Controller c) {
