@@ -21,11 +21,15 @@ public class Controller {
     /**
      * load file
      */
-    public final boolean loadFile () {
+    public boolean loadFile () {
         return myDataManager.loadFile();
     }
-
-    public void setVisualization (final String visType, final String selectedRowOrCol) {
+/**
+ * Sets state of a visualization.
+ * @param visType the type of the visualization
+ * @param selectedRowOrCol a selected row or column
+ */
+    public void setVisualization (String visType, String selectedRowOrCol) {
         myDataManager.setVisualization(visType, selectedRowOrCol, this);
     }
 
@@ -33,7 +37,7 @@ public class Controller {
      * 
      * @return get years
      */
-    public final String[] getAllColTitles () {
+    public String[] getAllColTitles () {
         return myDataManager.getAllColTitles();
     }
 
@@ -41,7 +45,7 @@ public class Controller {
      * 
      * @return get countries
      */
-    public final String[] getAllRowTitles () {
+    public String[] getAllRowTitles () {
         return myDataManager.getAllRowTitles();
     }
 }

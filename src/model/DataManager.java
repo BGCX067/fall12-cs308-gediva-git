@@ -1,16 +1,16 @@
 package model;
 
+import controller.Controller;
 import java.util.HashMap;
 import java.util.List;
 import visualizations.Visualization;
-import controller.Controller;
 
 
 /**
  * Manages data.
- *
+ * 
  * @author Howard, Volodymyr
- *
+ * 
  */
 public class DataManager {
     private final InputReader myFileOpener;
@@ -30,9 +30,7 @@ public class DataManager {
      * loads a file and fills HashMaps.
      */
     public boolean loadFile () {
-        final boolean inputIsValid =
-                myFileOpener.readFile()
-                && myFileOpener.getFileParser().fillData();
+        boolean inputIsValid = myFileOpener.readFile() && myFileOpener.getFileParser().fillData();
         if (inputIsValid) {
             myAllValuesByRow = myFileOpener.getFileParser().getValuesByRow();
             myAllValuesByCol = myFileOpener.getFileParser().getValuesByCol();
@@ -43,24 +41,23 @@ public class DataManager {
     }
 
     /**
-     *
+     * 
      * @param visType string
      * @param selectedRowOrCol select row or column
      * @param contr controller
      */
     public void setVisualization (String visType, String selectedRowOrCol,
-                                   Controller contr) {
+            Controller contr) {
 
-        final Visualization myVis = Factory.myVisualizations.get(visType);
+        Visualization myVis = Factory.MYVISUALIZATIONS.get(visType);
 
-        for (String name : Factory.myVisualizations.keySet()) {
+        for (String name : Factory.MYVISUALIZATIONS.keySet()) {
             if (name.equals(visType)) {
-                boolean isRowInput
-                    = Factory.myVisualizations.get(name).isRowInput();
+                boolean isRowInput = Factory.MYVISUALIZATIONS.get(name).isRowInput();
                 System.out.println(isRowInput);
-                System.out.println(
-                        getSelectedInputData(isRowInput).get(selectedRowOrCol));
-                Factory.myVisualizations.get(name).setValues(
+                System.out.println(getSelectedInputData(isRowInput).get(
+                        selectedRowOrCol));
+                Factory.MYVISUALIZATIONS.get(name).setValues(
                         getSelectedInputData(isRowInput).get(selectedRowOrCol),
                         selectedRowOrCol, contr);
             }
@@ -69,13 +66,14 @@ public class DataManager {
         myVis.visualize();
 
     }
-/**
- *
- * @param isRowInput boolean
- * @return
- */
-    public HashMap<String, List<Double>> getSelectedInputData
-    (boolean isRowInput) {
+
+    /**
+     * 
+     * @param isRowInput boolean
+     * @return
+     */
+    public HashMap<String, List<Double>> getSelectedInputData (
+            boolean isRowInput) {
         if (isRowInput) {
             return myAllValuesByRow;
         }
@@ -86,7 +84,7 @@ public class DataManager {
 
     /**
      * Get list of years.
-     *
+     * 
      * @return
      */
 
@@ -96,7 +94,7 @@ public class DataManager {
 
     /**
      * Get list of countries.
-     *
+     * 
      * @return
      */
     public String[] getAllRowTitles () {
