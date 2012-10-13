@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import resources.Constants;
@@ -13,11 +14,11 @@ import resources.Constants;
  * 
  */
 public class InputParser {
-    private final List<String[]> myInputLines = new ArrayList<String[]>();
+    private List<String[]> myInputLines;
     private String[] myAllRowTitles;
     private String[] myAllColTitles;
-    private final HashMap<String, List<Double>> myAllValuesByRow;
-    private final HashMap<String, List<Double>> myAllValuesByCol;
+    private HashMap<String, List<Double>> myAllValuesByRow;
+    private HashMap<String, List<Double>> myAllValuesByCol;
 
     /**
      * Constructs a new parser.
@@ -25,6 +26,21 @@ public class InputParser {
     public InputParser () {
         myAllValuesByRow = new HashMap<String, List<Double>>();
         myAllValuesByCol = new HashMap<String, List<Double>>();
+        myAllRowTitles = new String[0];
+        myAllColTitles = new String[0];
+        myInputLines = new ArrayList<String[]>();
+    }
+
+    /**
+     * creates a backup copy to use in case of input failure
+     * @param other to copy
+     */
+    public InputParser (InputParser other) {
+        myAllValuesByRow = new HashMap<String, List<Double>>(other.myAllValuesByRow);
+        myAllValuesByCol = new HashMap<String, List<Double>>(other.myAllValuesByCol);
+        myAllRowTitles = Arrays.copyOf(other.myAllRowTitles, other.myAllRowTitles.length);
+        myAllColTitles = Arrays.copyOf(other.myAllColTitles, other.myAllColTitles.length);
+        myInputLines = new ArrayList<String[]>(other.myInputLines);
     }
 
     /**
@@ -136,5 +152,12 @@ public class InputParser {
  */
     public HashMap<String, List<Double>> getValuesByCol () {
         return myAllValuesByCol;
+    }
+
+    /**
+     * Flushes previously read input lines
+     */
+    public void clear () {
+        myInputLines = new ArrayList<String[]>();
     }
 }

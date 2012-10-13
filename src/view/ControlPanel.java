@@ -154,13 +154,13 @@ public class ControlPanel extends JFrame implements ScrollPaneConstants {
         JMenu fileMenu = new JMenu(FILE_MENU_TEXT);
         fileMenu.add(new AbstractAction(LOAD_BUTTON_TEXT) {
             @Override
-            public void actionPerformed (final ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 load();
             }
         });
         fileMenu.add(new AbstractAction(CLEAR_BUTTON_TEXT) {
             @Override
-            public void actionPerformed (final ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 clear();
             }
         });

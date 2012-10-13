@@ -13,26 +13,30 @@ import visualizations.Visualization;
  * 
  */
 public class DataManager {
-    private final InputReader myFileOpener;
-    private InputParser myFileParser;
+    private InputReader myInputReader;
+    private InputParser myInputParser;
 
     /**
      * Creates a new model.
      */
     public DataManager () {
-        myFileOpener = new InputReader();
+        myInputReader = new InputReader();
+        myInputParser = myInputReader.getInputParser();
     }
 
     /**
-     * loads a file and fills HashMaps, checks for success
+     * loads and parses file; in case of failure 
+     * restores previous data and reports to view
      */
     public boolean loadFile () {
-
-        boolean readValid = myFileOpener.readFile();
-        myFileParser = myFileOpener.getFileParser();
-        boolean fillValid = myFileParser.fillData();
-
-        boolean inputIsValid = readValid && fillValid;
+        InputParser backupParser = new InputParser(myInputParser);
+        boolean readValid = myInputReader.readFile();
+        boolean parseValid = myInputParser.fillData();
+        boolean inputIsValid = readValid && parseValid;
+        if (!inputIsValid) {
+            myInputParser = backupParser;
+            myInputReader.setParser(backupParser);
+        }
         return inputIsValid;
     }
 
@@ -69,10 +73,10 @@ public class DataManager {
     public HashMap<String, List<Double>> getSelectedInputData (
             boolean isRowInput) {
         if (isRowInput) {
-            return myFileParser.getValuesByRow();
+            return myInputParser.getValuesByRow();
         }
         else {
-            return myFileParser.getValuesByCol();
+            return myInputParser.getValuesByCol();
         }
     }
 
@@ -83,7 +87,7 @@ public class DataManager {
      */
 
     public String[] getAllColTitles () {
-        return myFileParser.getAllColTitles();
+        return myInputParser.getAllColTitles();
     }
 
     /**
@@ -92,6 +96,6 @@ public class DataManager {
      * @return
      */
     public String[] getAllRowTitles () {
-        return myFileParser.getAllRowTitles();
+        return myInputParser.getAllRowTitles();
     }
 }

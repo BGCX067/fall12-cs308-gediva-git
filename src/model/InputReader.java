@@ -15,7 +15,14 @@ import resources.Constants;
  * 
  */
 public class InputReader {
-    private InputParser myFileParser;
+    private InputParser myInputParser;
+
+    /**
+     * Creates a new input reader.
+     */
+    public InputReader () {
+        myInputParser = new InputParser();
+    }
     /**
      * Allows user to choose a file.
      * 
@@ -34,8 +41,8 @@ public class InputReader {
  * Gets the file parser.
  * @return
  */
-    public InputParser getFileParser () {
-        return myFileParser;
+    public InputParser getInputParser () {
+        return myInputParser;
     }
 
     /**
@@ -44,20 +51,21 @@ public class InputReader {
      * @return
      */
     public boolean readFile () {
-        myFileParser = new InputParser();
+        myInputParser.clear();
         boolean inputIsValid = true;
         File chosenFile = chooseFile();
         try {
             Scanner scanner = new Scanner(chosenFile);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                Scanner lineScanner = new Scanner(line).useDelimiter(Constants.INPUT_DELIMITERS);
+                Scanner lineScanner = new Scanner(line);
+                lineScanner.useDelimiter(Constants.INPUT_DELIMITERS);
                 ArrayList<String> lineArray = new ArrayList<String>();
                 while (lineScanner.hasNext()) {
                     lineArray.add(lineScanner.next());
                 }
                 lineScanner.close();
-                myFileParser.parse(lineArray.toArray(new String[lineArray.size()]));
+                myInputParser.parse(lineArray.toArray(new String[lineArray.size()]));
             }
             scanner.close();
         }
@@ -68,5 +76,13 @@ public class InputReader {
             inputIsValid = false;
         }
         return inputIsValid;
+    }
+
+    /**
+     * Restores parser data from backup in case of failed input
+     * @param backupParser backup to restore from
+     */
+    public void setParser (InputParser backupParser) {
+        myInputParser = backupParser;
     }
 }
